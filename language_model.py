@@ -49,19 +49,39 @@ def get_vector(word, vocab):
 
     return word_one_hot_vec
 
+def corpus_to_vec(text_corpus, batch_size, time_steps):
+
+    word_vocab = get_word_vocabulary(text_corpus)
+    word_vocab_size = len(word_vocab)
+
+    wordlist = sequence.split(' ')
+    num_vectors = len(wordlist) / time_steps
+
+    # Our word vocab size will be similar to our one hot vectors in terms of dims
+    vectorized_corpus = np.zeros(shape=(time_steps, batch_size, word_vocab_size))
+    
+    for vec_idx in num_vectors:
+        for step in time_steps:
+            vectorized_corpus[step:vec_idx:] = get_vector(wordlist[vec_idx * time_steps + step0, word_vocab])
+
+    return vectorized_corpus
+
+
 # Load and preprocess the data
 text_corpus = open('ptb.train.txt', 'r').read()
-train_data_num_words = get_num_words(text_corpus)
-word_vocab = get_word_vocabulary(text_corpus)
+num_corpus_words = get_num_words(text_corpus)
 
 # No dense embeddings -> one-hot vectors only
 # Hyperparams
 num_epochs = 50
 batch_size = 4
-time_steps = len(vocab)
-num_features = len(vocab)
+time_steps = 10
+num_features = word_vocab_size
 lstm_size = 128
 learning_rate = 0.001
+
+# Get array for each word in the corpus and place them in 10 timesteps formats
+x_train, y_train = corpus_to_vec(text_corpus, batch_size, time_steps)
 
 #############################
 # Beginning of the TF Graph #
@@ -90,8 +110,8 @@ with tf.Session() as sess:
 
     total_loss = 0
     for epoch in num_epochs:
-    
-        preds, loss = sess.run([logits, loss], feed_dict={x:???, y:???})
+        
+        preds, loss, _ = sess.run([logits, loss, opt], feed_dict={x:???, y:???})
 
 
 
