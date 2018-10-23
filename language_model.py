@@ -62,6 +62,7 @@ def corpus_to_vec(text_corpus, time_steps):
     vectorized_labels = np.zeros(shape=(time_steps, num_vectors, word_vocab_size))
 
     print("Number of vectors: {0}".format(num_vectors))
+    print("Feature map size: {0}".format(word_vocab_size))
 
     for vec_idx in range(num_vectors):
         for step in range(time_steps):
@@ -88,6 +89,7 @@ learning_rate = 0.001
 
 # Get array for each word in the corpus and place them in 10 timesteps formats
 x_train, y_train = corpus_to_vec(text_corpus, time_steps)
+print(x_train)
 
 # #############################
 # # Beginning of the TF Graph #
