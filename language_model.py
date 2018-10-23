@@ -50,14 +50,10 @@ def get_vector(word, vocab):
     return word_one_hot_vec
 
 BATCH_SIZE = 4
-NUM_FEATURES = 5
-TIME_STEPS = 5
 
-train_data = open('ptb.train.txt', 'r').read()
-train_data_num_words = get_num_words(train_data)
-
-word_vocab = get_word_vocabulary(train_data)
-one_hot_word = get_vector('they', word_vocab)
+text_corpus = open('ptb.train.txt', 'r').read()
+train_data_num_words = get_num_words(text_corpus)
+word_vocab = get_word_vocabulary(text_corpus)
 
 x = tf.placeholder(dtype=tf.float32, shape=[TIME_STEPS, BATCH_SIZE, NUM_FEATURES], name='RNN_Input')
 
