@@ -59,12 +59,14 @@ def corpus_to_vec(text_corpus, batch_size, time_steps):
 
     # Our word vocab size will be similar to our one hot vectors in terms of dims
     vectorized_corpus = np.zeros(shape=(time_steps, batch_size, word_vocab_size))
-    
+    vectorized_labels = np.zeros(shape=(time_steps, batch_size, word_vocab_size))
+
     for vec_idx in num_vectors:
         for step in time_steps:
-            vectorized_corpus[step:vec_idx:] = get_vector(wordlist[vec_idx * time_steps + step0, word_vocab])
-
-    return vectorized_corpus
+            vectorized_corpus[step:vec_idx:] = get_vector(wordlist[vec_idx * time_steps + step], word_vocab)
+            vectorized_labels[step:vec_idx:] = get_vector(wordlist[vec_idx * time_steps + step + 1], word_vocab)
+   
+    return (vectorized_corpus, vectorized_labels)
 
 
 # Load and preprocess the data
