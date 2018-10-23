@@ -56,15 +56,18 @@ word_vocab = get_word_vocabulary(text_corpus)
 
 # No dense embeddings -> one-hot vectors only
 # Hyperparams
+num_epochs = 50
 batch_size = 4
 time_steps = len(vocab)
 num_features = len(vocab)
 lstm_size = 128
+learning_rate = 0.001
 
 #############################
 # Beginning of the TF Graph #
 #############################
 x = tf.placeholder(dtype=tf.float32, shape=[time_steps, batch_size, num_features], name='RNN_Input')
+y = tf.placeholder(dtype=tf.float32, shape=[-1])
 
 # Define the model
 lstm = tf.nn.rnn_cell.LSTMCell(num_units=lstm_size, dtype=tf.float32)
@@ -77,9 +80,18 @@ output, state = lstm(inputs=word_batch, state=z_state)
 # Final dense layer
 logits = tf.layers.dense(inputs=output, units=num_features, activation=None, use_bias=True)
 
-# Define loss
-loss = tf.nn.softmax_cross_entropy_with_logits(logits, )
+# Loss definition
+loss = tf.nn.softmax_cross_entropy_with_logits(features=logits, labels=y)
 
+# Optimizer
+opt = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(loss)
+
+with tf.Session() as sess:
+
+    total_loss = 0
+    for epoch in num_epochs:
+    
+        preds, loss = sess.run([logits, loss], feed_dict={x:???, y:???})
 
 
 
