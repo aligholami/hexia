@@ -49,11 +49,37 @@ def get_vector(word, vocab):
 
     return word_one_hot_vec
 
-BATCH_SIZE = 4
-
+# Load and preprocess the data
 text_corpus = open('ptb.train.txt', 'r').read()
 train_data_num_words = get_num_words(text_corpus)
 word_vocab = get_word_vocabulary(text_corpus)
 
-x = tf.placeholder(dtype=tf.float32, shape=[TIME_STEPS, BATCH_SIZE, NUM_FEATURES], name='RNN_Input')
+# No dense embeddings -> one-hot vectors only
+# Hyperparams
+batch_size = 4
+time_steps = len(vocab)
+num_features = len(vocab)
+lstm_size = 128
+
+#############################
+# Beginning of the TF Graph #
+#############################
+x = tf.placeholder(dtype=tf.float32, shape=[time_steps, batch_size, num_features], name='RNN_Input')
+
+# Define the model
+lstm = tf.nn.rnn_cell.LSTMCell(num_units=lstm_size, dtype=tf.float32)
+
+# Initial LSTM memory
+z_state = lstm.zero_state(batch_size=batch_size, dtype=tf.float32)
+
+output, state = lstm(inputs=word_batch, state=z_state)
+
+# Final dense layer
+logits = tf.layers.dense(inputs=output, units=num_features, activation=None, use_bias=True)
+
+# Define loss
+loss = tf.nn.softmax_cross_entropy_with_logits(logits, )
+
+
+
 
