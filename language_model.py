@@ -96,8 +96,10 @@ print("Number of Unique words:", word_vocab_size)
 #############################
 # Beginning of the TF Graph #
 #############################
-x = tf.placeholder(dtype=tf.float32, shape=[time_steps, batch_size, num_features], name='RNN_Input')
-y = tf.placeholder(dtype=tf.float32, shape=[-1])
+
+# Both data and labels are placeholders for scalability
+x = tf.placeholder(dtype=tf.float32, shape=[time_steps, batch_size, num_features], name='x_input')
+y = tf.placeholder(dtype=tf.float32, shape=[time_steps, batch_size, num_features], name='label_input')
 
 # Define the model
 lstm = tf.nn.rnn_cell.LSTMCell(num_units=lstm_size, dtype=tf.float32)
@@ -116,12 +118,22 @@ loss = tf.nn.softmax_cross_entropy_with_logits(features=logits, labels=y)
 # Optimizer
 opt = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(loss)
 
+# Grab the number of correct predictions for calculating the accuracy
+correct_preds_vec = tf.equal(tf.argmax(logits, 1), tf.argmax(y, 1))
+correct_preds = tf.reduce_sum(correct_preds_vec)
+
 with tf.Session() as sess:
 
     total_loss = 0
     for epoch in num_epochs:
+
+        x_train, y_train = corpus_to_vec(text_corpus, time_steps)
+        correct_preds, preds, loss, _ = sess.run([correct_preds, logits, loss, opt], feed_dict={x:x_train, y:y_train})
+        total_loss += loss
+        accuracy = correct_preds / num_corpus_words * 100
+        print("Loss at epoch {0}: ".format(loss))
+        print("Accuracy at epoch {0}".format(accuracy))
+    
+    print("Total loss: {0}".format(total_loss))
         
-        preds, loss, _ = sess.run([logits, loss, opt], feed_dict={x:???, y:???})
-
-
 
