@@ -85,11 +85,15 @@ def corpus_to_vec(text_corpus, time_steps):
 
     for vec_idx in range(num_vectors):
         for step in range(time_steps):
+            
+            try:
+                selected_word = wordlist[vec_idx * time_steps + step]
+                selected_word_label = wordlist[vec_idx * time_steps + step + 1]
+                vectorized_corpus[step:vec_idx:] = get_vector(selected_word, word_vocab)
+                vectorized_labels[step:vec_idx:] = get_vector(selected_word_label, word_vocab)
+            except IndexError:
+                pass
 
-            selected_word = wordlist[vec_idx * time_steps + step]
-            selected_word_label = wordlist[vec_idx * time_steps + step + 1]
-            vectorized_corpus[step:vec_idx:] = get_vector(selected_word, word_vocab)
-            vectorized_labels[step:vec_idx:] = get_vector(selected_word_label, word_vocab)
 
     return (vectorized_corpus, vectorized_labels)
 
@@ -129,7 +133,7 @@ lstm = tf.nn.rnn_cell.LSTMCell(num_units=lstm_size, dtype=tf.float32)
 # Initial LSTM memory
 z_state = lstm.zero_state(batch_size=batch_size, dtype=tf.float32)
 
-output, state = lstm(inputs=word_batch, state=z_state)
+output, state = lstm(inputs=x, state=z_state)
 
 # Final dense layer
 logits = tf.layers.dense(inputs=output, units=num_features, activation=None, use_bias=True)
