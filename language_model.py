@@ -58,17 +58,17 @@ def corpus_to_vec(text_corpus, time_steps):
     num_vectors = int(len(wordlist) / time_steps)
 
     # Our word vocab size will be similar to our one hot vectors in terms of dims
-    vectorized_corpus = np.zeros(shape=(time_steps, num_vectors, word_vocab_size))
-    vectorized_labels = np.zeros(shape=(time_steps, num_vectors, word_vocab_size))
-
-    print("Number of vectors: {0}".format(num_vectors))
-    print("Feature map size: {0}".format(word_vocab_size))
+    vectorized_corpus = np.zeros(shape=(time_steps, num_vectors, word_vocab_size), dtype=float)
+    vectorized_labels = np.zeros(shape=(time_steps, num_vectors, word_vocab_size), dtype=float)
 
     for vec_idx in range(num_vectors):
         for step in range(time_steps):
-            vectorized_corpus[step:vec_idx:] = get_vector(wordlist[vec_idx * time_steps + step], word_vocab)
-            vectorized_labels[step:vec_idx:] = get_vector(wordlist[vec_idx * time_steps + step + 1], word_vocab)
-   
+
+            selected_word = wordlist[vec_idx * time_steps + step]
+            selected_word_label = wordlist[vec_idx * time_steps + step + 1]
+            vectorized_corpus[step:vec_idx:] = get_vector(selected_word, word_vocab)
+            vectorized_labels[step:vec_idx:] = get_vector(selected_word_label, word_vocab)
+
     return (vectorized_corpus, vectorized_labels)
 
 
@@ -82,44 +82,46 @@ word_vocab_size = len(word_vocab)
 # Hyperparams
 num_epochs = 50
 batch_size = 4
-time_steps = 10
+time_steps = 1
 num_features = word_vocab_size
 lstm_size = 128
 learning_rate = 0.001
 
 # Get array for each word in the corpus and place them in 10 timesteps formats
 x_train, y_train = corpus_to_vec(text_corpus, time_steps)
-print(x_train)
 
-# #############################
-# # Beginning of the TF Graph #
-# #############################
-# x = tf.placeholder(dtype=tf.float32, shape=[time_steps, batch_size, num_features], name='RNN_Input')
-# y = tf.placeholder(dtype=tf.float32, shape=[-1])
+print("Number of Words: ", num_corpus_words)
+print("Number of Unique words:", word_vocab_size)
 
-# # Define the model
-# lstm = tf.nn.rnn_cell.LSTMCell(num_units=lstm_size, dtype=tf.float32)
+#############################
+# Beginning of the TF Graph #
+#############################
+x = tf.placeholder(dtype=tf.float32, shape=[time_steps, batch_size, num_features], name='RNN_Input')
+y = tf.placeholder(dtype=tf.float32, shape=[-1])
 
-# # Initial LSTM memory
-# z_state = lstm.zero_state(batch_size=batch_size, dtype=tf.float32)
+# Define the model
+lstm = tf.nn.rnn_cell.LSTMCell(num_units=lstm_size, dtype=tf.float32)
 
-# output, state = lstm(inputs=word_batch, state=z_state)
+# Initial LSTM memory
+z_state = lstm.zero_state(batch_size=batch_size, dtype=tf.float32)
 
-# # Final dense layer
-# logits = tf.layers.dense(inputs=output, units=num_features, activation=None, use_bias=True)
+output, state = lstm(inputs=word_batch, state=z_state)
 
-# # Loss definition
-# loss = tf.nn.softmax_cross_entropy_with_logits(features=logits, labels=y)
+# Final dense layer
+logits = tf.layers.dense(inputs=output, units=num_features, activation=None, use_bias=True)
 
-# # Optimizer
-# opt = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(loss)
+# Loss definition
+loss = tf.nn.softmax_cross_entropy_with_logits(features=logits, labels=y)
 
-# with tf.Session() as sess:
+# Optimizer
+opt = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(loss)
 
-#     total_loss = 0
-#     for epoch in num_epochs:
+with tf.Session() as sess:
+
+    total_loss = 0
+    for epoch in num_epochs:
         
-#         preds, loss, _ = sess.run([logits, loss, opt], feed_dict={x:???, y:???})
+        preds, loss, _ = sess.run([logits, loss, opt], feed_dict={x:???, y:???})
 
 
 
