@@ -82,12 +82,12 @@ word_vocab_size = len(word_vocab)
 
 # No dense embeddings -> one-hot vectors only
 # Hyperparams
-num_epochs = 50
-batch_size = 5
+num_epochs = 500
+batch_size = 20
 time_steps = 1
 num_features = word_vocab_size
-lstm_size = 5
-learning_rate = 0.001
+lstm_size = 125
+learning_rate = 0.01
 
 # Get array for each word in the corpus and place them in 10 timesteps formats
 x_train, y_train = corpus_to_vec(text_corpus, time_steps)
@@ -115,10 +115,10 @@ lstm_output, state = lstm(inputs=x, state=z_state)
 logits = tf.layers.dense(inputs=lstm_output, units=num_features, activation=None, use_bias=True)
 
 # Loss definition
-loss = tf.nn.softmax_cross_entropy_with_logits_v2(logits=logits, labels=y)
+loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=y))
 
 # Optimizer
-opt = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(loss)
+opt = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(loss)
 
 # Grab the number of correct predictions for calculating the accuracy
 correct_preds_vec = tf.equal(tf.argmax(logits, 1), tf.argmax(y, 1))
@@ -141,21 +141,18 @@ with tf.Session() as sess:
 
         for step in range(num_steps):
 
-            print("Started epoch {0}".format(epoch))
-            print("X Train shape: {0}".format(x_train.shape))
-
             beg_idx = batch_size * step
             end_idx = beg_idx + batch_size
             
             # Run on each batch of data
-            correct_preds, preds, loss_val, _ = sess.run([correct_preds, logits, loss, opt], feed_dict={x:x_train[beg_idx:end_idx, :], y:y_train[beg_idx:end_idx, :]})
+            correct_predictions, preds, loss_val, _ = sess.run([correct_preds, logits, loss, opt], feed_dict={x:x_train[beg_idx:end_idx, :], y:y_train[beg_idx:end_idx, :]})
             loss_in_epoch += loss_val
-            correct_preds_in_epoch += correct_preds
+            correct_preds_in_epoch += correct_predictions
 
         total_loss += loss_in_epoch
         accuracy = correct_preds_in_epoch / num_corpus_words * 100
-        print("Loss at epoch {0}: ".format(loss_in_epoch))
-        print("Accuracy at epoch {0}".format(accuracy))
+        print("Loss at epoch {0}: {1}".format(epoch, loss_in_epoch))
+        print("Accuracy at epoch {0}: {1}".format(epoch, accuracy))
 
     
     print("Total loss: {0}".format(total_loss))
