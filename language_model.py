@@ -122,13 +122,16 @@ opt = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(lo
 
 # Grab the number of correct predictions for calculating the accuracy
 correct_preds_vec = tf.equal(tf.argmax(logits, 1), tf.argmax(y, 1))
-correct_preds = tf.reduce_sum(tf.cast(correct_preds_vec, float))
+correct_preds = tf.reduce_sum(tf.cast(correct_preds_vec, tf.float32))
 
 with tf.Session() as sess:
 
+    init = tf.global_variables_initializer()
+    sess.run(init)
+
     total_loss = 0
     num_vectors = x_train.shape[0]
-    num_steps = num_vectors / batch_size
+    num_steps = int(num_vectors / batch_size)
 
     for epoch in range(num_epochs):
 
@@ -145,8 +148,8 @@ with tf.Session() as sess:
             end_idx = beg_idx + batch_size
             
             # Run on each batch of data
-            correct_preds, preds, loss, _ = sess.run([correct_preds, logits, loss, opt], feed_dict={x:x_train[beg_idx:end_idx, :], y:y_train[beg_idx:end_idx, :]})
-            loss_in_epoch += loss
+            correct_preds, preds, loss_val, _ = sess.run([correct_preds, logits, loss, opt], feed_dict={x:x_train[beg_idx:end_idx, :], y:y_train[beg_idx:end_idx, :]})
+            loss_in_epoch += loss_val
             correct_preds_in_epoch += correct_preds
 
         total_loss += loss_in_epoch
