@@ -76,6 +76,7 @@ def corpus_to_vec(text_corpus, time_steps):
 
 # Load and preprocess the data
 text_corpus = open('ptb.train.txt', 'r').read()
+text_corpus = text_corpus.lower()
 num_corpus_words = get_num_words(text_corpus)
 word_vocab = get_word_vocabulary(text_corpus)
 word_vocab_size = len(word_vocab)
@@ -86,7 +87,7 @@ num_epochs = 500
 batch_size = 20
 time_steps = 1
 num_features = word_vocab_size
-lstm_size = 125
+lstm_size = 150
 learning_rate = 0.01
 
 # Get array for each word in the corpus and place them in 10 timesteps formats
