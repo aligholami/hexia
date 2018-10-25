@@ -58,19 +58,17 @@ def corpus_to_vec(text_corpus, time_steps):
     num_vectors = int(len(wordlist) / time_steps)
 
     # Our word vocab size will be similar to our one hot vectors in terms of dims
-    vectorized_corpus = np.zeros(shape=(time_steps, num_vectors, word_vocab_size), dtype=float)
-    vectorized_labels = np.zeros(shape=(time_steps, num_vectors, word_vocab_size), dtype=float)
+    vectorized_corpus = np.zeros(shape=(num_vectors, word_vocab_size), dtype=float)
+    vectorized_labels = np.zeros(shape=(num_vectors, word_vocab_size), dtype=float)
 
     for vec_idx in range(num_vectors):
-        for step in range(time_steps):
-            
-            try:
-                selected_word = wordlist[vec_idx * time_steps + step]
-                selected_word_label = wordlist[vec_idx * time_steps + step + 1]
-                vectorized_corpus[step:vec_idx:] = get_vector(selected_word, word_vocab)
-                vectorized_labels[step:vec_idx:] = get_vector(selected_word_label, word_vocab)
-            except IndexError:
-                pass
+        try:
+            selected_word = wordlist[vec_idx]
+            selected_word_label = wordlist[vec_idx + 1]
+            vectorized_corpus[vec_idx:] = get_vector(selected_word, word_vocab)
+            vectorized_labels[vec_idx:] = get_vector(selected_word_label, word_vocab)
+        except IndexError:
+            pass
 
 
     return (vectorized_corpus, vectorized_labels)
@@ -85,10 +83,10 @@ word_vocab_size = len(word_vocab)
 # No dense embeddings -> one-hot vectors only
 # Hyperparams
 num_epochs = 50
-batch_size = 4
+batch_size = 5
 time_steps = 1
 num_features = word_vocab_size
-lstm_size = 128
+lstm_size = 5
 learning_rate = 0.001
 
 # Get array for each word in the corpus and place them in 10 timesteps formats
@@ -102,8 +100,8 @@ print("Number of Unique words:", word_vocab_size)
 #############################
 
 # Both data and labels are placeholders for scalability
-x = tf.placeholder(dtype=tf.float32, shape=[time_steps, batch_size, num_features], name='x_input')
-y = tf.placeholder(dtype=tf.float32, shape=[time_steps, batch_size, num_features], name='label_input')
+x = tf.placeholder(dtype=tf.float32, shape=[batch_size, num_features], name='x_input')
+y = tf.placeholder(dtype=tf.float32, shape=[batch_size, num_features], name='label_input')
 
 # Define the model
 lstm = tf.nn.rnn_cell.LSTMCell(num_units=lstm_size, dtype=tf.float32)
@@ -111,32 +109,51 @@ lstm = tf.nn.rnn_cell.LSTMCell(num_units=lstm_size, dtype=tf.float32)
 # Initial LSTM memory
 z_state = lstm.zero_state(batch_size=batch_size, dtype=tf.float32)
 
-output, state = lstm(inputs=x, state=z_state)
+lstm_output, state = lstm(inputs=x, state=z_state)
 
 # Final dense layer
-logits = tf.layers.dense(inputs=output, units=num_features, activation=None, use_bias=True)
+logits = tf.layers.dense(inputs=lstm_output, units=num_features, activation=None, use_bias=True)
 
 # Loss definition
-loss = tf.nn.softmax_cross_entropy_with_logits(features=logits, labels=y)
+loss = tf.nn.softmax_cross_entropy_with_logits_v2(logits=logits, labels=y)
 
 # Optimizer
 opt = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(loss)
 
 # Grab the number of correct predictions for calculating the accuracy
 correct_preds_vec = tf.equal(tf.argmax(logits, 1), tf.argmax(y, 1))
-correct_preds = tf.reduce_sum(correct_preds_vec)
+correct_preds = tf.reduce_sum(tf.cast(correct_preds_vec, float))
 
 with tf.Session() as sess:
 
     total_loss = 0
-    for epoch in num_epochs:
+    num_vectors = x_train.shape[0]
+    num_steps = num_vectors / batch_size
+
+    for epoch in range(num_epochs):
 
         x_train, y_train = corpus_to_vec(text_corpus, time_steps)
-        correct_preds, preds, loss, _ = sess.run([correct_preds, logits, loss, opt], feed_dict={x:x_train, y:y_train})
-        total_loss += loss
-        accuracy = correct_preds / num_corpus_words * 100
-        print("Loss at epoch {0}: ".format(loss))
+        correct_preds_in_epoch = 0
+        loss_in_epoch = 0
+
+        for step in range(num_steps):
+
+            print("Started epoch {0}".format(epoch))
+            print("X Train shape: {0}".format(x_train.shape))
+
+            beg_idx = batch_size * step
+            end_idx = beg_idx + batch_size
+            
+            # Run on each batch of data
+            correct_preds, preds, loss, _ = sess.run([correct_preds, logits, loss, opt], feed_dict={x:x_train[beg_idx:end_idx, :], y:y_train[beg_idx:end_idx, :]})
+            loss_in_epoch += loss
+            correct_preds_in_epoch += correct_preds
+
+        total_loss += loss_in_epoch
+        accuracy = correct_preds_in_epoch / num_corpus_words * 100
+        print("Loss at epoch {0}: ".format(loss_in_epoch))
         print("Accuracy at epoch {0}".format(accuracy))
+
     
     print("Total loss: {0}".format(total_loss))
         
