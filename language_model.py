@@ -88,7 +88,7 @@ batch_size = 20
 time_steps = 1
 num_features = word_vocab_size
 lstm_size = 150
-learning_rate = 0.001
+learning_rate = 0.01
 
 # Get array for each word in the corpus and place them in 10 timesteps formats
 x_train, y_train = corpus_to_vec(text_corpus, time_steps)
@@ -138,7 +138,8 @@ with tf.Session() as sess:
     init = tf.global_variables_initializer()
 
     # Initialize the file writer for Tensorboard
-    visualizer = tf.summary.FileWriter('/visualization')
+    visualizer = tf.summary.FileWriter('./visualization')
+    visualizer.add_graph(sess.graph)
     sess.run(init)
 
     total_loss = 0
@@ -167,7 +168,6 @@ with tf.Session() as sess:
         print("Accuracy at epoch {0}: {1}".format(epoch, accuracy))
 
         # Write to visualization
-        visualizer.add_graph(sess.graph)
         visualizer.add_summary(visualizer_summary, global_step=g_step.eval())
 
     
