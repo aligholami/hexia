@@ -136,12 +136,12 @@ merged_summary = tf.summary.merge_all()
 
 with tf.Session() as sess:
 
-    init = tf.global_variables_initializer()
+    sess.run(tf.local_variables_initializer())
+    sess.run(tf.global_variables_initializer())
 
     # Initialize the file writer for Tensorboard
     visualizer = tf.summary.FileWriter('./visualization')
     visualizer.add_graph(sess.graph)
-    sess.run(init)
 
     total_loss = 0
     num_vectors = x_train.shape[0]
