@@ -127,9 +127,10 @@ opt = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cross_entropy
 
 # Grab the number of correct predictions for calculating the accuracy
 shape_t = tf.shape(logits)
-correct_preds_vec = tf.equal(tf.argmax(logits, 1), tf.argmax(y, 1))
-correct_preds = tf.reduce_sum(tf.cast(correct_preds_vec, tf.float32))
-tf.summary.scalar('accuracy', correct_preds)
+
+# Compute accuracy
+acc, acc_op = tf.metrics.accuracy(labels=tf.argmax(y, 1), predictions=tf.argmax(logits, 1))
+tf.summary.scalar('accuracy', acc_op)
 
 merged_summary = tf.summary.merge_all()
 
@@ -149,7 +150,7 @@ with tf.Session() as sess:
     for epoch in range(num_epochs):
 
         x_train, y_train = corpus_to_vec(text_corpus, time_steps)
-        correct_preds_in_epoch = 0
+        epoch_accuracy = 0
         loss_in_epoch = 0
 
         for step in range(num_steps):
@@ -158,14 +159,14 @@ with tf.Session() as sess:
             end_idx = beg_idx + batch_size
             
             # Run on each batch of data
-            correct_predictions, preds, loss_val, _, visualizer_summary = sess.run([correct_preds, logits, cross_entropy, opt, merged_summary], feed_dict={x:x_train[beg_idx:end_idx, :], y:y_train[beg_idx:end_idx, :]})
+            accuracy, preds, loss_val, _, visualizer_summary = sess.run([acc_op, logits, cross_entropy, opt, merged_summary], feed_dict={x:x_train[beg_idx:end_idx, :], y:y_train[beg_idx:end_idx, :]})
             loss_in_epoch += loss_val
-            correct_preds_in_epoch += correct_predictions
+            epoch_accuracy += accuracy
 
         total_loss += loss_in_epoch
-        accuracy = correct_preds_in_epoch / num_corpus_words * 100
+        epoch_accuracy = epoch_accuracy / num_steps
         print("Loss at epoch {0}: {1}".format(epoch, loss_in_epoch))
-        print("Accuracy at epoch {0}: {1}".format(epoch, accuracy))
+        print("Accuracy at epoch {0}: {1}".format(epoch, epoch_accuracy))
 
         # Write to visualization
         visualizer.add_summary(visualizer_summary, global_step=g_step.eval())
