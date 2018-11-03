@@ -88,7 +88,7 @@ batch_size = 20
 time_steps = 1
 num_features = word_vocab_size
 lstm_size = 150
-learning_rate = 0.01
+learning_rate = 0.001
 
 # Get array for each word in the corpus and place them in 10 timesteps formats
 x_train, y_train = corpus_to_vec(text_corpus, time_steps)
@@ -122,6 +122,7 @@ loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, lab
 opt = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(loss)
 
 # Grab the number of correct predictions for calculating the accuracy
+shape_t = tf.shape(logits)
 correct_preds_vec = tf.equal(tf.argmax(logits, 1), tf.argmax(y, 1))
 correct_preds = tf.reduce_sum(tf.cast(correct_preds_vec, tf.float32))
 
@@ -146,7 +147,7 @@ with tf.Session() as sess:
             end_idx = beg_idx + batch_size
             
             # Run on each batch of data
-            correct_predictions, preds, loss_val, _ = sess.run([correct_preds, logits, loss, opt], feed_dict={x:x_train[beg_idx:end_idx, :], y:y_train[beg_idx:end_idx, :]})
+            correct_predictions, preds, loss_val, _, shap = sess.run([correct_preds, logits, loss, opt, shape_t], feed_dict={x:x_train[beg_idx:end_idx, :], y:y_train[beg_idx:end_idx, :]})
             loss_in_epoch += loss_val
             correct_preds_in_epoch += correct_predictions
 
