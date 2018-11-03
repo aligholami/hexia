@@ -100,6 +100,9 @@ print("Number of Unique words:", word_vocab_size)
 # Beginning of the TF Graph #
 #############################
 
+# The global step
+g_step = tf.Variable(0, dtype=tf.int32, trainable=false, name='global_step')
+
 # Both data and labels are placeholders for scalability
 x = tf.placeholder(dtype=tf.float32, shape=[batch_size, num_features], name='x_input')
 y = tf.placeholder(dtype=tf.float32, shape=[batch_size, num_features], name='label_input')
@@ -115,20 +118,27 @@ lstm_output, state = lstm(inputs=x, state=z_state)
 # Final dense layer
 logits = tf.layers.dense(inputs=lstm_output, units=num_features, activation=None, use_bias=True)
 
-# Loss definition
-loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=y))
+# Loss definition & Visualization
+cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=y))
+tf.summary.scalar('cross_entropy', cross_entropy)
 
 # Optimizer
-opt = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(loss)
+opt = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cross_entropy, global_step=g_step)
 
 # Grab the number of correct predictions for calculating the accuracy
 shape_t = tf.shape(logits)
 correct_preds_vec = tf.equal(tf.argmax(logits, 1), tf.argmax(y, 1))
 correct_preds = tf.reduce_sum(tf.cast(correct_preds_vec, tf.float32))
+tf.summary.scalar('accuracy', correct_preds)
+
+merged_summary = tf.summary.merge_all()
 
 with tf.Session() as sess:
 
     init = tf.global_variables_initializer()
+
+    # Initialize the file writer for Tensorboard
+    visualizer = tf.summary.FileWriter('/visualization')
     sess.run(init)
 
     total_loss = 0
@@ -147,7 +157,7 @@ with tf.Session() as sess:
             end_idx = beg_idx + batch_size
             
             # Run on each batch of data
-            correct_predictions, preds, loss_val, _, shap = sess.run([correct_preds, logits, loss, opt, shape_t], feed_dict={x:x_train[beg_idx:end_idx, :], y:y_train[beg_idx:end_idx, :]})
+            correct_predictions, preds, loss_val, _, visualizer_summary = sess.run([correct_preds, logits, cross_entropy, opt, merged_summary], feed_dict={x:x_train[beg_idx:end_idx, :], y:y_train[beg_idx:end_idx, :]})
             loss_in_epoch += loss_val
             correct_preds_in_epoch += correct_predictions
 
@@ -155,6 +165,10 @@ with tf.Session() as sess:
         accuracy = correct_preds_in_epoch / num_corpus_words * 100
         print("Loss at epoch {0}: {1}".format(epoch, loss_in_epoch))
         print("Accuracy at epoch {0}: {1}".format(epoch, accuracy))
+
+        # Write to visualization
+        visualizer.add_graph(sess.graph)
+        visualizer.add_summary(visualizer_summary, global_step=g_step)
 
     
     print("Total loss: {0}".format(total_loss))
