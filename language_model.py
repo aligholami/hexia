@@ -101,7 +101,7 @@ print("Number of Unique words:", word_vocab_size)
 #############################
 
 # The global step
-g_step = tf.Variable(0, dtype=tf.int32, trainable=false, name='global_step')
+g_step = tf.Variable(0, dtype=tf.int32, trainable=False, name='global_step')
 
 # Both data and labels are placeholders for scalability
 x = tf.placeholder(dtype=tf.float32, shape=[batch_size, num_features], name='x_input')
@@ -168,7 +168,7 @@ with tf.Session() as sess:
 
         # Write to visualization
         visualizer.add_graph(sess.graph)
-        visualizer.add_summary(visualizer_summary, global_step=g_step)
+        visualizer.add_summary(visualizer_summary, global_step=g_step.eval())
 
     
     print("Total loss: {0}".format(total_loss))
