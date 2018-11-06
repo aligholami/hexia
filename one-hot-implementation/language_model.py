@@ -75,7 +75,7 @@ def corpus_to_vec(text_corpus, time_steps):
 
 
 # Load and preprocess the data
-text_corpus = open('ptb.train.txt', 'r').read()
+text_corpus = open('../ptb.train.txt', 'r').read()
 text_corpus = text_corpus.lower()
 num_corpus_words = get_num_words(text_corpus)
 word_vocab = get_word_vocabulary(text_corpus)
@@ -88,7 +88,7 @@ batch_size = 200
 time_steps = 1
 num_features = word_vocab_size
 lstm_size = 50
-learning_rate = 0.01
+learning_rate = 0.1
 
 # Get array for each word in the corpus and place them in 10 timesteps formats
 x_train, y_train = corpus_to_vec(text_corpus, time_steps)
@@ -140,7 +140,7 @@ with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
 
     # Initialize the file writer for Tensorboard
-    visualizer = tf.summary.FileWriter('./visualization')
+    visualizer = tf.summary.FileWriter('../visualization/one-hot')
     visualizer.add_graph(sess.graph)
 
     total_loss = 0
