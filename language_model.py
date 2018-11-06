@@ -84,10 +84,10 @@ word_vocab_size = len(word_vocab)
 # No dense embeddings -> one-hot vectors only
 # Hyperparams
 num_epochs = 500
-batch_size = 20
+batch_size = 200
 time_steps = 1
 num_features = word_vocab_size
-lstm_size = 150
+lstm_size = 50
 learning_rate = 0.01
 
 # Get array for each word in the corpus and place them in 10 timesteps formats
