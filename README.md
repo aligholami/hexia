@@ -12,7 +12,7 @@ I analyzed a number of different configurations for the hyperparamteres to check
 
 #### One-hot Vector Representation
 
-##### Training and Validation Configuration
+##### Training and Validation Configuration #1
 ```python
 # Hyperparams
 num_epochs = 500
@@ -36,7 +36,7 @@ learning_rate = 0.01
 </p>
 
 
-##### Training and Validation Configuration
+##### Training and Validation Configuration #2
 ```python
 # Hyperparams
 num_epochs = 500
