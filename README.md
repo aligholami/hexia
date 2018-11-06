@@ -1,5 +1,11 @@
 # SAN-VQA-SEQUENCE-MODEL
 
+### Todo
+
+- [x] Vanilla LSTM Model
+- [x] One-hot representation
+- [ ] Embedded representation (w2vec)
+
 ## Hyperparamteres Analysis
 
 I analyzed a number of different configurations for the hyperparamteres to check the effect of bigger batch size and higher learning rates on the learning of LSTM.
