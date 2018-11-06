@@ -60,7 +60,7 @@ learning_rate = 0.01
 </p>
 
 
-##### Training and Validation Configuration #2
+##### Training and Validation Configuration #3
 ```python
 # Hyperparams
 num_epochs = 500
