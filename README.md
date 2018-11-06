@@ -18,6 +18,13 @@ learning_rate = 0.01
 ```
 
 ##### Training and Validation Summary
-| Train Accuracy | Train Loss |
-| ------------- |:-------------:|
-| <img width="500" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/aligholami/SAN-VQA-SEQUENCE-MODEL/raw/master/diagram/one-hot/train-acc.png"> | <img width="500" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/aligholamee/KDEPlot/blob/master/image/3_a_2.png">|
+
+<p align="center">
+    <img src="https://github.com/aligholami/SAN-VQA-SEQUENCE-MODEL/raw/master/diagram/one-hot/train-acc.png" alt>
+    <em>Training Accuracy</em>
+</p>
+
+<p align="center">
+    <img src="https://github.com/aligholami/SAN-VQA-SEQUENCE-MODEL/raw/master/diagram/one-hot/train-loss.png" alt>
+    <em>Training Loss</em>
+</p>
