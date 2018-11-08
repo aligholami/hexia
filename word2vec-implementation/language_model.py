@@ -83,7 +83,7 @@ def word_embeddings(text_corpus):
     with tf.name_scope(name='optimizer'):
         optimize = tf.train.GradientDescentOptimizer(learning_rate=encoder_learning_rate).minimize(loss)
 
-    return embeddings, optimize
+    return train_inputs, train_labels, embeddings, optimize
 
 def lstm_inference(word_embeddings):
 
@@ -140,8 +140,6 @@ def lstm_inference(word_embeddings):
     return acc_op, logits, cross_entropy, opt, merged_summary
 
 
-
-
 # Load and preprocess the data
 text_corpus = open('../ptb.train.txt', 'r').read()
 text_corpus = text_corpus.lower()
@@ -150,17 +148,29 @@ word_vocab = get_word_vocabulary(text_corpus)
 word_vocab_size = len(word_vocab)
 
 # Build the computation graph
-
 # get the word embeddings
-embeddings, optimize = word_embeddings(text_corpus)
+em_input, em_labels, embeddings, optimize = word_embeddings(text_corpus)
 
 # train the classfier
-lstm_acc, lstm_outputs, lstm_opt, lstm_summary = lstm_inference(embeddings)
+lstm_acc, lstm_outputs, lstm_loss, lstm_opt, lstm_summary = lstm_inference(embeddings)
 
-with tf.Session() as sess:
+# Train the word embedding model
+with tf.Session() as embedding_sess:
 
-    sess.run(tf.local_variables_initializer())
-    sess.run(tf.global_variables_initializer())
+    embedding_sess.run(tf.local_variables_intializer())
+    embedding_sess.run(tf.global_variables_initializer())
+
+    for epoch in range(embedding_epochs):
+
+        x_train, y_train = ???()
+        for step in range(embedding_num_steps):
+            embedding_sess.run([optimize], feed_dict={em_inputs: x_train, em_labels: y_train})
+
+
+with tf.Session() as lstm_sess:
+
+    lstm_sess.run(tf.local_variables_initializer())
+    lstm_sess.run(tf.global_variables_initializer())
 
     # Initialize the file writer for Tensorboard
     visualizer = tf.summary.FileWriter('../visualization/word2vec')
@@ -182,7 +192,7 @@ with tf.Session() as sess:
             end_idx = beg_idx + batch_size
             
             # Run on each batch of data
-            accuracy, preds, loss_val, _, visualizer_summary = sess.run([acc_op, logits, cross_entropy, opt, merged_summary], feed_dict={x:x_train[beg_idx:end_idx, :], y:y_train[beg_idx:end_idx, :]})
+            accuracy, preds, loss_val, _, visualizer_summary = lstm_sess.run([lstm_acc, lstm_outputs, lstm_loss, lstm_opt, lstm_summary], feed_dict={x:x_train[beg_idx:end_idx, :], y:y_train[beg_idx:end_idx, :]})
             loss_in_epoch += loss_val
             epoch_accuracy += accuracy
 
@@ -194,7 +204,6 @@ with tf.Session() as sess:
         # Write to visualization
         visualizer.add_summary(visualizer_summary, global_step=g_step.eval())
 
-    
     print("Total loss: {0}".format(total_loss))
         
 
