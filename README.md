@@ -4,7 +4,10 @@
 
 - [x] Vanilla LSTM Model
 - [x] One-hot representation
-- [ ] Embedded representation (w2vec)
+- [x] One-hot training and evaluation
+- [x] Embedded representation
+- [ ] Embedded training and evaluation
+- [ ] Embedded validation
 
 ## Hyperparamteres Analysis
 
