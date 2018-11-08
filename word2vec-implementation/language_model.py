@@ -40,16 +40,6 @@ def get_word_to_ix(vocab):
 
     return word_to_ix
 
-
-def get_vector(word, vocab):
-
-    word_one_hot_vec = np.zeros(shape=(len(vocab)))
-    for ix, _word in enumerate(vocab):
-        if _word == word:
-            word_one_hot_vec[ix] = 1
-
-    return word_one_hot_vec
-
 def word_embeddings(vocabulary_size):
     
     embedding_size = 300
@@ -62,7 +52,7 @@ def word_embeddings(vocabulary_size):
     train_labels = tf.placeholder(dtype=tf.int32, shape=[encoder_batch_size, 1])
 
     embeddings = tf.Variable(tf.random_uniform(shape=[vocabulary_size, embedding_size], -1.0, 1.0))
-    embed = tf.nn.embedding_lookup(params=embeddings, ids=train_inputs)
+    embedded = tf.nn.embedding_lookup(params=embeddings, ids=train_inputs)
 
     # Noise contrastive loss weight vector and bias
     with tf.name_scope(name='weights'):
@@ -74,7 +64,7 @@ def word_embeddings(vocabulary_size):
             weights=nce_weights,
             biases=nce_biases,
             labels=train_labels,
-            inputs=embed,
+            inputs=embedded,
             num_sampled=num_sampled,
             num_classes=vocabulary_size
         ))
@@ -131,6 +121,47 @@ def lstm_inference(word_embeddings):
     return acc_op, logits, cross_entropy, opt, merged_summary
 
 
+def generate_encoder_mini_batch(batch_size, step, window_size):
+
+    global text_corpus
+    global num_corpus_words
+
+    batch_train = np.zeros(shape=[batch_size], dtype=np.int32)
+    batch_labels = np.zeros(shape=[batch_size, 1], dtype=np.int32)
+
+    # Convert text corpus to integer
+    #################################
+
+    local_step = step
+
+    # While !EOF
+    for sample in range(batch_size):
+
+        if((local_step + window_size + 1) <= num_corpus_words):
+
+            context_idx = [local_step + window_idx for window_idx in range(window_size)]
+            target_idx = local_step + window_size + 1
+
+            # Add context words
+            batch_train = np.append(batch_train, np.asarray(text_corpus[context_idx]))
+            batch_labels = np.append(batch_labels, np.assarray(text_corpus[target_idx]))
+
+        local_step += 1
+        
+    return batch_train, batch_labels
+
+
+
+
+def generate_lstm_mini_batch(batch_size, step, _):
+
+    global text_corpus
+
+    return batch_train, batch_labels
+
+
+
+
 # Load and preprocess the data
 text_corpus = open('../ptb.train.txt', 'r').read()
 text_corpus = text_corpus.lower()
@@ -157,9 +188,9 @@ with tf.Session() as embedding_sess:
 
     for epoch in range(embedding_epochs):
 
-        x_train, y_train = generate_encoder_mini_batch()
-
         for step in range(embedding_num_steps):
+
+            x_train, y_train = generate_encoder_mini_batch(batch_size, step)
             embedding_sess.run([optimize], feed_dict={em_inputs: x_train, em_labels: y_train})
 
 # Train the LSTM model
@@ -177,18 +208,16 @@ with tf.Session() as lstm_sess:
     num_steps = int(num_vectors / batch_size)
 
     for epoch in range(num_epochs):
-
-        x_train, y_train = generate_lstm_mini_batch()
+    
         epoch_accuracy = 0
         loss_in_epoch = 0
 
         for step in range(num_steps):
 
-            beg_idx = batch_size * step
-            end_idx = beg_idx + batch_size
+            x_train, y_train = generate_lstm_mini_batch(batch_size, step)
             
             # Run on each batch of data
-            accuracy, preds, loss_val, _, visualizer_summary = lstm_sess.run([lstm_acc, lstm_outputs, lstm_loss, lstm_opt, lstm_summary], feed_dict={x:x_train[beg_idx:end_idx, :], y:y_train[beg_idx:end_idx, :]})
+            accuracy, preds, loss_val, _, visualizer_summary = lstm_sess.run([lstm_acc, lstm_outputs, lstm_loss, lstm_opt, lstm_summary], feed_dict={x:x_train, y:y_train]})
             loss_in_epoch += loss_val
             epoch_accuracy += accuracy
 
