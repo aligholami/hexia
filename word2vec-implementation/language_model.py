@@ -131,6 +131,17 @@ def generate_encoder_mini_batch(batch_size, step, window_size):
 
     # Convert text corpus to integer
     #################################
+    words = get_word_vocabulary(text_corpus)
+    dictionary = dict()
+
+    for word in words:
+        dictionary[word] = len(dictionary)
+
+    data = list()
+
+    for word in words:
+        index = dictionary.get(word, 0)
+        data.append(index)
 
     local_step = step
 
@@ -147,7 +158,7 @@ def generate_encoder_mini_batch(batch_size, step, window_size):
             batch_labels = np.append(batch_labels, np.assarray(text_corpus[target_idx]))
 
         local_step += 1
-        
+
     return batch_train, batch_labels
 
 
