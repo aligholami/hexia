@@ -50,14 +50,20 @@ def get_vector(word, vocab):
 
     return word_one_hot_vec
 
-def corpus_to_vec(text_corpus, vocab_size, embedding_size, num_sampled, encoder_learning_rate):
+def word_embeddings(text_corpus):
     
-    # Extract the words and convert them to int representation
-    train_inputs, train_labels = 
+    vocabulary_size = word_vocab_size
+    embedding_size = 300
+    num_sampled = 64
+    encoder_learning_rate = 0.01
+    encoder_batch_size = 32
+
+    # Integer representation of the inputs
+    train_inputs = tf.placeholder(dtype=tf.int32, shape=[encoder_batch_size])
+    train_labels = tf.placeholder(dtype=tf.int32, shape=[encoder_batch_size, 1])
 
     embeddings = tf.Variable(tf.random_uniform(shape=[vocab_size, embedding_size], -1.0, 1.0))
     embed = tf.nn.embedding_lookup(params=embeddings, ids=train_inputs)
-
 
     # Noise contrastive loss weight vector and bias
     with tf.name_scope(name='weights'):
@@ -68,24 +74,72 @@ def corpus_to_vec(text_corpus, vocab_size, embedding_size, num_sampled, encoder_
         loss = tf.reduce_mean(tf.nn.nce_loss(
             weights=nce_weights,
             biases=nce_biases,
-            labels=train_lagels,
+            labels=train_labels,
             inputs=embed,
             num_sampled=num_sampled,
             num_classes=vocabulary_size
         ))
 
     with tf.name_scope(name='optimizer'):
-        optimize = tf.train.GradientDescentOptimizer(learning_rate=encoder_learning_rate).minim(loss)
-        
-    
-    
+        optimize = tf.train.GradientDescentOptimizer(learning_rate=encoder_learning_rate).minimize(loss)
+
+    return embeddings, optimize
+
+def lstm_inference(word_embeddings):
+
+    num_epochs = 500
+    batch_size = 200
+    vocabulary_size = word_vocab_size
+    lstm_size = 50
+    lstm_learning_rate = 0.1
+
+    # Get array for each word in the corpus and place them in 10 timesteps formats
+    x_train, y_train = [], []
+
+    print("Number of Words: ", num_corpus_words)
+    print("Number of Unique words:", word_vocab_size)
+
+    #############################
+    # Beginning of the TF Graph #
+    #############################
+
+    # The global step
+    g_step = tf.Variable(0, dtype=tf.int32, trainable=False, name='global_step')
+
+    # Both data and labels are placeholders for scalability
+    x = tf.placeholder(dtype=tf.float32, shape=[batch_size, embedding_size], name='x_input')
+    y = tf.placeholder(dtype=tf.float32, shape=[batch_size, embedding_size], name='label_input')
+
+    # Define the model
+    lstm = tf.nn.rnn_cell.LSTMCell(num_units=lstm_size, dtype=tf.float32)
+
+    # Initial LSTM memory
+    z_state = lstm.zero_state(batch_size=batch_size, dtype=tf.float32)
+
+    lstm_output, state = lstm(inputs=x, state=z_state)
+
+    # Final dense layer
+    logits = tf.layers.dense(inputs=lstm_output, units=embedding_size, activation=None, use_bias=True)
+
+    # Loss definition & Visualization
+    cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=y))
+    tf.summary.scalar('cross_entropy', cross_entropy)
+
+    # Optimizer
+    opt = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cross_entropy, global_step=g_step)
+
+    # Grab the number of correct predictions for calculating the accuracy
+    shape_t = tf.shape(logits)
+
+    # Compute accuracy
+    acc, acc_op = tf.metrics.accuracy(labels=tf.argmax(y, 1), predictions=tf.argmax(logits, 1))
+    tf.summary.scalar('accuracy', acc_op)
+
+    merged_summary = tf.summary.merge_all()
+
+    return acc_op, logits, cross_entropy, opt, merged_summary
 
 
-
-
-    loss = tf.nn    
-
-    return (vectorized_corpus, vectorized_labels)
 
 
 # Load and preprocess the data
@@ -95,61 +149,13 @@ num_corpus_words = get_num_words(text_corpus)
 word_vocab = get_word_vocabulary(text_corpus)
 word_vocab_size = len(word_vocab)
 
-# No dense embeddings -> one-hot vectors only
-# Hyperparams
-num_epochs = 500
-batch_size = 200
-time_steps = 1
-vocabulary_size = word_vocab_size
-embedding_size = 300
-lstm_size = 50
-lstm_learning_rate = 0.1
-num_sampled = 64
-encoder_learning_rate = 0.01
+# Build the computation graph
 
-# Get array for each word in the corpus and place them in 10 timesteps formats
-x_train, y_train = corpus_to_vec(text_corpus, vocabulary_size, embedding_size, num_sampled, encoder_learning_rate)
+# get the word embeddings
+embeddings, optimize = word_embeddings(text_corpus)
 
-print("Number of Words: ", num_corpus_words)
-print("Number of Unique words:", word_vocab_size)
-
-#############################
-# Beginning of the TF Graph #
-#############################
-
-# The global step
-g_step = tf.Variable(0, dtype=tf.int32, trainable=False, name='global_step')
-
-# Both data and labels are placeholders for scalability
-x = tf.placeholder(dtype=tf.float32, shape=[batch_size, embedding_size], name='x_input')
-y = tf.placeholder(dtype=tf.float32, shape=[batch_size, embedding_size], name='label_input')
-
-# Define the model
-lstm = tf.nn.rnn_cell.LSTMCell(num_units=lstm_size, dtype=tf.float32)
-
-# Initial LSTM memory
-z_state = lstm.zero_state(batch_size=batch_size, dtype=tf.float32)
-
-lstm_output, state = lstm(inputs=x, state=z_state)
-
-# Final dense layer
-logits = tf.layers.dense(inputs=lstm_output, units=embedding_size, activation=None, use_bias=True)
-
-# Loss definition & Visualization
-cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=y))
-tf.summary.scalar('cross_entropy', cross_entropy)
-
-# Optimizer
-opt = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cross_entropy, global_step=g_step)
-
-# Grab the number of correct predictions for calculating the accuracy
-shape_t = tf.shape(logits)
-
-# Compute accuracy
-acc, acc_op = tf.metrics.accuracy(labels=tf.argmax(y, 1), predictions=tf.argmax(logits, 1))
-tf.summary.scalar('accuracy', acc_op)
-
-merged_summary = tf.summary.merge_all()
+# train the classfier
+lstm_acc, lstm_outputs, lstm_opt, lstm_summary = lstm_inference(embeddings)
 
 with tf.Session() as sess:
 
