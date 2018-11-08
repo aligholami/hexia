@@ -50,9 +50,8 @@ def get_vector(word, vocab):
 
     return word_one_hot_vec
 
-def word_embeddings(text_corpus):
+def word_embeddings(vocabulary_size):
     
-    vocabulary_size = word_vocab_size
     embedding_size = 300
     num_sampled = 64
     encoder_learning_rate = 0.01
@@ -62,13 +61,13 @@ def word_embeddings(text_corpus):
     train_inputs = tf.placeholder(dtype=tf.int32, shape=[encoder_batch_size])
     train_labels = tf.placeholder(dtype=tf.int32, shape=[encoder_batch_size, 1])
 
-    embeddings = tf.Variable(tf.random_uniform(shape=[vocab_size, embedding_size], -1.0, 1.0))
+    embeddings = tf.Variable(tf.random_uniform(shape=[vocabulary_size, embedding_size], -1.0, 1.0))
     embed = tf.nn.embedding_lookup(params=embeddings, ids=train_inputs)
 
     # Noise contrastive loss weight vector and bias
     with tf.name_scope(name='weights'):
-        nce_weights = tf.Variable(tf.truncated_normal(shape=[vocab_size, embedding_size], stddev=1.0/math.sqrt(embedding_size)))
-        nce_biases = tf.Variable(tf.zers(shape=[vocab_size]))
+        nce_weights = tf.Variable(tf.truncated_normal(shape=[vocabulary_size, embedding_size], stddev=1.0/math.sqrt(embedding_size)))
+        nce_biases = tf.Variable(tf.zers(shape=[vocabulary_size]))
     
     with tf.name_scope(name='loss'):
         loss = tf.reduce_mean(tf.nn.nce_loss(
@@ -85,6 +84,7 @@ def word_embeddings(text_corpus):
 
     return train_inputs, train_labels, embeddings, optimize
 
+
 def lstm_inference(word_embeddings):
 
     num_epochs = 500
@@ -93,18 +93,9 @@ def lstm_inference(word_embeddings):
     lstm_size = 50
     lstm_learning_rate = 0.1
 
-    # Get array for each word in the corpus and place them in 10 timesteps formats
-    x_train, y_train = [], []
-
-    print("Number of Words: ", num_corpus_words)
-    print("Number of Unique words:", word_vocab_size)
-
-    #############################
-    # Beginning of the TF Graph #
-    #############################
-
     # The global step
     g_step = tf.Variable(0, dtype=tf.int32, trainable=False, name='global_step')
+
 
     # Both data and labels are placeholders for scalability
     x = tf.placeholder(dtype=tf.float32, shape=[batch_size, embedding_size], name='x_input')
@@ -147,9 +138,13 @@ num_corpus_words = get_num_words(text_corpus)
 word_vocab = get_word_vocabulary(text_corpus)
 word_vocab_size = len(word_vocab)
 
-# Build the computation graph
+
+###############################
+# Build the computation graph #
+###############################
+
 # get the word embeddings
-em_input, em_labels, embeddings, optimize = word_embeddings(text_corpus)
+em_input, em_labels, embeddings, optimize = word_embeddings()
 
 # train the classfier
 lstm_acc, lstm_outputs, lstm_loss, lstm_opt, lstm_summary = lstm_inference(embeddings)
@@ -162,11 +157,12 @@ with tf.Session() as embedding_sess:
 
     for epoch in range(embedding_epochs):
 
-        x_train, y_train = ???()
+        x_train, y_train = generate_encoder_mini_batch()
+
         for step in range(embedding_num_steps):
             embedding_sess.run([optimize], feed_dict={em_inputs: x_train, em_labels: y_train})
 
-
+# Train the LSTM model
 with tf.Session() as lstm_sess:
 
     lstm_sess.run(tf.local_variables_initializer())
@@ -182,7 +178,7 @@ with tf.Session() as lstm_sess:
 
     for epoch in range(num_epochs):
 
-        x_train, y_train = corpus_to_vec(text_corpus, time_steps)
+        x_train, y_train = generate_lstm_mini_batch()
         epoch_accuracy = 0
         loss_in_epoch = 0
 
