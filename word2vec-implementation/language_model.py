@@ -1,5 +1,6 @@
 import tensorflow as tf
 import numpy as np
+import math
 
 np.set_printoptions(threshold=np.nan)
 
@@ -49,27 +50,40 @@ def get_vector(word, vocab):
 
     return word_one_hot_vec
 
-def corpus_to_vec(text_corpus, time_steps):
+def corpus_to_vec(text_corpus, vocab_size, embedding_size, num_sampled, encoder_learning_rate):
+    
+    # Extract the words and convert them to int representation
+    train_inputs, train_labels = 
 
-    word_vocab = get_word_vocabulary(text_corpus)
-    word_vocab_size = len(word_vocab)
+    embeddings = tf.Variable(tf.random_uniform(shape=[vocab_size, embedding_size], -1.0, 1.0))
+    embed = tf.nn.embedding_lookup(params=embeddings, ids=train_inputs)
 
-    wordlist = text_corpus.split(' ')
-    num_vectors = int(len(wordlist) / time_steps)
 
-    # Our word vocab size will be similar to our one hot vectors in terms of dims
-    vectorized_corpus = np.zeros(shape=(num_vectors, word_vocab_size), dtype=float)
-    vectorized_labels = np.zeros(shape=(num_vectors, word_vocab_size), dtype=float)
+    # Noise contrastive loss weight vector and bias
+    with tf.name_scope(name='weights'):
+        nce_weights = tf.Variable(tf.truncated_normal(shape=[vocab_size, embedding_size], stddev=1.0/math.sqrt(embedding_size)))
+        nce_biases = tf.Variable(tf.zers(shape=[vocab_size]))
+    
+    with tf.name_scope(name='loss'):
+        loss = tf.reduce_mean(tf.nn.nce_loss(
+            weights=nce_weights,
+            biases=nce_biases,
+            labels=train_lagels,
+            inputs=embed,
+            num_sampled=num_sampled,
+            num_classes=vocabulary_size
+        ))
 
-    for vec_idx in range(num_vectors):
-        try:
-            selected_word = wordlist[vec_idx]
-            selected_word_label = wordlist[vec_idx + 1]
-            vectorized_corpus[vec_idx:] = get_vector(selected_word, word_vocab)
-            vectorized_labels[vec_idx:] = get_vector(selected_word_label, word_vocab)
-        except IndexError:
-            pass
+    with tf.name_scope(name='optimizer'):
+        optimize = tf.train.GradientDescentOptimizer(learning_rate=encoder_learning_rate).minim(loss)
+        
+    
+    
 
+
+
+
+    loss = tf.nn    
 
     return (vectorized_corpus, vectorized_labels)
 
@@ -89,10 +103,12 @@ time_steps = 1
 vocabulary_size = word_vocab_size
 embedding_size = 300
 lstm_size = 50
-learning_rate = 0.1
+lstm_learning_rate = 0.1
+num_sampled = 64
+encoder_learning_rate = 0.01
 
 # Get array for each word in the corpus and place them in 10 timesteps formats
-x_train, y_train = corpus_to_vec(text_corpus, time_steps)
+x_train, y_train = corpus_to_vec(text_corpus, vocabulary_size, embedding_size, num_sampled, encoder_learning_rate)
 
 print("Number of Words: ", num_corpus_words)
 print("Number of Unique words:", word_vocab_size)
