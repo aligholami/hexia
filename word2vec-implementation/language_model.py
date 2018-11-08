@@ -86,7 +86,8 @@ word_vocab_size = len(word_vocab)
 num_epochs = 500
 batch_size = 200
 time_steps = 1
-num_features = word_vocab_size
+vocabulary_size = word_vocab_size
+embedding_size = 300
 lstm_size = 50
 learning_rate = 0.1
 
@@ -104,8 +105,8 @@ print("Number of Unique words:", word_vocab_size)
 g_step = tf.Variable(0, dtype=tf.int32, trainable=False, name='global_step')
 
 # Both data and labels are placeholders for scalability
-x = tf.placeholder(dtype=tf.float32, shape=[batch_size, num_features], name='x_input')
-y = tf.placeholder(dtype=tf.float32, shape=[batch_size, num_features], name='label_input')
+x = tf.placeholder(dtype=tf.float32, shape=[batch_size, embedding_size], name='x_input')
+y = tf.placeholder(dtype=tf.float32, shape=[batch_size, embedding_size], name='label_input')
 
 # Define the model
 lstm = tf.nn.rnn_cell.LSTMCell(num_units=lstm_size, dtype=tf.float32)
@@ -116,7 +117,7 @@ z_state = lstm.zero_state(batch_size=batch_size, dtype=tf.float32)
 lstm_output, state = lstm(inputs=x, state=z_state)
 
 # Final dense layer
-logits = tf.layers.dense(inputs=lstm_output, units=num_features, activation=None, use_bias=True)
+logits = tf.layers.dense(inputs=lstm_output, units=embedding_size, activation=None, use_bias=True)
 
 # Loss definition & Visualization
 cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=y))
