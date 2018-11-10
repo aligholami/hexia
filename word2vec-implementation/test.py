@@ -1,64 +1,5 @@
-import tensorflow as tf
 import numpy as np
 import math
-
-def get_ix_to_word(vocab):
-
-    ix_to_word = {ix:word  for ix, word in enumerate(vocab)}
-
-    return ix_to_word
-
-def get_word_to_ix(vocab):
-
-    word_to_ix = {word:ix for ix, word in enumerate(vocab)} 
-
-    return word_to_ix
-
-def integerize_corpus(corpus):
-    
-    word_vocab_ = get_word_vocabulary(corpus)
-    corpus_char_list = corpus.split(' ')
-
-    
-    integerize_corpus = []
-    for char in corpus_char_list:
-        char_index = 
-        integerize_corpus.append(
-    integerized_co
-    for char in corpus_chars:
-
-
-    integerized_corpus = 
-
-def generate_encoder_mini_batch(batch_size, step, window_size):
-
-    global text_corpus
-    global num_corpus_words
-
-    batch_train = np.zeros(shape=[batch_size], dtype=np.int32)
-    batch_labels = np.zeros(shape=[batch_size, 1], dtype=np.int32)
-
-    # Convert text corpus to integer
-    #################################
-    corpus_integerized = integerize_corpus(text_corpus)
-
-    local_step = step
-
-    # While !EOF
-    for sample in range(batch_size):
-
-        if((local_step + window_size + 1) <= num_corpus_words):
-
-            context_idx = [local_step + window_idx for window_idx in range(window_size)]
-            target_idx = local_step + window_size + 1
-
-            # Add context words
-            batch_train = np.append(batch_train, np.asarray(text_corpus[context_idx]))
-            batch_labels = np.append(batch_labels, np.assarray(text_corpus[target_idx]))
-
-        local_step += 1
-
-    return batch_train, batch_labels
 
 def get_num_words(sequence):
 
@@ -84,6 +25,56 @@ def get_word_vocabulary(sequence):
     
     return word_vocab
 
+def generate_encoder_mini_batch(batch_size, step, window_size):
+
+    global text_corpus
+    global num_corpus_words
+
+    batch_train = []
+    batch_labels = []
+
+    #################################
+    # Convert text corpus to integer
+    words = get_word_vocabulary(text_corpus)
+
+    dictionary = dict()
+
+    for word in words:
+        dictionary[word] = len(dictionary)
+
+    data = []
+
+    splitized_corpus = text_corpus.split()
+    for word in splitized_corpus:
+        index = dictionary.get(word, 0)
+        data.append(index)
+    
+    # Converted data into int is ready
+    ##################################
+
+    local_step = step
+
+    for sample in range(batch_size):
+
+        # While !EOF
+        if((local_step + window_size + 1) <= num_corpus_words):
+
+            context_idx = [local_step + window_idx for window_idx in range(window_size)]
+            target_idx = local_step + window_size + 1
+
+            # Add context words
+            # What did you do?
+            # Considering you as target, and the rest as context
+            # This will be stored as (what, you), (did, you), (do, you)
+            for word_idx in context_idx:
+                batch_train.append(data[word_idx])
+                batch_labels.append(data[target_idx])
+
+        local_step += 1
+    
+    # Convert to numpy array and return
+    return np.asarray(batch_train, dtype=np.int32), np.reshape(np.asarray(batch_labels, dtype=np.int32), newshape=[len(batch_labels), 1])
+
 
 # Load and preprocess the data
 text_corpus = open('../ptb.train.txt', 'r').read()
@@ -91,5 +82,11 @@ text_corpus = text_corpus.lower()
 num_corpus_words = get_num_words(text_corpus)
 word_vocab = get_word_vocabulary(text_corpus)
 word_vocab_size = len(word_vocab)
+batch_size = 16
+window_size = 3
 
-print(generate_encoder_mini_batch(5, 1, 3))
+num_steps = int(num_corpus_words/batch_size)
+
+for step in range(5):
+    print("Result for step: {0}".format(step))
+    print(generate_encoder_mini_batch(batch_size, step, window_size))

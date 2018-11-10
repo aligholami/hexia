@@ -132,6 +132,7 @@ def generate_encoder_mini_batch(batch_size, step, window_size):
     #################################
     # Convert text corpus to integer
     words = get_word_vocabulary(text_corpus)
+
     dictionary = dict()
 
     for word in words:
@@ -139,7 +140,8 @@ def generate_encoder_mini_batch(batch_size, step, window_size):
 
     data = []
 
-    for word in text_corpus:
+    splitized_corpus = text_corpus.split()
+    for word in splitized_corpus:
         index = dictionary.get(word, 0)
         data.append(index)
     
@@ -167,8 +169,7 @@ def generate_encoder_mini_batch(batch_size, step, window_size):
         local_step += 1
     
     # Convert to numpy array and return
-    return np.asarray(batch_train, dtype=np.int32),
-           np.reshape(np.asarray(batch_labels, dtype=np.int32), newshape=[len(batch_labels, 1)])
+    return np.asarray(batch_train, dtype=np.int32), np.reshape(np.asarray(batch_labels, dtype=np.int32), newshape=[len(batch_labels), 1])
 
 
 def generate_lstm_mini_batch(batch_size, step, _):
