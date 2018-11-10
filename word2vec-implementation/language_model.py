@@ -126,42 +126,49 @@ def generate_encoder_mini_batch(batch_size, step, window_size):
     global text_corpus
     global num_corpus_words
 
-    batch_train = np.zeros(shape=[batch_size], dtype=np.int32)
-    batch_labels = np.zeros(shape=[batch_size, 1], dtype=np.int32)
+    batch_train = []
+    batch_labels = []
 
-    # Convert text corpus to integer
     #################################
+    # Convert text corpus to integer
     words = get_word_vocabulary(text_corpus)
     dictionary = dict()
 
     for word in words:
         dictionary[word] = len(dictionary)
 
-    data = list()
+    data = []
 
-    for word in words:
+    for word in text_corpus:
         index = dictionary.get(word, 0)
         data.append(index)
+    
+    # Converted data into int is ready
+    ##################################
 
     local_step = step
 
-    # While !EOF
     for sample in range(batch_size):
 
+        # While !EOF
         if((local_step + window_size + 1) <= num_corpus_words):
 
             context_idx = [local_step + window_idx for window_idx in range(window_size)]
             target_idx = local_step + window_size + 1
 
             # Add context words
-            batch_train = np.append(batch_train, np.asarray(text_corpus[context_idx]))
-            batch_labels = np.append(batch_labels, np.assarray(text_corpus[target_idx]))
+            # What did you do?
+            # Considering you as target, and the rest as context
+            # This will be stored as (what, you), (did, you), (do, you)
+            for word_idx in context_idx:
+                batch_train.append(data[word_idx])
+                batch_labels.append(data[target_idx])
 
         local_step += 1
-
-    return batch_train, batch_labels
-
-
+    
+    # Convert to numpy array and return
+    return np.asarray(batch_train, dtype=np.int32),
+           np.reshape(np.asarray(batch_labels, dtype=np.int32), newshape=[len(batch_labels, 1)])
 
 
 def generate_lstm_mini_batch(batch_size, step, _):
@@ -201,7 +208,8 @@ with tf.Session() as embedding_sess:
 
         for step in range(embedding_num_steps):
 
-            x_train, y_train = generate_encoder_mini_batch(batch_size, step)
+            real_batch_size = batch_size * window_size
+            x_train, y_train = generate_encoder_mini_batch(real_batch_size, step)
             embedding_sess.run([optimize], feed_dict={em_inputs: x_train, em_labels: y_train})
 
 # Train the LSTM model
