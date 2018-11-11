@@ -1,3 +1,4 @@
+import tensorflow as tf
 import numpy as np
 import math
 
@@ -75,6 +76,39 @@ def generate_encoder_mini_batch(batch_size, step, window_size):
     # Convert to numpy array and return
     return np.asarray(batch_train, dtype=np.int32), np.reshape(np.asarray(batch_labels, dtype=np.int32), newshape=[len(batch_labels), 1])
 
+def word_embeddings(vocabulary_size):
+    
+    embedding_size = 300
+    num_sampled = 64
+    encoder_learning_rate = 0.001
+    encoder_batch_size = 144
+
+    # Integer representation of the inputs
+    train_inputs = tf.placeholder(dtype=tf.int32, shape=[encoder_batch_size])
+    train_labels = tf.placeholder(dtype=tf.int32, shape=[encoder_batch_size, 1])
+
+    embeddings = tf.Variable(tf.random_uniform([vocabulary_size, embedding_size], -1.0, 1.0))
+    embedded = tf.nn.embedding_lookup(params=embeddings, ids=train_inputs)
+
+    # Noise contrastive loss weight vector and bias
+    with tf.name_scope(name='weights'):
+        nce_weights = tf.Variable(tf.truncated_normal(shape=[vocabulary_size, embedding_size], stddev=1.0/math.sqrt(embedding_size)))
+        nce_biases = tf.Variable(tf.zeros(shape=[vocabulary_size]))
+    
+    with tf.name_scope(name='loss'):
+        loss = tf.reduce_mean(tf.nn.nce_loss(
+            weights=nce_weights,
+            biases=nce_biases,
+            labels=train_labels,
+            inputs=embedded,
+            num_sampled=num_sampled,
+            num_classes=vocabulary_size
+        ))
+
+    with tf.name_scope(name='optimizer'):
+        optimize = tf.train.GradientDescentOptimizer(learning_rate=encoder_learning_rate).minimize(loss)
+
+    return train_inputs, train_labels, embeddings, optimize, loss
 
 # Load and preprocess the data
 text_corpus = open('../ptb.train.txt', 'r').read()
@@ -84,9 +118,27 @@ word_vocab = get_word_vocabulary(text_corpus)
 word_vocab_size = len(word_vocab)
 batch_size = 16
 window_size = 3
+embedding_epochs = 500
 
 num_steps = int(num_corpus_words/batch_size)
 
-for step in range(5):
-    print("Result for step: {0}".format(step))
-    print(generate_encoder_mini_batch(batch_size, step, window_size))
+# get the word embeddings
+em_inputs, em_labels, embeddings, optimize, loss = word_embeddings(word_vocab_size)
+
+# Train the word embedding model
+with tf.Session() as embedding_sess:
+
+    embedding_sess.run(tf.initialize_all_variables())
+
+    embedding_num_steps = int(num_corpus_words / (batch_size * window_size))
+
+    for epoch in range(embedding_epochs):
+        epoch_loss = 0
+        for step in range(embedding_num_steps):
+
+            real_batch_size = batch_size * window_size
+            x_train, y_train = generate_encoder_mini_batch(real_batch_size, step, window_size)
+            _, loss_val = embedding_sess.run([optimize, loss], feed_dict={em_inputs: x_train, em_labels: y_train})  
+            epoch_loss += loss_val
+
+        print("Loss value at epoch {0}:{1}".format(epoch, epoch_loss))
