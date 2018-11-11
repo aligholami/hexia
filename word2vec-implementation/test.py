@@ -138,6 +138,8 @@ with tf.Session() as embedding_sess:
 
             real_batch_size = batch_size * window_size
             x_train, y_train = generate_encoder_mini_batch(real_batch_size, step, window_size)
+            x_train = x_train / np.sqrt((np.sum(x_train**2)))
+            y_train = y_train / np.sqrt((np.sum(y_train**2)))
             _, loss_val = embedding_sess.run([optimize, loss], feed_dict={em_inputs: x_train, em_labels: y_train})  
             epoch_loss += loss_val
 
