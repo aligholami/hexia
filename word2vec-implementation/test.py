@@ -63,6 +63,7 @@ def generate_encoder_mini_batch(batch_size, step, window_size):
             context_idx = [local_step + window_idx for window_idx in range(window_size)]
             target_idx = local_step + window_size + 1
 
+            
             # Add context words
             # What did you do?
             # Considering you as target, and the rest as context

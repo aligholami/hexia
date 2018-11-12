@@ -77,10 +77,10 @@ def word_embeddings(vocabulary_size):
 def lstm_inference(word_embeddings):
 
     num_epochs = 500
-    batch_size = 200
+    batch_size = 48
     vocabulary_size = word_vocab_size
     lstm_size = 50
-    lstm_learning_rate = 0.1
+    lstm_learning_rate = 0.001
 
     # The global step
     g_step = tf.Variable(0, dtype=tf.int32, trainable=False, name='global_step')
@@ -117,7 +117,7 @@ def lstm_inference(word_embeddings):
 
     merged_summary = tf.summary.merge_all()
 
-    return x, y, acc_op, logits, cross_entropy, opt, merged_summary
+    return x, y, acc_op, logits, cross_entropy, opt, merged_summary, g_step
 
 
 def generate_encoder_mini_batch(batch_size, step, window_size):
@@ -171,7 +171,7 @@ def generate_encoder_mini_batch(batch_size, step, window_size):
     return np.asarray(batch_train, dtype=np.int32), np.reshape(np.asarray(batch_labels, dtype=np.int32), newshape=[len(batch_labels), 1])
 
 
-def generate_lstm_mini_batch(word_embeddings, batch_size, step, _, window_size):
+def generate_lstm_mini_batch(word_embeddings, batch_size, step, window_size):
 
     global text_corpus
     global num_corpus_words
@@ -188,12 +188,14 @@ def generate_lstm_mini_batch(word_embeddings, batch_size, step, _, window_size):
     for word in words:
         dictionary[word] = len(dictionary)
 
+    
+    data = []
+
     splitized_corpus = text_corpus.split()
     for word in splitized_corpus:
         index = dictionary.get(word, 0)
         data.append(index)
 
-    
     for sample in range(batch_size):
 
         # While !EOF
@@ -204,24 +206,27 @@ def generate_lstm_mini_batch(word_embeddings, batch_size, step, _, window_size):
 
             # Get words integers
             context_idx = [local_step + window_idx for window_idx in range(window_size)]
-            for word in context_idx:
-                context_integerized.append(dictionary.get(word, 0))
 
-            target_idx = local_step + window_size + 1
-            target_integerized = dictionary.get(target_idx, 0)
+            for word_idx in context_idx:
+                context_integerized.append(dictionary.get(splitized_corpus[word_idx], 0))
+
+            target_idx = local_step + window_size
+            target_integerized = dictionary.get(splitized_corpus[target_idx], 0)
 
             # Add context words
             # What did you do?
             # Considering you as target, and the rest as context
             # This will be stored as (what, you), (did, you), (do, you)
             for word_int in context_integerized:
-                batch_train.append(word_embeddings[word_int:])
+                batch_train.append(word_embeddings[word_int, :])
             
-            batch_labels.append(word_embeddings[target_integerized:])
+            for appendix in range(window_size):
+                batch_labels.append(word_embeddings[target_integerized, :])
+
 
         local_step += 1
     
-    return np.asarray(np.reshape(batch_train, newshape=[batch_size, embedding_size])), np.asarray(np.reshape(batch_labels, newshape=[batch_size, embedding_size]))
+    return np.asarray(np.reshape(batch_train, newshape=[batch_size * window_size, embedding_size])), np.asarray(np.reshape(batch_labels, newshape=[batch_size * window_size, embedding_size]))
 
 # Load and preprocess the data
 text_corpus = open('../ptb.train.txt', 'r').read()
@@ -231,9 +236,10 @@ word_vocab = get_word_vocabulary(text_corpus)
 word_vocab_size = len(word_vocab)
 batch_size = 16
 window_size = 3
-embedding_epochs = 500
+embedding_epochs = 10
 embedding_size = 300
-learning_rate = 0.01
+learning_rate = 0.0001
+lstm_epochs = 500
 
 ###############################
 # Build the computation graph #
@@ -243,7 +249,7 @@ learning_rate = 0.01
 em_inputs, em_labels, embeddings, optimize, loss = word_embeddings(vocabulary_size=word_vocab_size)
 
 # train the classfier
-lstm_inputs, lstm_labels, lstm_acc, lstm_outputs, lstm_loss, lstm_opt, lstm_summary = lstm_inference(embeddings)
+lstm_inputs, lstm_labels, lstm_acc, lstm_outputs, lstm_loss, lstm_opt, lstm_summary, g_step = lstm_inference(embeddings)
 
 num_steps = int(num_corpus_words/batch_size)
 
@@ -277,13 +283,13 @@ with tf.Session() as lstm_sess:
 
     # Initialize the file writer for Tensorboard
     visualizer = tf.summary.FileWriter('../visualization/word2vec')
-    visualizer.add_graph(sess.graph)
+    visualizer.add_graph(lstm_sess.graph)
 
     total_loss = 0
     num_vectors = x_train.shape[0]
     num_steps = int(num_vectors / batch_size)
 
-    for epoch in range(num_epochs):
+    for epoch in range(lstm_epochs):
     
         epoch_accuracy = 0
         loss_in_epoch = 0
@@ -293,7 +299,7 @@ with tf.Session() as lstm_sess:
             x_train, y_train = generate_lstm_mini_batch(embeddings.eval(), batch_size, step, window_size)
 
             # Run on each batch of data
-            accuracy, preds, loss_val, _, visualizer_summary = lstm_sess.run([lstm_acc, lstm_outputs, lstm_loss, lstm_opt, lstm_summary], feed_dict={lstm_inputs:x_train, lstm_labels:y_train]})
+            accuracy, preds, loss_val, _, visualizer_summary, global_step = lstm_sess.run([lstm_acc, lstm_outputs, lstm_loss, lstm_opt, lstm_summary, g_step], feed_dict={lstm_inputs:x_train, lstm_labels:y_train})
             loss_in_epoch += loss_val
             epoch_accuracy += accuracy
 
@@ -303,7 +309,7 @@ with tf.Session() as lstm_sess:
         print("Accuracy at epoch {0}: {1}".format(epoch, epoch_accuracy))
 
         # Write to visualization
-        visualizer.add_summary(visualizer_summary, global_step=g_step.eval())
+        visualizer.add_summary(visualizer_summary, global_step=global_step)
 
     print("Total loss: {0}".format(total_loss))
         
