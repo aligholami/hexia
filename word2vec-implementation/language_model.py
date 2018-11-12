@@ -44,20 +44,20 @@ def word_embeddings(vocabulary_size):
     
     embedding_size = 300
     num_sampled = 64
-    encoder_learning_rate = 0.01
-    encoder_batch_size = 32
+    encoder_learning_rate = 0.001
+    encoder_batch_size = 144
 
     # Integer representation of the inputs
     train_inputs = tf.placeholder(dtype=tf.int32, shape=[encoder_batch_size])
     train_labels = tf.placeholder(dtype=tf.int32, shape=[encoder_batch_size, 1])
 
-    embeddings = tf.Variable(tf.random_uniform(shape=[vocabulary_size, embedding_size], -1.0, 1.0))
+    embeddings = tf.Variable(tf.random_uniform([vocabulary_size, embedding_size], -1.0, 1.0))
     embedded = tf.nn.embedding_lookup(params=embeddings, ids=train_inputs)
 
     # Noise contrastive loss weight vector and bias
     with tf.name_scope(name='weights'):
         nce_weights = tf.Variable(tf.truncated_normal(shape=[vocabulary_size, embedding_size], stddev=1.0/math.sqrt(embedding_size)))
-        nce_biases = tf.Variable(tf.zers(shape=[vocabulary_size]))
+        nce_biases = tf.Variable(tf.zeros(shape=[vocabulary_size]))
     
     with tf.name_scope(name='loss'):
         loss = tf.reduce_mean(tf.nn.nce_loss(
@@ -72,8 +72,7 @@ def word_embeddings(vocabulary_size):
     with tf.name_scope(name='optimizer'):
         optimize = tf.train.GradientDescentOptimizer(learning_rate=encoder_learning_rate).minimize(loss)
 
-    return train_inputs, train_labels, embeddings, optimize
-
+    return train_inputs, train_labels, embeddings, optimize, loss
 
 def lstm_inference(word_embeddings):
 
@@ -179,76 +178,86 @@ def generate_lstm_mini_batch(batch_size, step, _):
     return batch_train, batch_labels
 
 
-
-
 # Load and preprocess the data
 text_corpus = open('../ptb.train.txt', 'r').read()
 text_corpus = text_corpus.lower()
 num_corpus_words = get_num_words(text_corpus)
 word_vocab = get_word_vocabulary(text_corpus)
 word_vocab_size = len(word_vocab)
-
+batch_size = 16
+window_size = 3
+embedding_epochs = 500
+embedding_size = 300
+learning_rate = 0.01
 
 ###############################
 # Build the computation graph #
 ###############################
 
 # get the word embeddings
-em_input, em_labels, embeddings, optimize = word_embeddings()
+em_inputs, em_labels, embeddings, optimize, loss = word_embeddings(vocabulary_size=word_vocab_size)
 
 # train the classfier
 lstm_acc, lstm_outputs, lstm_loss, lstm_opt, lstm_summary = lstm_inference(embeddings)
 
+num_steps = int(num_corpus_words/batch_size)
+
 # Train the word embedding model
 with tf.Session() as embedding_sess:
 
-    embedding_sess.run(tf.local_variables_intializer())
-    embedding_sess.run(tf.global_variables_initializer())
+    embedding_sess.run(tf.initialize_all_variables())
+
+    embedding_num_steps = int(num_corpus_words / (batch_size * window_size))
 
     for epoch in range(embedding_epochs):
-
+        epoch_loss = 0
         for step in range(embedding_num_steps):
 
             real_batch_size = batch_size * window_size
-            x_train, y_train = generate_encoder_mini_batch(real_batch_size, step)
-            embedding_sess.run([optimize], feed_dict={em_inputs: x_train, em_labels: y_train})
+            x_train, y_train = generate_encoder_mini_batch(real_batch_size, step, window_size)
+            x_train = x_train / np.sqrt((np.sum(x_train**2)))
+            y_train = y_train / np.sqrt((np.sum(y_train**2)))
+            _, loss_val = embedding_sess.run([optimize, loss], feed_dict={em_inputs: x_train, em_labels: y_train})  
+            epoch_loss += loss_val
 
-# Train the LSTM model
-with tf.Session() as lstm_sess:
+        print("Loss value at epoch {0}:{1}".format(epoch, epoch_loss))
 
-    lstm_sess.run(tf.local_variables_initializer())
-    lstm_sess.run(tf.global_variables_initializer())
+# # Train the LSTM model
+# with tf.Session() as lstm_sess:
 
-    # Initialize the file writer for Tensorboard
-    visualizer = tf.summary.FileWriter('../visualization/word2vec')
-    visualizer.add_graph(sess.graph)
+#     lstm_sess.run(tf.local_variables_initializer())
+#     lstm_sess.run(tf.global_variables_initializer())
 
-    total_loss = 0
-    num_vectors = x_train.shape[0]
-    num_steps = int(num_vectors / batch_size)
+#     # Initialize the file writer for Tensorboard
+#     visualizer = tf.summary.FileWriter('../visualization/word2vec')
+#     visualizer.add_graph(sess.graph)
 
-    for epoch in range(num_epochs):
+#     total_loss = 0
+#     num_vectors = x_train.shape[0]
+#     num_steps = int(num_vectors / batch_size)
+
+#     for epoch in range(num_epochs):
     
-        epoch_accuracy = 0
-        loss_in_epoch = 0
+#         epoch_accuracy = 0
+#         loss_in_epoch = 0
 
-        for step in range(num_steps):
+#         for step in range(num_steps):
 
-            x_train, y_train = generate_lstm_mini_batch(batch_size, step)
+#             x_train, y_train = generate_lstm_mini_batch(batch_size, step)
             
-            # Run on each batch of data
-            accuracy, preds, loss_val, _, visualizer_summary = lstm_sess.run([lstm_acc, lstm_outputs, lstm_loss, lstm_opt, lstm_summary], feed_dict={x:x_train, y:y_train]})
-            loss_in_epoch += loss_val
-            epoch_accuracy += accuracy
+#             # Run on each batch of data
+#             accuracy, preds, loss_val, _, visualizer_summary = lstm_sess.run([lstm_acc, lstm_outputs, lstm_loss, lstm_opt, lstm_summary], feed_dict={x:x_train, y:y_train]})
+#             loss_in_epoch += loss_val
+#             epoch_accuracy += accuracy
 
-        total_loss += loss_in_epoch
-        epoch_accuracy = epoch_accuracy / num_steps
-        print("Loss at epoch {0}: {1}".format(epoch, loss_in_epoch))
-        print("Accuracy at epoch {0}: {1}".format(epoch, epoch_accuracy))
+#         total_loss += loss_in_epoch
+#         epoch_accuracy = epoch_accuracy / num_steps
+#         print("Loss at epoch {0}: {1}".format(epoch, loss_in_epoch))
+#         print("Accuracy at epoch {0}: {1}".format(epoch, epoch_accuracy))
 
-        # Write to visualization
-        visualizer.add_summary(visualizer_summary, global_step=g_step.eval())
+#         # Write to visualization
+#         visualizer.add_summary(visualizer_summary, global_step=g_step.eval())
 
-    print("Total loss: {0}".format(total_loss))
+#     print("Total loss: {0}".format(total_loss))
         
 
