@@ -1,4 +1,5 @@
 # Visual Question Answering with Stacked Attention Networks
+[![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
 
 In this project, we will analyze different methods for building a VQA systems. Our goal is to first produce promising results with basic archtiectures and then develop the model to a degree in which **reasoning** is being done at its best possible state.
 
