@@ -28,4 +28,9 @@ class DataGenerator:
             
             image_batch_ids = get_image_id(target_files)
 
+            # Parse JSONs and get question and answer for these batch of images
+
+
+            # Return a triple of img, question and answer
+            
             yield image_batch_ids
