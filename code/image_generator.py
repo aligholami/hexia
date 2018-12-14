@@ -16,5 +16,5 @@ class ImageGenerator:
         
         return data_generator
 
-    
+     
         
