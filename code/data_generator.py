@@ -41,9 +41,7 @@ class DataGenerator:
             
             image_batch_ids = get_image_id(target_files)
 
-
-            # Parse JSONs and get question and answer for these batch of images
-
+            # Parse questions and answers
             for img_id in image_batch_ids:
                 img_question_list = []
                 img_answer_list = []
@@ -56,17 +54,5 @@ class DataGenerator:
                     if(entry['image_id'] == int(img_id)):
                         img_answer_list.append(entry['answers'][0]['answer'])
 
-                # for entry in self.a_data['answers']:
-
-                #     if(entry['image_id'] == int(img_id)):
-                #         img_answer_list.append(entry['a'])
-
-                print("Image id: ", img_id)
-                print("Questions: ", img_question_list)
-                print("Answers: ", img_answer_list)
-                print("***************************")
-
-
-            # Return a triple of img, question and answer
-
-            yield image_batch_ids
+                for entry in range(len(img_question_list)):
+                    yield i, img_question_list[entry], img_answer_list[entry]
