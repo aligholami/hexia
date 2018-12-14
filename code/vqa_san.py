@@ -6,7 +6,7 @@ class VQA_SAN:
     PATH_TO_TRAIN_IMAGES = '../data/train/images'
     PATH_TO_TRAIN_QUESTIONS = '../data/train/questions/v2_OpenEnded_mscoco_train2014_questions.json'
     PATH_TO_TRAIN_ANSWERS = '../data/train/answers/v2_mscoco_train2014_annotations.json'
-    BATCH_SIZE = 5
+    BATCH_SIZE = 30
     
     def __init__(self):
 

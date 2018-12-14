@@ -1,4 +1,5 @@
 from image_generator import ImageGenerator
+from utils import get_image_id
 # from text_generator import TextGenerator
 
 class DataGenerator:
@@ -21,7 +22,10 @@ class DataGenerator:
 
 
         for i in train_image_generator:
-            idx = (train_image_generator.batch_index - 1) * train_image_generator.batch_size
-            target_file = train_image_generator.filenames[idx: idx + train_image_generator.batch_size]
 
-            yield target_file
+            idx = (train_image_generator.batch_index - 1) * train_image_generator.batch_size
+            target_files = train_image_generator.filenames[idx: idx + train_image_generator.batch_size]
+            
+            image_batch_ids = get_image_id(target_files)
+
+            yield image_batch_ids
