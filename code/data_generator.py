@@ -1,5 +1,7 @@
 from image_generator import ImageGenerator
 from utils import get_image_id
+import json
+
 # from text_generator import TextGenerator
 
 class DataGenerator:
@@ -11,7 +13,18 @@ class DataGenerator:
         self.image_rescale = image_rescale
         self.image_horizontal_flip = image_horizontal_flip
         self.image_target_size = image_target_size
+        
+        # Load Questions and Answers JSON into memory
+        self.load_qa_into_mem()
+    
+    def load_qa_into_mem(self):
 
+        with open(self.q_path, encoding='utf-8') as q_file:
+            self.q_data = json.loads(q_file.read())
+
+        with open(self.a_path, encoding='utf-8') as a_file:
+            self.a_data = json.loads(a_file.read())
+        
     def mini_batch_generator(self, batch_size):
         
         # Generate a batch of images
@@ -28,9 +41,32 @@ class DataGenerator:
             
             image_batch_ids = get_image_id(target_files)
 
+
             # Parse JSONs and get question and answer for these batch of images
+
+            for img_id in image_batch_ids:
+                img_question_list = []
+                img_answer_list = []
+                for entry in self.q_data['questions']:
+                    if(entry['image_id'] == int(img_id)):
+                        img_question_list.append(entry['question'])
+
+
+                for entry in self.a_data['annotations']:
+                    if(entry['image_id'] == int(img_id)):
+                        img_answer_list.append(entry['answers'][0]['answer'])
+
+                # for entry in self.a_data['answers']:
+
+                #     if(entry['image_id'] == int(img_id)):
+                #         img_answer_list.append(entry['a'])
+
+                print("Image id: ", img_id)
+                print("Questions: ", img_question_list)
+                print("Answers: ", img_answer_list)
+                print("***************************")
 
 
             # Return a triple of img, question and answer
-            
+
             yield image_batch_ids
