@@ -7,7 +7,7 @@
 
 </div>
 
-In this project, we will analyze different methods for building a VQA systems. Our goal is to first produce promising results with basic archtiectures and then develop the model to a degree in which **reasoning** is being done at its best possible state.
+In this project, we will analyze different methods for building a VQA system. Our goal is to first produce promising results with basic archtiectures and then develop the model to a degree in which **reasoning** is being done at its best possible state.
 
 ## Baseline 1
 
