@@ -7,7 +7,8 @@ class VQA_SAN:
     PATH_TO_TRAIN_IMAGES = '../data/train/images/full-image-dir'
     PATH_TO_TRAIN_QUESTIONS = '../data/train/questions/v2_OpenEnded_mscoco_train2014_questions.json'
     PATH_TO_TRAIN_ANSWERS = '../data/train/answers/v2_mscoco_train2014_annotations.json'
-    BATCH_SIZE = 1
+    BATCH_SIZE = 32
+    PREFETCH = 32
     
     def __init__(self):
 
@@ -23,17 +24,13 @@ class VQA_SAN:
         
         train_generator = train_generator.mini_batch_generator(batch_size=self.BATCH_SIZE)
         
-        # # Connect to Tensorflow dataset API
-        # train_data = tf.data.Dataset.from_generator(
-        #     generator=train_generator,
-        #     output_types=
-        # )
+        train_data = tf.data.Dataset.from_generator(
+            generator=train_generator,
+            output_types=(tf.float32, tf.string, tf.string),
+            output_shapes=(tf.TensorShape[None], tf.TensorShape[None], tf.TensorShape[None]),
+        ).batch(self.BATCH_SIZE).prefetch(self.PREFETCH)
 
+        iterator = train_data.make_initializable_iterator()
 
-        
-
-
-
-
-        return train_generator
+        self.img, self.question, self.answer = iterator.get_next()
 
