@@ -1,12 +1,13 @@
 import tensorflow as tf
 from data_generator import DataGenerator
-import utils
+from utils import load_embedding_from_disks
 
 class VQA_SAN:
 
     PATH_TO_TRAIN_IMAGES = '../data/train/images/full-image-dir'
     PATH_TO_TRAIN_QUESTIONS = '../data/train/questions/v2_OpenEnded_mscoco_train2014_questions.json'
     PATH_TO_TRAIN_ANSWERS = '../data/train/answers/v2_mscoco_train2014_annotations.json'
+    PATH_TO_TRAINED_GLOVE = '../models/GloVe/glovefile.txt'
     BATCH_SIZE = 32
     PREFETCH = 32
     
@@ -34,5 +35,6 @@ class VQA_SAN:
 
         self.img, self.question, self.answer = iterator.get_next()
         
-        
+        # Load pretrained GloVe model
+        word_to_index, index_to_embedding = load_embedding_from_disks(GLOVE_FILENAME, with_indexes=True)
 

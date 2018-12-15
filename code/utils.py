@@ -13,6 +13,9 @@ def load_embedding_from_disks(glove_filename, with_indexes=True):
     `(word_to_index_dict, index_to_embedding_array)`, otherwise we return only a direct 
     `word_to_embedding_dict` dictionnary mapping from a string to a numpy array.
     """
+
+    print("Loading embedding from disks...")
+
     if with_indexes:
         word_to_index_dict = dict()
         index_to_embedding_array = []
@@ -43,6 +46,7 @@ def load_embedding_from_disks(glove_filename, with_indexes=True):
         _LAST_INDEX = i + 1
         word_to_index_dict = defaultdict(lambda: _LAST_INDEX, word_to_index_dict)
         index_to_embedding_array = np.array(index_to_embedding_array + [_WORD_NOT_FOUND])
+        print("Embedding loaded from disks.")
         return word_to_index_dict, index_to_embedding_array
     else:
         word_to_embedding_dict = defaultdict(lambda: _WORD_NOT_FOUND)
