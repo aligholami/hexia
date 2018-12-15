@@ -33,4 +33,6 @@ class VQA_SAN:
         iterator = train_data.make_initializable_iterator()
 
         self.img, self.question, self.answer = iterator.get_next()
+        
+        
 
