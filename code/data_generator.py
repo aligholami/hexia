@@ -1,6 +1,7 @@
-from image_generator import ImageGenerator
+import cv2
 from utils import get_image_id
 import json
+import os
 
 # from text_generator import TextGenerator
 
@@ -18,6 +19,9 @@ class DataGenerator:
         self.load_qa_into_mem()
     
     def load_qa_into_mem(self):
+        
+        # Load all image files of directory into the memory
+        self.image_list = os.listdir(self.image_path)
 
         with open(self.q_path, encoding='utf-8') as q_file:
             self.q_data = json.loads(q_file.read())
@@ -30,36 +34,30 @@ class DataGenerator:
         # Generate a batch of images
         # for each image in the batch generate 
 
-        train_image_generator = ImageGenerator(path_to_generate=self.image_path, rescale=1, horizontal_flip=False, target_size=(150, 150))
-        train_image_generator = train_image_generator.image_mb_generator(batch_size=batch_size)
-        
-        for image_batch in train_image_generator:
-            batch_data = []
-            idx = (train_image_generator.batch_index - 1) * train_image_generator.batch_size
-            target_files = train_image_generator.filenames[idx: idx + train_image_generator.batch_size]
-            image_batch_ids = get_image_id(target_files)
+        # For each file in the image list
+        for image_name in self.image_list:   
 
-            for img_id in image_batch_ids:
-                img_no = 0
-                img_question_list = []
-                img_answer_list = []
+            # Read image from directory
+            img = cv2.imread(self.image_path + image_name)
 
-                for entry in self.q_data['questions']:
-                    if(entry['image_id'] == int(img_id)):
-                        img_question_list.append(entry['question'])
-                
-                for entry in self.a_data['annotations']:
-                    if(entry['image_id'] == int(img_id)):
-                        img_answer_list.append(entry['answers'][0]['answer'])
+            # Extract the image ID
+            image_id = get_image_id(image_name)
 
-                for item in range(len(img_question_list)):
-                    batch_item = {}
-                    batch_item['question'] = img_question_list[item]
-                    batch_item['answer'] = img_answer_list[item]
-                    batch_item['image'] = image_batch[img_no]
-                    batch_data.append(batch_item)
+            # Extract questions and answers from the JSON files
+            img_question_list = []
+            img_answer_list = []
+
+            for entry in self.q_data['questions']:
+                if(entry['image_id'] == int(img_id)):
+                    img_question_list.append(entry['question'])
             
-                img_no += 1
-            print("Batch data size: ", len(batch_data))
+            for entry in self.a_data['annotations']:
+                if(entry['image_id'] == int(img_id)):
+                    img_answer_list.append(entry['answers'][0]['answer'])
 
-            yield batch_data
+            for item in range(len(img_question_list)):
+                batch_item = {}
+                batch_item['question'] = img_question_list[item]
+                batch_item['answer'] = img_answer_list[item]
+                batch_item['image'] = image_batch[img_no]
+                yield (batch_item['image'], batch_item['question'], batch_item['answer'])
