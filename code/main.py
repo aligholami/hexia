@@ -3,6 +3,7 @@ from vqa_san import VQA_SAN
 vqa_model = VQA_SAN()
 
 
-data_batch = vqa_model.get_data().__next__()
+data_gen = vqa_model.get_data()
 
-print(data_batch)
+for i in range(10):
+    print(data_gen.__next__())

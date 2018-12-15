@@ -38,10 +38,10 @@ class DataGenerator:
         for image_name in self.image_list:   
 
             # Read image from directory
-            img = cv2.imread(self.image_path + image_name)
+            img = cv2.imread(os.path.join(self.image_path, image_name))
 
             # Extract the image ID
-            image_id = get_image_id(image_name)
+            img_id = get_image_id(image_name)
 
             # Extract questions and answers from the JSON files
             img_question_list = []
@@ -59,5 +59,5 @@ class DataGenerator:
                 batch_item = {}
                 batch_item['question'] = img_question_list[item]
                 batch_item['answer'] = img_answer_list[item]
-                batch_item['image'] = image_batch[img_no]
+                batch_item['image'] = img
                 yield (batch_item['image'], batch_item['question'], batch_item['answer'])
