@@ -37,4 +37,5 @@ class VQA_SAN:
         
         # Load pretrained GloVe model
         word_to_index, index_to_embedding = load_embedding_from_disks(GLOVE_FILENAME, with_indexes=True)
+        
 
