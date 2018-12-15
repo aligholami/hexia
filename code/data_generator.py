@@ -38,9 +38,9 @@ class DataGenerator:
             idx = (train_image_generator.batch_index - 1) * train_image_generator.batch_size
             target_files = train_image_generator.filenames[idx: idx + train_image_generator.batch_size]
             image_batch_ids = get_image_id(target_files)
-            img_no = 0
 
             for img_id in image_batch_ids:
+                img_no = 0
                 img_question_list = []
                 img_answer_list = []
 
@@ -60,5 +60,6 @@ class DataGenerator:
                     batch_data.append(batch_item)
             
                 img_no += 1
-            
+            print("Batch data size: ", len(batch_data))
+
             yield batch_data
