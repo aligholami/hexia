@@ -32,27 +32,33 @@ class DataGenerator:
 
         train_image_generator = ImageGenerator(path_to_generate=self.image_path, rescale=1, horizontal_flip=False, target_size=(150, 150))
         train_image_generator = train_image_generator.image_mb_generator(batch_size=batch_size)
-
-
-        for i in train_image_generator:
-
+        
+        for image_batch in train_image_generator:
+            batch_data = []
             idx = (train_image_generator.batch_index - 1) * train_image_generator.batch_size
             target_files = train_image_generator.filenames[idx: idx + train_image_generator.batch_size]
-            
             image_batch_ids = get_image_id(target_files)
+            img_no = 0
 
-            # Parse questions and answers
             for img_id in image_batch_ids:
                 img_question_list = []
                 img_answer_list = []
+
                 for entry in self.q_data['questions']:
                     if(entry['image_id'] == int(img_id)):
                         img_question_list.append(entry['question'])
-
-
+                
                 for entry in self.a_data['annotations']:
                     if(entry['image_id'] == int(img_id)):
                         img_answer_list.append(entry['answers'][0]['answer'])
 
-                for entry in range(len(img_question_list)):
-                    yield i, img_question_list[entry], img_answer_list[entry]
+                for item in range(len(img_question_list)):
+                    batch_item = {}
+                    batch_item['question'] = img_question_list[item]
+                    batch_item['answer'] = img_answer_list[item]
+                    batch_item['image'] = image_batch[img_no]
+                    batch_data.append(batch_item)
+            
+                img_no += 1
+            
+            yield batch_data
