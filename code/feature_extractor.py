@@ -48,5 +48,10 @@ class FeatureExtractor:
 
         return scaled_input
 
+    def maxpool(inputs, k_size, stride, padding, scope_name):
 
+        with tf.variable_scope(scope_name, reuse=tf.AUTO_REUSE) as scope:
+            pool = tf.nn.max_pool(value=inputs, ksize=[1, k_size, k_size, 1], strides=[1, stride, stride, 1], padding=padding)
+            
+        return pool
 
