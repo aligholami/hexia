@@ -48,11 +48,22 @@ class VQA_SAN:
         
         # Word embeddings
         word_vectorizer = WordVectorizer(batch_size=self.BATCH_SIZE,
-                                         emebedding_matrix_shape=,
                                          glove_file_path=self.PATH_TO_TRAINED_GLOVE)
 
         # Obtain image feature maps
         image_feature_map = feature_extractor.assemble_cnn_model(self.img)
+
+        # Obtain word embeddings 
+        word_glove_vector = word_vectorizer.generate_word_vector(self.answer)
+
+        # Obtain sentence embeddings
+        # sentence_glove_vector = sentence_vectorizer.generate_sentence_vector(self.question)
+        # *******************************************************************
+
+        # Concatenate image feature map and sentence feature map
+        image_question_vector = tf.concat(concat_dim=0, values=[image_feature_map, sentence_glove_vector], name='feature_merger')
+
+        
 
 
 
