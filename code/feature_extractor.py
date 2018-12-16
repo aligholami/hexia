@@ -6,13 +6,13 @@ class FeatureExtractor:
     # CNN_INPUT_WIDTH = 256
     # CNN_INPUT_CHANNELS = 3
 
-    CONV1_NUM_FILTERS = 66
+    CONV1_NUM_FILTERS = 20
     CONV1_FILTER_SIZE = 3
 
-    CONV2_NUM_FILTERS = 128
+    CONV2_NUM_FILTERS = 40
     CONV2_FILTER_SIZE = 3
 
-    CONV3_NUM_FILTERS = 128
+    CONV3_NUM_FILTERS = 60
     CONV3_FILTER_SIZE = 3
 
     def __init__(self, keep_prob, flatten=True):
@@ -89,7 +89,7 @@ class FeatureExtractor:
 
         # Perform a relu and return
         # return tf.nn.relu(scaled_batch + biases, name=scope.name)
-        return tf.nn.relu(do_scaled_batch + biases, name='relu')
+        return tf.nn.relu(do_scaled_batch + biases, name='relu')    
 
     def scale(self, inputs, scope_name):
 

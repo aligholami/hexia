@@ -1,4 +1,6 @@
 import tensorflow as tf
+from feature_extractor import FeatureExtractor
+from word_vectorizer import WordVectorizer
 from data_generator import DataGenerator
 from utils import load_embedding_from_disks
 
@@ -38,4 +40,20 @@ class VQA_SAN:
         # Load pretrained GloVe model
         word_to_index, index_to_embedding = load_embedding_from_disks(GLOVE_FILENAME, with_indexes=True)
         
+
+    def build_model(self):
+
+        # Feature extraction for the image
+        feature_extractor = FeatureExtractor(flatten=True)
+        
+        # Word embeddings
+        word_vectorizer = WordVectorizer(batch_size=self.BATCH_SIZE,
+                                         emebedding_matrix_shape=,
+                                         glove_file_path=self.PATH_TO_TRAINED_GLOVE)
+
+        # Obtain image feature maps
+        image_feature_map = feature_extractor.assemble_cnn_model(self.img)
+
+
+
 
