@@ -14,8 +14,8 @@ class VQA_SAN:
     BATCH_SIZE = 32
     PREFETCH = 32
     
+    
     def __init__(self):
-
         pass;
 
     def get_data(self):
@@ -49,7 +49,7 @@ class VQA_SAN:
                                          glove_file_path=self.PATH_TO_TRAINED_GLOVE)
 
         # Classifer
-        classifier = Classifier()
+        classifier = Classifier(num_classes)
 
         # Obtain image feature maps
         image_feature_map = feature_extractor.generate_image_feature_map(self.img)
@@ -65,6 +65,8 @@ class VQA_SAN:
         image_question_vector = tf.concat(concat_dim=0, values=[image_feature_map, sentence_glove_vector], name='feature_merger')
 
         predictions = classifier.classify_input(image_question_vector)
+
+
 
 
 
