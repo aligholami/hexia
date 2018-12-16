@@ -23,7 +23,7 @@ class FeatureExtractor:
             norm = tf.layers.batch_normalization(inputs=conv, name='batch_norm')
 
             # Scale the normalized batch
-            scaled_batch = scale(inputs=norm, scope_name='scale')
+            scaled_batch = self.scale(inputs=norm, scope_name='scale')
 
             # Perform a dropout on the input
             do_scaled_batch = tf.nn.dropout(
@@ -35,6 +35,18 @@ class FeatureExtractor:
         # Perform a relu and return
         # return tf.nn.relu(scaled_batch + biases, name=scope.name)
         return tf.nn.relu(do_scaled_batch + biases, name='relu')
+
+    def scale(self, inputs, scope_name):
+
+        with tf.variable_scope(scope_name, reuse=tf.AUTO_REUSE) as scope:
+
+            in_dim = inputs.shape[-1]
+            alpha = tf.get_variable(name='alpha', shape=(in_dim, ), trainable=True)
+            beta = tf.get_variable(name='beta', shape=(in_dim, ), trainable=True)
+
+            scaled_input = alpha * inputs + beta
+
+        return scaled_input
 
 
 
