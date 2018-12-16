@@ -2,6 +2,19 @@ import tensorflow as tf
 
 class FeatureExtractor:
 
+    # CNN_INPUT_HEIGHT = 256
+    # CNN_INPUT_WIDTH = 256
+    # CNN_INPUT_CHANNELS = 3
+
+    CONV1_NUM_FILTERS = 66
+    CONV1_FILTER_SIZE = 3
+
+    CONV2_NUM_FILTERS = 128
+    CONV2_FILTER_SIZE = 3
+
+    CONV3_NUM_FILTERS = 128
+    CONV3_FILTER_SIZE = 3
+
     def __init__(self, keep_prob, flatten=True):
         
         self.keep_prob = keep_prob
@@ -11,8 +24,8 @@ class FeatureExtractor:
 
         conv1 = self.conv_bn_sc_relu(
             inputs=cnn_input,
-            filters=CONV1_NUM_FILTERS,
-            k_size=CONV1_FILTER_SIZE,
+            filters=self.CONV1_NUM_FILTERS,
+            k_size=self.CONV1_FILTER_SIZE,
             stride=1,
             padding='SAME',
             scope_name='conv_1',
@@ -21,8 +34,8 @@ class FeatureExtractor:
     
         conv2 = self.conv_bn_sc_relu(
             inputs=conv1,
-            filters=CONV2_NUM_FILTERS,
-            k_size=CONV2_FILTER_SIZE,
+            filters=self.CONV2_NUM_FILTERS,
+            k_size=self.CONV2_FILTER_SIZE,
             stride=1,
             padding='SAME',
             scope_name='conv_2',
@@ -31,8 +44,8 @@ class FeatureExtractor:
 
         conv3 = self.conv_bn_sc_relu(
             inputs=conv2,
-            filters=CONV3_NUM_FILTERS,
-            k_size=CONV3_FILTER_SIZE,
+            filters=self.CONV3_NUM_FILTERS,
+            k_size=self.CONV3_FILTER_SIZE,
             stride=1,
             padding='SAME',
             scope_name='conv_3',
