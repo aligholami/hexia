@@ -20,7 +20,7 @@ class FeatureExtractor:
         self.keep_prob = keep_prob
         self.flatten = flatten
 
-    def assemble_cnn_model(self, cnn_input):
+    def generate_image_feature_map(self, cnn_input):
 
         conv1 = self.conv_bn_sc_relu(
             inputs=cnn_input,
@@ -53,16 +53,18 @@ class FeatureExtractor:
         )
 
         if(self.flatten == False):
+
             return conv3
 
         else:
+
             flattened = tf.layers.flatten(
-                inputs=conv3,
+                inputs=global_pool,
                 name='flatten_input'
             )
 
             return flattened
-    
+
     def conv_bn_sc_relu(self, inputs, filters, k_size, stride, padding, scope_name, keep_prob):
 
         with tf.variable_scope(scope_name, reuse=tf.AUTO_REUSE) as scope:
