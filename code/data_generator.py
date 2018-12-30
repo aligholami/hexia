@@ -28,7 +28,16 @@ class DataGenerator:
 
         with open(self.a_path, encoding='utf-8') as a_file:
             self.a_data = json.loads(a_file.read())
+    
+    def confidence_to_one_hot(self, confidence_list):
         
+        # confidences for (yes) / (maybe, no)
+        one_hot_confidences = [0, 0]
+
+        one_hot_confidences = [if x is 'yes' [1, 0] else [0, 1] for x in confidence_list]
+
+        return one_hot_confidences
+
     def mini_batch_generator(self, batch_size):
         
         # Generate a batch of images
@@ -46,6 +55,7 @@ class DataGenerator:
             # Extract questions and answers from the JSON files
             img_question_list = []
             img_answer_list = []
+            iqa_label_list = []
 
             for entry in self.q_data['questions']:
                 if(entry['image_id'] == int(img_id)):
@@ -53,11 +63,17 @@ class DataGenerator:
             
             for entry in self.a_data['annotations']:
                 if(entry['image_id'] == int(img_id)):
-                    img_answer_list.append(entry['answers'][0]['answer'])
+                    for i in entry['answers']:
+                        img_answer_list.append(entry['answers'][i]['answer'])
+                        iqa_label_list.append(entry['answers'][i]['confidence'])
+            
+            # Grab one-hot vectors for the confidences list
+            one_hot_iqa = confidence_to_one_hot(iqa_label_list)
 
-            for item in range(len(img_question_list)):
+            for item in range(len(iqa_label_list)):
                 batch_item = {}
+                batch_item['image'] = img
                 batch_item['question'] = img_question_list[item]
                 batch_item['answer'] = img_answer_list[item]
-                batch_item['image'] = img
-                yield (batch_item['image'], batch_item['question'], batch_item['answer'])
+                batch_item['iqa_label'] = one_hot_iqa[item]     # one-hot labels
+                yield (batch_item['image'], batch_item['question'], batch_item['answer'], batch_item['iqa_label'])
