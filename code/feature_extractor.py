@@ -20,37 +20,39 @@ class FeatureExtractor:
         self.keep_prob = keep_prob
         self.flatten = flatten
 
-    def generate_image_feature_map(self, cnn_input):
+    def generate_image_feature_map(self, cnn_input, name='fe_conv'):
 
-        conv1 = self.conv_bn_sc_relu(
-            inputs=cnn_input,
-            filters=self.CONV1_NUM_FILTERS,
-            k_size=self.CONV1_FILTER_SIZE,
-            stride=1,
-            padding='SAME',
-            scope_name='conv_1',
-            keep_prob=self.keep_prob
-        )
-    
-        conv2 = self.conv_bn_sc_relu(
-            inputs=conv1,
-            filters=self.CONV2_NUM_FILTERS,
-            k_size=self.CONV2_FILTER_SIZE,
-            stride=1,
-            padding='SAME',
-            scope_name='conv_2',
-            keep_prob=self.keep_prob
-        )
+        with tf.name_scope(name=name):
+            
+            conv1 = self.conv_bn_sc_relu(
+                inputs=cnn_input,
+                filters=self.CONV1_NUM_FILTERS,
+                k_size=self.CONV1_FILTER_SIZE,
+                stride=1,
+                padding='SAME',
+                scope_name='conv_1',
+                keep_prob=self.keep_prob
+            )
+        
+            conv2 = self.conv_bn_sc_relu(
+                inputs=conv1,
+                filters=self.CONV2_NUM_FILTERS,
+                k_size=self.CONV2_FILTER_SIZE,
+                stride=1,
+                padding='SAME',
+                scope_name='conv_2',
+                keep_prob=self.keep_prob
+            )
 
-        conv3 = self.conv_bn_sc_relu(
-            inputs=conv2,
-            filters=self.CONV3_NUM_FILTERS,
-            k_size=self.CONV3_FILTER_SIZE,
-            stride=1,
-            padding='SAME',
-            scope_name='conv_3',
-            keep_prob=self.keep_prob
-        )
+            conv3 = self.conv_bn_sc_relu(
+                inputs=conv2,
+                filters=self.CONV3_NUM_FILTERS,
+                k_size=self.CONV3_FILTER_SIZE,
+                stride=1,
+                padding='SAME',
+                scope_name='conv_3',
+                keep_prob=self.keep_prob
+            )
 
         if(self.flatten == False):
 
