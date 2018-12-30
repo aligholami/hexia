@@ -9,7 +9,7 @@ class WordVectorizer:
         self.emebedding_matrix_shape = emebedding_matrix_shape
         self.word_to_index, self.index_to_embedding = load_embedding_from_disks(glove_file_path, with_indexes=True)
 
-    def generate_word_vector(self, target_words):
+    def generate_word_vector(self, target_word):
         
         # define the variable that holds the embedding
         tf_embedding = tf.Variable(
@@ -22,8 +22,21 @@ class WordVectorizer:
         # Note: target_words is a placeholder
         vectorized_representation = tf.nn.embedding_lookup(
             params=tf_embedding,
-            ids=target_words
+            ids=target_word
         )
 
         return vectorized_representation
 
+    def generate_question_vector(self, target_sentence):
+
+        # define the variable that holds the embedding
+        tf_embedding = tf.Variable(
+            tf.constant(0.0, shape=self.index_to_embedding.shape),
+            trainable=False,
+            name='sentence_embedding'
+        )
+
+        target_words = tf.string_split(target_sentence, delimiter="")
+        sentence_mean_embedding = tf.reduce_mean(tf.map_fn(lambda target_word: tf.nn.embedding_lookup(params=tf_embedding, ids=target_word), target_words))
+
+        return sentence_mean_embedding

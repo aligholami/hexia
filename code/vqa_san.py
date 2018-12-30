@@ -13,6 +13,7 @@ class VQA_SAN:
     PATH_TO_TRAINED_GLOVE = '../models/GloVe/glovefile.txt'
     BATCH_SIZE = 32
     PREFETCH = 32
+    NUM_CLASSES = 2     # Correct/Incorrect
     
     
     def __init__(self):
@@ -36,7 +37,7 @@ class VQA_SAN:
 
         iterator = train_data.make_initializable_iterator()
 
-        self.img, self.question, self.answer = iterator.get_next()
+        self.img, self.question, self.answer, self.label = iterator.get_next()
         
 
     def build_model(self):
@@ -49,22 +50,23 @@ class VQA_SAN:
                                          glove_file_path=self.PATH_TO_TRAINED_GLOVE)
 
         # Classifer
-        classifier = Classifier(num_classes)
+        classifier = Classifier(self.NUM_CLASSES)
 
         # Obtain image feature maps
         image_feature_map = feature_extractor.generate_image_feature_map(self.img)
 
-        # Obtain word embeddings 
-        word_glove_vector = word_vectorizer.generate_word_vector(self.answer)
+        # Obtain answer embeddings
+        answer_glove_vector = word_vectorizer.generate_word_vector(self.answer)
 
         # Obtain sentence embeddings
+        sentence_glove_vector = word_vectorizer.generate_sentence_vector(self.question)
         # sentence_glove_vector = sentence_vectorizer.generate_sentence_vector(self.question)
         # *******************************************************************
 
         # Concatenate image feature map and sentence feature map
-        image_question_vector = tf.concat(concat_dim=0, values=[image_feature_map, sentence_glove_vector], name='feature_merger')
+        iqa_vector = tf.concat(concat_dim=0, values=[image_feature_map, sentence_glove_vector, answer_glove_vector], name='feature_merger')
 
-        predictions = classifier.classify_input(image_question_vector)
+        predictions = classifier.classify_input(iqa_vector)
 
 
 
