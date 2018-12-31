@@ -23,6 +23,8 @@ class VQA_SAN:
         # Define global step variable
         self.g_step = tf.Variable(0, dtype=tf.int32, trainable=False, name='global_step')
 
+        self.skip_steps = 100
+
     def get_data(self):
 
         # Setup the generator
@@ -128,12 +130,19 @@ class VQA_SAN:
         
         # Initialize input data based on the training or validation
         self.init = init
+        
+        total_loss = 0
 
         try:
             while True:
                 # Get accuracy, loss value and optimize the network + summary of validation
-                step_accuracy, step_loss, _, step_summary= sess.run([self.accuracy, self.loss, self.opt, self.summary])
+                step_accuracy, step_loss, _, step_summary= sess.run([self.accuracy, self.loss_val, self.opt, self.summary])
 
+                step += 1
+                total_loss += step_loss
+
+                if((step + 1) % self.skip_steps == 0):
+                    print('Loss at step {}: {}'.format(step, step_loss))
 
         except tf.errors.OutOfRangeError:
             pass;
@@ -143,11 +152,15 @@ class VQA_SAN:
         # Initialize input data based on the training or validation
         self.init = init
 
+        total_loss = 0
+
         try:
             while True:
                 # Get accuracy and summary of validation
-                step_accuracy, step_summary = sess.run([self.accuracy, self.summary])
-
+                step_accuracy, step_loss, step_summary = sess.run([self.accuracy, self.loss_val, self.summary])
+                
+                step += 1
+                total_loss += step_loss
 
         except tf.errors.OutOfRangeError:
             pass;
