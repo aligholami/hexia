@@ -17,7 +17,9 @@ class VQA_SAN:
     
     
     def __init__(self):
-        pass;
+
+        # Define global step variable
+        self.g_step = tf.Variable(0, dtype=tf.int32, trainable=False, name='global_step')
 
     def get_data(self):
 
@@ -43,11 +45,20 @@ class VQA_SAN:
     def loss(self):
 
         with tf.name_scope('loss'):
+
             cross_entropy_loss = tf.nn.softmax_cross_entropy_with_logits(labels=self.label, logits=self.predictions)
 
             # Loss is mean of error on all dimensions
             self.loss_val = tf.reduce_mean(cross_entropy_loss, name='loss')
     
+    def optimize(self):
+
+        with tf.name_scope('optimizer'):
+
+            self.opt = tf.train.AdamOptimizer(
+                learning_rate=self.learning_rate,
+                name='AdamOptimizer'
+            ).minimize(self.loss_val, global_step=self.g_step)
 
     def build_model(self):
 
