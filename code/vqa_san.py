@@ -60,6 +60,13 @@ class VQA_SAN:
                 name='AdamOptimizer'
             ).minimize(self.loss_val, global_step=self.g_step)
 
+    def eval(self):
+        
+        with tf.name_scope('evaluation'):
+
+            self.accuracy = tf.reduce_sum(tf.equal(tf.argmax(self.predictions, 1), tf.argmax(self.label, 1)))
+
+
     def build_model(self):
 
         # Feature extraction for the image
