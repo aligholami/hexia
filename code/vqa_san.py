@@ -66,6 +66,16 @@ class VQA_SAN:
 
             self.accuracy = tf.reduce_sum(tf.equal(tf.argmax(self.predictions, 1), tf.argmax(self.label, 1)))
 
+    def summary(self):
+
+        with tf.name_scope('graph_summary'):
+
+            tf.summary.scalar('num_t_preds', self.accuracy)
+            tf.summary.histogram('loss_histogram', self.loss_val)
+            tf.summary.scalar('loss_value', self.self.loss_val)
+
+            self.summary = tf.summary.merge_all()
+            
 
     def build_model(self):
 
