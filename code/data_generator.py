@@ -1,5 +1,5 @@
 import cv2
-from utils import get_image_id
+from utils import get_image_id, clean_sentence
 import json
 import os
 from math import ceil
@@ -30,19 +30,15 @@ class DataGenerator:
         with open(self.a_path, encoding='utf-8') as a_file:
             self.a_data = json.loads(a_file.read())
     
-    def confidence_to_one_hot(self, confidence_list):
+    def confidence_to_one_hot(self, confidence):
         
         # confidences for (yes) / (maybe, no)
-        one_hot_confidences = []
-        for x in confidence_list:
-            if x == 'yes':
-                one_hot_confidences.append([1, 0, 0])
-            elif x == 'maybe':
-                one_hot_confidence.append([0, 1, 0])
-            else:
-                one_hot_confidence.append([0, 0, 1])
-                
-        return one_hot_confidences
+        if confidence == 'yes':
+            return [1, 0, 0]
+        elif confidence == 'maybe':
+            return [0, 1, 0]
+        else:
+            return [0, 0, 1]
 
     def mini_batch_generator(self):
         
@@ -71,11 +67,9 @@ class DataGenerator:
                             for answer in annotation['answers']:
                                 batch_item = {}
                                 batch_item['image'] = img
-                                batch_item['question'] = question['question']
-                                batch_item['answer'] = annotation['answers'][answer_no]['answer']
-                                batch_item['iqa_label'] = annotation['answers'][answer_no]['answer_confidence']
+                                batch_item['question'] = clean_sentence(question['question'])
+                                batch_item['answer'] = clean_sentence(annotation['answers'][answer_no]['answer'])
+                                batch_item['iqa_label'] = self.confidence_to_one_hot(annotation['answers'][answer_no]['answer_confidence'])
                                 answer_no = answer_no + 1
                                 yield (batch_item['image'], batch_item['question'], batch_item['answer'], batch_item['iqa_label'])
-                    
-            # Grab one-hot vectors for the confidences list
-            # one_hot_iqa = confidence_to_one_hot(iqa_label_list)
+

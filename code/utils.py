@@ -1,3 +1,4 @@
+import re
 
 def get_image_id(filename):
 
@@ -6,6 +7,12 @@ def get_image_id(filename):
     id = id.lstrip('0')
     return id
         
+
+def clean_sentence(sentence):
+    sentence = sentence.replace("the", "")
+    sentence = sentence.replace("and", "")
+    sentence = sentence.replace("/", " ")
+    return re.sub(r'[^\w\s]', '', sentence)
 
 def load_embedding_from_disks(glove_filename, with_indexes=True):
     """

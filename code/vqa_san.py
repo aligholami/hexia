@@ -13,7 +13,7 @@ class VQA_SAN:
     PATH_TO_TRAINED_GLOVE = '../models/GloVe/glovefile.txt'
     BATCH_SIZE = 32
     PREFETCH = 32
-    NUM_CLASSES = 2     # Correct/Incorrect
+    NUM_CLASSES = 3     # Yes / Maybe / No
     
     
     def __init__(self):
@@ -31,14 +31,23 @@ class VQA_SAN:
         
         train_data = tf.data.Dataset.from_generator(
             generator=train_generator,
-            output_types=(tf.float32, tf.string, tf.string),
-            output_shapes=(tf.TensorShape[None], tf.TensorShape[None], tf.TensorShape[None]),
+            output_types=(tf.float32, tf.string, tf.string, tf.float32),
+            output_shapes=(tf.TensorShape[None], tf.TensorShape[None], tf.TensorShape[None], tf.TensorShape[None]),
         ).batch(self.BATCH_SIZE).prefetch(self.PREFETCH)
 
         iterator = train_data.make_initializable_iterator()
 
         self.img, self.question, self.answer, self.label = iterator.get_next()
         
+
+    def loss(self):
+
+        with tf.name_scope('loss'):
+            cross_entropy_loss = tf.nn.softmax_cross_entropy_with_logits(labels=self.label, logits=self.predictions)
+
+            # Loss is mean of error on all dimensions
+            self.loss_val = tf.reduce_mean(cross_entropy_loss, name='loss')
+    
 
     def build_model(self):
 
@@ -53,20 +62,32 @@ class VQA_SAN:
         classifier = Classifier(self.NUM_CLASSES)
 
         # Obtain image feature maps
-        image_feature_map = feature_extractor.generate_image_feature_map(self.img)
+        self.image_feature_map = feature_extractor.generate_image_feature_map(self.img)
 
         # Obtain answer embeddings
-        answer_glove_vector = word_vectorizer.generate_sentence_vector(self.answer)
+        self.answer_glove_vector = word_vectorizer.generate_sentence_vector(self.answer)
 
         # Obtain sentence embeddings
-        sentence_glove_vector = word_vectorizer.generate_sentence_vector(self.question)
+        self.sentence_glove_vector = word_vectorizer.generate_sentence_vector(self.question)
         # sentence_glove_vector = sentence_vectorizer.generate_sentence_vector(self.question)
         # *******************************************************************
 
         # Concatenate image feature map and sentence feature map
         iqa_vector = tf.concat(concat_dim=0, values=[image_feature_map, sentence_glove_vector, answer_glove_vector], name='feature_merger')
 
-        predictions = classifier.classify_input(iqa_vector)
+        self.predictions = classifier.classify_input(iqa_vector)
+
+        # Setup loss function
+        self.loss()
+
+        # Setup optimizer
+        self.optimizer()
+
+        # Model accuracy and evaluation
+        self.eval()
+
+        # Training/Testing summary
+        self.summary()
 
 
 
