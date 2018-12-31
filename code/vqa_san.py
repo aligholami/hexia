@@ -11,6 +11,8 @@ class VQA_SAN:
     PATH_TO_TRAIN_QUESTIONS = '../data/train/questions/v2_OpenEnded_mscoco_train2014_questions.json'
     PATH_TO_TRAIN_ANSWERS = '../data/train/answers/v2_mscoco_train2014_annotations.json'
     PATH_TO_TRAINED_GLOVE = '../models/GloVe/glovefile.txt'
+    PATH_TO_VISUALIZATION_GRAPHS = '../visualization/'
+
     BATCH_SIZE = 32
     PREFETCH = 32
     NUM_CLASSES = 3     # Yes / Maybe / No
@@ -40,6 +42,10 @@ class VQA_SAN:
         iterator = train_data.make_initializable_iterator()
 
         self.img, self.question, self.answer, self.label = iterator.get_next()
+
+        # Add iterators to the graph
+        self.train_init = iterator.make_initializer(train_data)     # Train iterator
+        self.validation_init = iterator.make_initializer(train_data)      # Validation iterator
         
 
     def loss(self):
@@ -75,7 +81,7 @@ class VQA_SAN:
             tf.summary.scalar('loss_value', self.self.loss_val)
 
             self.summary = tf.summary.merge_all()
-            
+
 
     def build_model(self):
 
@@ -117,6 +123,63 @@ class VQA_SAN:
         # Training/Testing summary
         self.summary()
 
+
+    def train_one_epoch(self, init, sess, writer, step):
+        
+        # Initialize input data based on the training or validation
+        self.init = init
+
+        try:
+            while True:
+                # Get accuracy, loss value and optimize the network + summary of validation
+                step_accuracy, step_loss, _, step_summary= sess.run([self.accuracy, self.loss, self.opt, self.summary])
+
+
+        except tf.errors.OutOfRangeError:
+            pass;
+
+    def validate(self, init, sess, writer, step, epoch):
+
+        # Initialize input data based on the training or validation
+        self.init = init
+
+        try:
+            while True:
+                # Get accuracy and summary of validation
+                step_accuracy, step_summary = sess.run([self.accuracy, self.summary])
+
+
+        except tf.errors.OutOfRangeError:
+            pass;
+
+    def train_and_validate(self, batch_size, num_epochs):
+        
+
+        # Tensorflow writer for graphs and summary saving
+        train_writer = tf.summary.FileWriter(self.PATH_TO_VISUALIZATION_GRAPHS, tf.get_default_graph())
+        validation_writer = tf.summary.FileWriter(self.PATH_TO_VISUALIZATION_GRAPHS, tf.get_default_graph())    
+        
+        with tf.Session() as sess:
+                
+            # Train multiple epochs
+            for epoch in num_epochs:
+
+                step = self.g_step.eval()
+
+                self.train_one_epoch(
+                    init=self.train_init,
+                    sess=sess,
+                    writer=train_writer,
+                    step=step
+                )
+
+                # Validate the learned model
+                self.validate(
+                    init=self.validation_init,
+                    sess=sess,
+                    writer=validation_writer,
+                    step=step
+                )
 
 
 
