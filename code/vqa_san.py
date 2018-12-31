@@ -166,20 +166,21 @@ class VQA_SAN:
             pass;
 
     def train_and_validate(self, batch_size, num_epochs):
-        
 
         # Tensorflow writer for graphs and summary saving
         train_writer = tf.summary.FileWriter(self.PATH_TO_VISUALIZATION_GRAPHS, tf.get_default_graph())
         validation_writer = tf.summary.FileWriter(self.PATH_TO_VISUALIZATION_GRAPHS, tf.get_default_graph())    
         
+
         with tf.Session() as sess:
-                
+            
+            
+            step = self.g_step.eval()
+
             # Train multiple epochs
             for epoch in num_epochs:
 
-                step = self.g_step.eval()
-
-                self.train_one_epoch(
+                step = self.train_one_epoch(
                     init=self.train_init,
                     sess=sess,
                     writer=train_writer,
@@ -187,12 +188,12 @@ class VQA_SAN:
                 )
 
                 # Validate the learned model
-                self.validate(
-                    init=self.validation_init,
-                    sess=sess,
-                    writer=validation_writer,
-                    step=step
-                )
+                # self.validate(
+                #     init=self.validation_init,
+                #     sess=sess,
+                #     writer=validation_writer,
+                #     step=step
+                # )
 
 
 
