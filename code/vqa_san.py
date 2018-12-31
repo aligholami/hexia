@@ -56,7 +56,7 @@ class VQA_SAN:
         image_feature_map = feature_extractor.generate_image_feature_map(self.img)
 
         # Obtain answer embeddings
-        answer_glove_vector = word_vectorizer.generate_word_vector(self.answer)
+        answer_glove_vector = word_vectorizer.generate_sentence_vector(self.answer)
 
         # Obtain sentence embeddings
         sentence_glove_vector = word_vectorizer.generate_sentence_vector(self.question)

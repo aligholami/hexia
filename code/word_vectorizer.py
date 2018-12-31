@@ -29,7 +29,7 @@ class WordVectorizer:
 
         return vectorized_representation
 
-    def generate_question_vector(self, target_sentence, name='sentence_vector_generator'):
+    def generate_sentence_vector(self, target_sentence, name='sentence_vector_generator'):
         
         with tf.name_scope(name=name):
 
@@ -40,7 +40,10 @@ class WordVectorizer:
                 name='sentence_embedding'
             )
 
+            # Take out the words
             target_words = tf.string_split(target_sentence, delimiter="")
+
+            # Obtain embedding for all words in the list and compute the mean
             sentence_mean_embedding = tf.reduce_mean(tf.map_fn(lambda target_word: tf.nn.embedding_lookup(params=tf_embedding, ids=target_word), target_words))
 
         return sentence_mean_embedding
