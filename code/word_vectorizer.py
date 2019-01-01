@@ -6,44 +6,37 @@ class WordVectorizer:
     def __init__(self, batch_size, glove_file_path):
 
         self.batch_size = batch_size
-        self.emebedding_matrix_shape = emebedding_matrix_shape
+
+        # Load embeddings to ram
         self.word_to_index, self.index_to_embedding = load_embedding_from_disks(glove_file_path, with_indexes=True)
 
-    def generate_word_vector(self, target_word, name='word_vector_generator'):
-        
+    def load_trained_model_tensors(self, name='load_trained_glove'):
+
         with tf.name_scope(name=name):
 
             # define the variable that holds the embedding
-            tf_embedding = tf.Variable(
-                tf.constant(0.0, shape=self.index_to_embedding.shape),
-                trainable=False,
-                name='word_embedding'
-            )
-
-            # lookup and return the desired embeddings
-            # Note: target_words is a placeholder
-            vectorized_representation = tf.nn.embedding_lookup(
-                params=tf_embedding,
-                ids=target_word
-            )
-
-        return vectorized_representation
-
-    def generate_sentence_vector(self, target_sentence, name='sentence_vector_generator'):
-        
-        with tf.name_scope(name=name):
-
-            # define the variable that holds the embedding
-            tf_embedding = tf.Variable(
+            self.tf_embedding = tf.Variable(
                 tf.constant(0.0, shape=self.index_to_embedding.shape),
                 trainable=False,
                 name='sentence_embedding'
             )
 
+            # Load embeddings to gddr while running tf_embedding_init
+            tf_embedding_on_gddr = tf.constant(value=self.index_to_embedding, dtype=tf.float32, shape=self.index_to_embedding.shape)
+            tf_embedding_init = self.tf_embedding.assign(tf_embedding_on_gddr)
+
+        return tf_embedding_init
+
+    def generate_sentence_vector(self, target_sentence, name='sentence_vector_generator'):
+        
+        with tf.name_scope(name=name):
+
+            target_sentence = tf.cast(target_sentence, tf.string)
+            
             # Take out the words
-            target_words = tf.string_split(target_sentence, delimiter="")
+            target_words = tf.string_split([target_sentence], delimiter=" ").values
+            
+            # TODO: Get embedding of words each            
+            sentence_embedding = tf.reduce_mean(tf.nn.embedding_lookup(params=self.tf_embedding, ids=self.word_to_index[target_words[0]]))
 
-            # Obtain embedding for all words in the list and compute the mean
-            sentence_mean_embedding = tf.reduce_mean(tf.map_fn(lambda target_word: tf.nn.embedding_lookup(params=tf_embedding, ids=target_word), target_words))
-
-        return sentence_mean_embedding
+        return sentence_embedding

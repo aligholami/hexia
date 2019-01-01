@@ -1,3 +1,5 @@
+import numpy as np
+from collections import defaultdict
 import re
 
 def get_image_id(filename):
@@ -30,7 +32,7 @@ def load_embedding_from_disks(glove_filename, with_indexes=True):
         word_to_embedding_dict = dict()
 
     
-    with open(glove_filename, 'r') as glove_file:
+    with open(glove_filename, 'r', encoding='utf-8') as glove_file:
         for (i, line) in enumerate(glove_file):
             
             split = line.split(' ')

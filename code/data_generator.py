@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 from utils import get_image_id, clean_sentence
 import json
 import os
@@ -15,12 +16,12 @@ class DataGenerator:
         self.image_rescale = image_rescale
         self.image_horizontal_flip = image_horizontal_flip
         self.image_target_size = image_target_size
-        
+
         # Load Questions and Answers JSON into memory
         self.load_qa_into_mem()
-    
+
     def load_qa_into_mem(self):
-        
+
         # Load all image files of directory into the memory
         self.image_list = os.listdir(self.image_path)
 
@@ -29,9 +30,9 @@ class DataGenerator:
 
         with open(self.a_path, encoding='utf-8') as a_file:
             self.a_data = json.loads(a_file.read())
-    
+
     def confidence_to_one_hot(self, confidence):
-        
+
         # confidences for (yes) / (maybe, no)
         if confidence == 'yes':
             return [1, 0, 0]
@@ -41,15 +42,16 @@ class DataGenerator:
             return [0, 0, 1]
 
     def mini_batch_generator(self):
-        
+
         # Generate a batch of images
-        # for each image in the batch generate 
+        # for each image in the batch generate
 
         # For each file in the image list
-        for image_name in self.image_list:   
+        for image_name in self.image_list:
 
             # Read image from directory
             img = cv2.imread(os.path.join(self.image_path, image_name))
+            img = cv2.resize(img, (32, 32))
 
             # Extract the image ID
             img_id = get_image_id(image_name)
@@ -71,5 +73,4 @@ class DataGenerator:
                                 batch_item['answer'] = clean_sentence(annotation['answers'][answer_no]['answer'])
                                 batch_item['iqa_label'] = self.confidence_to_one_hot(annotation['answers'][answer_no]['answer_confidence'])
                                 answer_no = answer_no + 1
-                                yield (batch_item['image'], batch_item['question'], batch_item['answer'], batch_item['iqa_label'])
-
+                                yield np.array(batch_item['image'].flatten()).astype(float), batch_item['question'], batch_item['answer'], np.array(batch_item['iqa_label']).astype(float)
