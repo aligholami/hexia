@@ -13,7 +13,8 @@ In this project, we will analyze different methods for building a VQA system. Ou
 
 In this section, we initially implement a VQA model with the following characteristics:
 
-1. Extraction of image feature maps with a VGG-16 convolutional architecture.
+1. Extraction of image feature maps with a custom CNN of depth 3.
 2. Averaging embedding scores of words in a question.
-3. Concatenating image feature maps and averaged embedding scores.
-4. Classifying the obtained inputs from step 3 with answers as labels using a multi-layer perceptron.
+3. Averaging embedding scores of words in an answer.
+3. Concatenating image feature maps and averaged embedding scores of answer and question.
+4. Classifying the concatenated maps as correct/maybe/incorrect based on the confidence in the dataset.
