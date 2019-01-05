@@ -1,16 +1,24 @@
-from word_vectorizer import WordVectorizer
-import tensorflow as tf
-vectizer = WordVectorizer(batch_size=2, glove_file_path='../models/GloVe/glove.6B.50d.txt', vocab_file_path='../models/GloVe/vocab_only.txt')
+from data_generator import DataGenerator
 
-initializer = vectizer.load_trained_model_tensors()
-embedding = vectizer.generate_sentence_vector('hello')
+PATH_TO_TRAIN_IMAGES = '../data/train/images/full-image-dir'
+PATH_TO_TRAIN_QUESTIONS = '../data/train/questions/v2_OpenEnded_mscoco_train2014_questions.json'
+PATH_TO_TRAIN_ANSWERS = '../data/train/answers/v2_mscoco_train2014_annotations.json'
+PATH_TO_TRAINED_GLOVE = '../models/GloVe/glove.6B.50d.txt'
+PATH_TO_WORD_VOCAB = '../models/GloVe/vocab_only.txt'
+PATH_TO_VISUALIZATION_GRAPHS = '../visualization/'
 
-with tf.Session() as sess:
+dat_gen = DataGenerator(image_path=PATH_TO_TRAIN_IMAGES, 
+q_path=PATH_TO_TRAIN_QUESTIONS,
+a_path=PATH_TO_TRAIN_ANSWERS,
+image_rescale=False,
+image_horizontal_flip=False,
+image_target_size=(150, 150))
 
-    sess.run(tf.global_variables_initializer())
+dat_gen.load_qa_into_mem()
 
-    # Transfer embedding to GPU
-    sess.run(initializer)
+generatore = dat_gen.mini_batch_generator()
 
-    # Get target embeddings
-    print("Target embeddings: ", sess.run(embedding))
+for i in range(10):
+    print(generatore.__next__())
+
+    
