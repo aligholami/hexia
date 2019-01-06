@@ -4,7 +4,6 @@
 
 <a href="https://www.python.org/downloads/release/python-360/"> <img src="https://img.shields.io/badge/python-3.6-blue.svg" alt="Python 3.6"/> </a>
 <a href="https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks&amp;utm_campaign=Badge_Grade"> <img src="https://api.codacy.com/project/badge/Grade/62aaec49f9294a46a74c65dacf599a37" alt="Codacy Badge"/> </a>
-
 <a href="https://www.codefactor.io/repository/github/aligholami/visual-question-answering-with-stacked-attention-networks"><img src="https://www.codefactor.io/repository/github/aligholami/visual-question-answering-with-stacked-attention-networks/badge" alt="CodeFactor" /></a>
 
 </div>
