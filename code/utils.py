@@ -41,7 +41,7 @@ def confidence_to_one_hot(confidence):
 def load_embedding_from_disks(glove_filename, with_indexes=True):
     """
     Read a GloVe txt file. If `with_indexes=True`, we return a tuple of two dictionnaries
-    `(word_to_index_dict, index_to_embedding_array)`, otherwise we return only a direct 
+    `(word_to_index_dict, index_to_embedding_array)`, otherwise we return only a direct
     `word_to_embedding_dict` dictionnary mapping from a string to a numpy array.
     """
 
@@ -69,7 +69,6 @@ def load_embedding_from_disks(glove_filename, with_indexes=True):
             representation = np.array(
                 [float(val) for val in representation]
             )
-            
             if with_indexes:
                 word_to_index_dict[word] = i
                 index_to_embedding_array.append(representation)

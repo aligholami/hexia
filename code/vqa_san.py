@@ -192,7 +192,6 @@ class VQA_SAN:
                 if((step + 1) % self.n_steps_to_save == 0):
                     save_path = saver.save(sess, self.PATH_TO_MODEL_CHECKPOINTS)
                     print("Trained weights saved in path: {}".format(save_path))
-                    
         except tf.errors.OutOfRangeError:
             pass;
 
