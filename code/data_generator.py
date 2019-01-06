@@ -3,8 +3,6 @@ import numpy as np
 from utils import get_image_id, clean_sentence
 import json
 import os
-from math import ceil
-import re
 
 # from text_generator import TextGenerator
 
@@ -61,10 +59,6 @@ class DataGenerator:
             img_id = get_image_id(image_name)
 
             # Extract questions, answers, and labels (confidences) from the JSON files
-            img_question_list = []
-            img_answer_list = []
-            iqa_label_list = []
-
             for question in self.q_data['questions']:
                 if(question['image_id'] == int(img_id)):
                     for annotation in self.a_data['annotations']:

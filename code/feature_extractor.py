@@ -62,7 +62,7 @@ class FeatureExtractor:
 
     def conv_bn_sc_relu(self, inputs, filters, k_size, stride, padding, scope_name, keep_prob):
 
-        with tf.variable_scope(scope_name, reuse=tf.AUTO_REUSE) as scope:
+        with tf.variable_scope(scope_name, reuse=tf.AUTO_REUSE):
 
             in_channels = inputs.shape[-1]
 
@@ -90,7 +90,7 @@ class FeatureExtractor:
 
     def scale(self, inputs, scope_name):
 
-        with tf.variable_scope(scope_name, reuse=tf.AUTO_REUSE) as scope:
+        with tf.variable_scope(scope_name, reuse=tf.AUTO_REUSE):
 
             in_dim = inputs.shape[-1]
             alpha = tf.get_variable(name='alpha', shape=(in_dim, ), trainable=True)
@@ -102,7 +102,7 @@ class FeatureExtractor:
 
     def maxpool(self, inputs, k_size, stride, padding, scope_name):
 
-        with tf.variable_scope(scope_name, reuse=tf.AUTO_REUSE) as scope:
+        with tf.variable_scope(scope_name, reuse=tf.AUTO_REUSE):
             pool = tf.nn.max_pool(value=inputs, ksize=[1, k_size, k_size, 1], strides=[1, stride, stride, 1], padding=padding)
 
         return pool

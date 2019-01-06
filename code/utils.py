@@ -4,10 +4,10 @@ import re
 
 def get_image_id(filename):
 
-    id = filename.rsplit('.jpg')[0]
-    id = id.split('_')[2]
-    id = id.lstrip('0')
-    return id
+    img_id = filename.rsplit('.jpg')[0]
+    img_id = img_id.split('_')[2]
+    img_id = img_id.lstrip('0')
+    return img_id
         
 
 def clean_sentence(sentence):
