@@ -14,6 +14,7 @@ class VQA_SAN:
     PATH_TO_TRAINED_GLOVE = '../models/GloVe/glove.6B.50d.txt'
     PATH_TO_WORD_VOCAB = '../models/GloVe/vocab_only.txt'
     PATH_TO_VISUALIZATION_GRAPHS = '../visualization/'
+    PATH_TO_MODEL_CHECKPOINTS = '../models/checkpoints'
 
     BATCH_SIZE = 32
     NUM_CLASSES = 3     # Yes / Maybe / No
@@ -25,6 +26,7 @@ class VQA_SAN:
         self.g_step = tf.Variable(0, dtype=tf.int32, trainable=False, name='global_step')
 
         self.skip_steps = 100
+        self.n_steps_to_save = 500
 
     def get_data(self):
 
@@ -156,7 +158,7 @@ class VQA_SAN:
         self.summary()
 
 
-    def train_one_epoch(self, init, sess, writer, step):
+    def train_one_epoch(self, init, sess, saver, writer, step):
 
         # Initialize input data based on the training or validation
         sess.run(init)
@@ -174,6 +176,10 @@ class VQA_SAN:
                     print('Loss at step {}: {}'.format(step, step_loss))
                     writer.add_summary(step_summary, global_step=step)
 
+                if((step + 1) % self.n_steps_to_save == 0):
+                    save_path = saver.save(sess, self.PATH_TO_MODEL_CHECKPOINTS)
+                    print("Trained weights saved in path: {}".format(save_path))
+                    
         except tf.errors.OutOfRangeError:
             pass;
 
@@ -195,12 +201,14 @@ class VQA_SAN:
         except tf.errors.OutOfRangeError:
             pass;
 
-    def train_and_validate(self, batch_size, num_epochs):
+    def train_and_validate(self, num_epochs):
 
         # Tensorflow writer for graphs and summary saving
         train_writer = tf.summary.FileWriter(self.PATH_TO_VISUALIZATION_GRAPHS, tf.get_default_graph())
         validation_writer = tf.summary.FileWriter(self.PATH_TO_VISUALIZATION_GRAPHS, tf.get_default_graph())
 
+        # Saving operation (also for resotre)
+        saver = tf.train.Saver()
 
         with tf.Session().as_default() as sess:
 
@@ -221,6 +229,7 @@ class VQA_SAN:
                 step = self.train_one_epoch(
                     init=self.train_init,
                     sess=sess,
+                    saver=saver,
                     writer=train_writer,
                     step=step
                 )
