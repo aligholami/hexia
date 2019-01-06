@@ -16,5 +16,5 @@ In this section, we initially implement a VQA model with the following character
 1.  Extraction of image feature maps with a custom CNN of depth 3.
 2.  Averaging embedding scores of words in a question.
 3.  Averaging embedding scores of words in an answer.
-3.  Concatenating image feature maps and averaged embedding scores of answer and question.
-4.  Classifying the concatenated maps as correct/maybe/incorrect based on the confidence in the dataset.
+4.  Concatenating image feature maps and averaged embedding scores of answer and question.
+5.  Classifying the concatenated maps as correct/maybe/incorrect based on the confidence in the dataset.

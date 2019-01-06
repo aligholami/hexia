@@ -60,7 +60,6 @@ def load_embedding_from_disks(glove_filename, with_indexes=True):
             split = line.split(' ')
             
             word = split[0]
-            
             # Save words for further usages
             # with open('vocab_only.txt', 'a', encoding="utf-8") as vocab_file:
             #     vocab_file.write(word+'\n')
