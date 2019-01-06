@@ -19,7 +19,7 @@ def clean_sentence(sentence):
     sentence = sentence.rstrip()
 
     num_words = len(sentence.split())
-    fixed_length = 20 
+    fixed_length = 25
 
     while(num_words < fixed_length):
         sentence = sentence + ' hashemali'
