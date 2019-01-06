@@ -14,7 +14,18 @@ def clean_sentence(sentence):
     sentence = sentence.replace("the", "")
     sentence = sentence.replace("and", "")
     sentence = sentence.replace("/", " ")
-    return re.sub(r'[^\w\s]', '', sentence)
+    sentence = re.sub(r'[^\w\s]', '', sentence)
+    sentence = re.sub(' +', ' ', sentence)
+    sentence = sentence.rstrip()
+
+    num_words = len(sentence.split())
+    fixed_length = 20 
+
+    while(num_words < fixed_length):
+        sentence = sentence + ' hashemali'
+        num_words = len(sentence.split())
+
+    return sentence
 
 def load_embedding_from_disks(glove_filename, with_indexes=True):
     """

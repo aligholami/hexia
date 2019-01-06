@@ -4,6 +4,7 @@ from utils import get_image_id, clean_sentence
 import json
 import os
 from math import ceil
+import re
 
 # from text_generator import TextGenerator
 
@@ -70,10 +71,14 @@ class DataGenerator:
                         if(annotation['question_id'] == question['question_id']):
                             answer_no = 0
                             for answer in annotation['answers']:
+
                                 batch_item = {}
                                 batch_item['image'] = img
-                                batch_item['question'] = clean_sentence(question['question'])
-                                batch_item['answer'] = clean_sentence(annotation['answers'][answer_no]['answer'])
+                                batch_item['sentence'] = clean_sentence(question['question'] + ' ' + annotation['answers'][answer_no]['answer'])
+                                # batch_item['question'] = clean_sentence(question['question'])
+                                # batch_item['answer'] = clean_sentence(annotation['answers'][answer_no]['answer'])
                                 batch_item['iqa_label'] = self.confidence_to_one_hot(annotation['answers'][answer_no]['answer_confidence'])
                                 answer_no = answer_no + 1
-                                yield np.array(batch_item['image'].flatten()), batch_item['question'], batch_item['answer'], np.array(batch_item['iqa_label'])
+                                # print(len(batch_item['sentence']))
+                                # print(len(batch_item['sentence'].split()))
+                                yield np.array(batch_item['image'].flatten()), batch_item['sentence'], np.array(batch_item['iqa_label'])

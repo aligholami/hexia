@@ -15,7 +15,7 @@ class VQA_SAN:
     PATH_TO_WORD_VOCAB = '../models/GloVe/vocab_only.txt'
     PATH_TO_VISUALIZATION_GRAPHS = '../visualization/'
 
-    BATCH_SIZE = 1
+    BATCH_SIZE = 32
     NUM_CLASSES = 3     # Yes / Maybe / No
     LEARNING_RATE = 0.0001
 
@@ -38,8 +38,8 @@ class VQA_SAN:
 
         train_data = tf.data.Dataset.from_generator(
             generator=train_data_generator,
-            output_types=(tf.float32, tf.string, tf.string, tf.float32),
-            output_shapes=(tf.TensorShape(None), tf.TensorShape(None), tf.TensorShape(None), tf.TensorShape(None)),
+            output_types=(tf.float32, tf.string, tf.float32),
+            output_shapes=(tf.TensorShape(None), tf.TensorShape(None), tf.TensorShape(None)),
         ).batch(self.BATCH_SIZE)
 
         # Load words vocab table for quick lookup
@@ -47,10 +47,7 @@ class VQA_SAN:
 
         iterator = train_data.make_initializable_iterator()
 
-        img, question, answer, self.label = iterator.get_next()
-        
-        # Merge question and answer
-        sentence = tf.strings.join([question, answer], separator=' ')
+        img, sentence, self.label = iterator.get_next()
 
         with tf.name_scope('sentence_splitter'):
             # question = tf.map_fn(lambda x: tf.string_split([x], delimiter=' ').values, question, dtype=tf.string)

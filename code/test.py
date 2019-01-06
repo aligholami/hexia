@@ -18,7 +18,7 @@ dat_gen.load_qa_into_mem()
 
 generatore = dat_gen.mini_batch_generator()
 
-for i in range(10):
+for i in range(100):
     print(generatore.__next__())
 
     
