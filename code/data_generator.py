@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from utils import get_image_id, clean_sentence
+from utils import get_image_id, clean_sentence, confidence_to_one_hot
 import json
 import os
 
@@ -30,16 +30,6 @@ class DataGenerator:
         with open(self.a_path, encoding='utf-8') as a_file:
             self.a_data = json.loads(a_file.read())
 
-    def confidence_to_one_hot(self, confidence):
-
-        # confidences for (yes) / (maybe, no)
-        if confidence == 'yes':
-            return [1.0, 0.0, 0.0]
-        elif confidence == 'maybe':
-            return [0.0, 1.0, 0.0]
-        else:
-            return [0.0, 0.0, 1.0]
-
     def mini_batch_generator(self):
 
         # Generate a batch of images
@@ -64,14 +54,14 @@ class DataGenerator:
                     for annotation in self.a_data['annotations']:
                         if(annotation['question_id'] == question['question_id']):
                             answer_no = 0
-                            for answer in annotation['answers']:
+                            for _ in annotation['answers']:
 
                                 batch_item = {}
                                 batch_item['image'] = img
                                 batch_item['sentence'] = clean_sentence(question['question'] + ' ' + annotation['answers'][answer_no]['answer'])
                                 # batch_item['question'] = clean_sentence(question['question'])
                                 # batch_item['answer'] = clean_sentence(annotation['answers'][answer_no]['answer'])
-                                batch_item['iqa_label'] = self.confidence_to_one_hot(annotation['answers'][answer_no]['answer_confidence'])
+                                batch_item['iqa_label'] = confidence_to_one_hot(annotation['answers'][answer_no]['answer_confidence'])
                                 answer_no = answer_no + 1
                                 # print(len(batch_item['sentence']))
                                 # print(len(batch_item['sentence'].split()))

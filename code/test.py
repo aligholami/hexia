@@ -7,7 +7,7 @@ PATH_TO_TRAINED_GLOVE = '../models/GloVe/glove.6B.50d.txt'
 PATH_TO_WORD_VOCAB = '../models/GloVe/vocab_only.txt'
 PATH_TO_VISUALIZATION_GRAPHS = '../visualization/'
 
-dat_gen = DataGenerator(image_path=PATH_TO_TRAIN_IMAGES, 
+dat_gen = DataGenerator(image_path=PATH_TO_TRAIN_IMAGES,
 q_path=PATH_TO_TRAIN_QUESTIONS,
 a_path=PATH_TO_TRAIN_ANSWERS,
 image_rescale=False,

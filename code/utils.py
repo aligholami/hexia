@@ -27,6 +27,17 @@ def clean_sentence(sentence):
 
     return sentence
 
+
+def confidence_to_one_hot(confidence):
+
+    # confidences for (yes) / (maybe, no)
+    if confidence == 'yes':
+        return [1.0, 0.0, 0.0]
+    elif confidence == 'maybe':
+        return [0.0, 1.0, 0.0]
+    else:
+        return [0.0, 0.0, 1.0]
+
 def load_embedding_from_disks(glove_filename, with_indexes=True):
     """
     Read a GloVe txt file. If `with_indexes=True`, we return a tuple of two dictionnaries

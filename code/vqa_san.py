@@ -1,10 +1,8 @@
 import tensorflow as tf
-import numpy as np
 from feature_extractor import FeatureExtractor
 from word_vectorizer import WordVectorizer
 from classifier import Classifier
 from data_generator import DataGenerator
-from utils import load_embedding_from_disks
 
 class VQA_SAN:
 
@@ -198,29 +196,29 @@ class VQA_SAN:
         except tf.errors.OutOfRangeError:
             pass;
 
-    def validate(self, init, sess, writer, step, epoch):
+    # def validate(self, init, sess, writer, step, epoch):
 
-        # Initialize input data based on the training or validation
-        self.init = init
+    #     # Initialize input data based on the training or validation
+    #     self.init = init
 
-        total_loss = 0
+    #     total_loss = 0
 
-        try:
-            while True:
-                # Get accuracy and summary of validation
-                step_accuracy, step_loss, step_summary = sess.run([self.accuracy, self.loss_val, self.summary])
+    #     try:
+    #         while True:
+    #             # Get accuracy and summary of validation
+    #             step_accuracy, step_loss, step_summary = sess.run([self.accuracy, self.loss_val, self.summary])
 
-                step += 1
-                total_loss += step_loss
+    #             step += 1
+    #             total_loss += step_loss
 
-        except tf.errors.OutOfRangeError:
-            pass;
+    #     except tf.errors.OutOfRangeError:
+    #         pass;
 
     def train_and_validate(self, num_epochs):
 
         # Tensorflow writer for graphs and summary saving
         train_writer = tf.summary.FileWriter(self.PATH_TO_VISUALIZATION_GRAPHS, tf.get_default_graph())
-        validation_writer = tf.summary.FileWriter(self.PATH_TO_VISUALIZATION_GRAPHS, tf.get_default_graph())
+        # validation_writer = tf.summary.FileWriter(self.PATH_TO_VISUALIZATION_GRAPHS, tf.get_default_graph())
 
         # Saving operation (also for resotre)
         saver = tf.train.Saver()
@@ -239,7 +237,7 @@ class VQA_SAN:
             step = self.g_step.eval()
 
             # Train multiple epochs
-            for epoch in range(num_epochs):
+            for _ in range(num_epochs):
 
                 step = self.train_one_epoch(
                     init=self.train_init,
