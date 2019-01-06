@@ -11,6 +11,9 @@ class VQA_SAN:
     PATH_TO_TRAIN_IMAGES = '../data/train/images/full-image-dir'
     PATH_TO_TRAIN_QUESTIONS = '../data/train/questions/v2_OpenEnded_mscoco_train2014_questions.json'
     PATH_TO_TRAIN_ANSWERS = '../data/train/answers/v2_mscoco_train2014_annotations.json'
+    PATH_TO_VALIDATION_IMAGES = '../data/validation/images/full-image-dir'
+    PATH_TO_VALIDATION_QUESTIONS = '../data/validation/questions/v2_OpenEnded_mscoco_val2014_questions.json'
+    PATH_TO_VALIDATION_ANSWERS = '../data/validation/answers/v2_mscoco_val2014_annotations.json'
     PATH_TO_TRAINED_GLOVE = '../models/GloVe/glove.6B.50d.txt'
     PATH_TO_WORD_VOCAB = '../models/GloVe/vocab_only.txt'
     PATH_TO_VISUALIZATION_GRAPHS = '../visualization/'
@@ -30,16 +33,28 @@ class VQA_SAN:
 
     def get_data(self):
 
-        # Setup the generator
+        # Setup the train generator
         train_generator = DataGenerator(image_path=self.PATH_TO_TRAIN_IMAGES,
                         q_path=self.PATH_TO_TRAIN_QUESTIONS,
                         a_path=self.PATH_TO_TRAIN_ANSWERS,
                         image_rescale=1, image_horizontal_flip=False, image_target_size=(150, 150))
 
+        validation_generator = DataGenerator(image_path=self.PATH_TO_VALIDATION_IMAGES,
+                q_path=self.PATH_TO_VALIDATION_QUESTIONS,
+                a_path=self.PATH_TO_VALIDATION_ANSWERS,
+                image_rescale=1, image_horizontal_flip=False, image_target_size=(150, 150))
+
         train_data_generator = lambda: train_generator.mini_batch_generator()
+        validation_data_generator = lambda: validation_generator.mini_batch_generator()
 
         train_data = tf.data.Dataset.from_generator(
             generator=train_data_generator,
+            output_types=(tf.float32, tf.string, tf.float32),
+            output_shapes=(tf.TensorShape(None), tf.TensorShape(None), tf.TensorShape(None)),
+        ).batch(self.BATCH_SIZE)
+
+        validation_data = tf.data.Dataset.from_generator(
+            generator=validation_data_generator,
             output_types=(tf.float32, tf.string, tf.float32),
             output_shapes=(tf.TensorShape(None), tf.TensorShape(None), tf.TensorShape(None)),
         ).batch(self.BATCH_SIZE)
@@ -66,7 +81,7 @@ class VQA_SAN:
 
         # Add iterators to the graph
         self.train_init = iterator.make_initializer(train_data)           # Train iterator
-        self.validation_init = iterator.make_initializer(train_data)      # Validation iterator
+        self.validation_init = iterator.make_initializer(validation_data)      # Validation iterator
 
 
     def loss(self):
