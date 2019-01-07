@@ -30,6 +30,9 @@ class VQA_SAN:
         self.n_steps_to_save = 500
 
     def get_data(self):
+        """
+        Define computation graph for processing inputs using Tensorflow Dataset API. 
+        """
 
         # Setup the train generator
         train_generator = DataGenerator(image_path=self.PATH_TO_TRAIN_IMAGES,
@@ -83,6 +86,9 @@ class VQA_SAN:
 
 
     def loss(self):
+        """
+        Define proper loss function for training the neural network.
+        """
 
         with tf.name_scope('loss'):
 
@@ -92,6 +98,9 @@ class VQA_SAN:
             self.loss_val = tf.reduce_mean(cross_entropy_loss, name='loss')
 
     def optimize(self):
+        """
+        Define proper optimization method for training the neural network.
+        """
 
         with tf.name_scope('SGDOptimizer'):
 
@@ -101,12 +110,18 @@ class VQA_SAN:
             ).minimize(self.loss_val, global_step=self.g_step)
 
     def eval(self):
+        """
+        Define the desired evaluation method for the model (Accuracy in this case)
+        """
 
         with tf.name_scope('Accuracy'):
 
             self.accuracy = tf.reduce_sum(tf.cast(tf.equal(tf.argmax(self.predictions, 1), tf.argmax(self.label, 1)), tf.float32))
 
     def summary(self):
+        """
+        Use Tensorflow mechanisms to display summaries on Tensorboard
+        """
 
         with tf.name_scope('graph_summary'):
 
@@ -118,6 +133,9 @@ class VQA_SAN:
 
 
     def build_model(self):
+        """
+        Build the core computation graph for processing questions, answers and images.
+        """
 
         # Setup input data pipeline
         self.get_data()
@@ -172,6 +190,9 @@ class VQA_SAN:
 
 
     def train_one_epoch(self, init, sess, saver, writer, step, epoch):
+        """
+        Train network one epoch. Display accuracy and loss metrics for based on the number defined in self.skip_steps.
+        """
 
         # Initialize dataset pipeline with train data
         sess.run(init)
@@ -198,6 +219,9 @@ class VQA_SAN:
         print("Train Loss at epoch {}: {}".format(epoch, total_loss))
 
     def validate(self, init, sess, writer, epoch):
+        """
+        Validate the trained model on validation data.
+        """
 
         # Initialize dataset pipeline with validation data
         sess.run(init)
@@ -215,7 +239,10 @@ class VQA_SAN:
         print("Validation Loss at epoch {}: {}".format(epoch, total_loss))
 
     def train_and_validate(self, num_epochs):
-
+        """
+        Initial setup for saving tensorflow sessions, running training session and validation session.
+        """
+        
         # Tensorflow writer for graphs and summary saving
         train_writer = tf.summary.FileWriter(self.PATH_TO_VISUALIZATION_GRAPHS, tf.get_default_graph())
         # validation_writer = tf.summary.FileWriter(self.PATH_TO_VISUALIZATION_GRAPHS, tf.get_default_graph())
