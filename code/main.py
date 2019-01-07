@@ -1,6 +1,5 @@
 from vqa_san import VQA_SAN
 
-
 # Instantiate the VQA class
 vqa_model = VQA_SAN()
 

@@ -20,7 +20,9 @@ class DataGenerator:
         self.load_qa_into_mem()
 
     def load_qa_into_mem(self):
-
+        """
+        Load json files to memory for further usage.
+        """
         # Load all image files of directory into the memory
         self.image_list = os.listdir(self.image_path)
 
@@ -31,6 +33,9 @@ class DataGenerator:
             self.a_data = json.loads(a_file.read())
 
     def mini_batch_generator(self):
+        """
+        Generator for feeding data through Tensorflow dataset API.
+        """
 
         # Generate a batch of images
         # for each image in the batch generate

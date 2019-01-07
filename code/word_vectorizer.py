@@ -12,6 +12,9 @@ class WordVectorizer:
         self.word_to_index, self.index_to_embedding = load_embedding_from_disks(glove_file_path, with_indexes=True)
 
     def load_trained_model_tensors(self, name='load_trained_glove'):
+        """
+        Load the pre-trained language model to GDDR memory for direct Tensorflow lookups.
+        """
 
         with tf.name_scope(name=name):
 
@@ -20,7 +23,7 @@ class WordVectorizer:
                 tf.constant(0.0, shape=self.index_to_embedding.shape),
                 trainable=False,
                 name='sentence_embedding'
-            )
+            ) 
 
             # Load embeddings to gddr while running tf_embedding_init
             tf_embedding_on_gddr = tf.constant(value=self.index_to_embedding, dtype=tf.float32, shape=self.index_to_embedding.shape)
@@ -29,7 +32,10 @@ class WordVectorizer:
         return tf_embedding_init
 
     def generate_sentence_vector(self, target_sentence, name='sentence_vector_generator'):
-
+        """
+        Computation graph definition for a word lookup in the loaded language model in GDDR.
+        """
+        
         with tf.name_scope(name=name):
 
             # TODO: Get embedding of words each

@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 class FeatureExtractor:
-    
+
     CONV1_NUM_FILTERS = 10
     CONV1_FILTER_SIZE = 3
 
@@ -16,6 +16,9 @@ class FeatureExtractor:
         self.keep_prob = keep_prob
 
     def generate_image_feature_map(self, cnn_input, name='Image_Feature_Extractor'):
+        """
+        Computation graph definition of the Convolutional Neural Network to extract image feature maps.
+        """
 
         with tf.name_scope(name=name):
 
@@ -57,6 +60,9 @@ class FeatureExtractor:
             return flattened
 
     def conv_bn_sc_relu(self, inputs, filters, k_size, stride, padding, scope_name, keep_prob):
+        """
+        Building blocks for constructing a Convolutional Neural Network.
+        """
 
         with tf.variable_scope(scope_name, reuse=tf.AUTO_REUSE):
 
@@ -85,7 +91,9 @@ class FeatureExtractor:
         return tf.nn.relu(do_scaled_batch + biases, name='relu')
 
     def scale(self, inputs, scope_name):
-
+        """
+        Scale input using a simple linear transformation to learn variations better.
+        """
         with tf.variable_scope(scope_name, reuse=tf.AUTO_REUSE):
 
             in_dim = inputs.shape[-1]
@@ -97,7 +105,9 @@ class FeatureExtractor:
         return scaled_input
 
     def maxpool(self, inputs, k_size, stride, padding, scope_name):
-
+        """
+        Perform a max pooling operation for dimensionality reduction purposes on the feature maps.
+        """
         with tf.variable_scope(scope_name, reuse=tf.AUTO_REUSE):
             pool = tf.nn.max_pool(value=inputs, ksize=[1, k_size, k_size, 1], strides=[1, stride, stride, 1], padding=padding)
 
