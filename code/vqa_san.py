@@ -171,9 +171,9 @@ class VQA_SAN:
         self.summary()
 
 
-    def train_one_epoch(self, init, sess, saver, writer, step):
+    def train_one_epoch(self, init, sess, saver, writer, step, epoch):
 
-        # Initialize input data based on the training or validation
+        # Initialize dataset pipeline with train data
         sess.run(init)
         total_loss = 0
 
@@ -194,24 +194,25 @@ class VQA_SAN:
                     print("Trained weights saved in path: {}".format(save_path))
         except tf.errors.OutOfRangeError:
             pass;
+        
+        print("Train Loss at epoch {}: {}".format(epoch, total_loss))
 
-    # def validate(self, init, sess, writer, step, epoch):
+    def validate(self, init, sess, writer, epoch):
 
-    #     # Initialize input data based on the training or validation
-    #     self.init = init
+        # Initialize dataset pipeline with validation data
+        sess.run(init)
+        total_loss = 0
 
-    #     total_loss = 0
+        try:
+            while True:
+                # Get accuracy and summary of validation
+                step_accuracy, step_loss, step_summary = sess.run([self.accuracy, self.loss_val, self.summary])
+                total_loss += step_loss
 
-    #     try:
-    #         while True:
-    #             # Get accuracy and summary of validation
-    #             step_accuracy, step_loss, step_summary = sess.run([self.accuracy, self.loss_val, self.summary])
+        except tf.errors.OutOfRangeError:
+            pass;
 
-    #             step += 1
-    #             total_loss += step_loss
-
-    #     except tf.errors.OutOfRangeError:
-    #         pass;
+        print("Validation Loss at epoch {}: {}".format(epoch, total_loss))
 
     def train_and_validate(self, num_epochs):
 
@@ -236,20 +237,22 @@ class VQA_SAN:
             step = self.g_step.eval()
 
             # Train multiple epochs
-            for _ in range(num_epochs):
-
+            for epoch in range(num_epochs):
+                
+                # Train one epoch
                 step = self.train_one_epoch(
                     init=self.train_init,
                     sess=sess,
                     saver=saver,
                     writer=train_writer,
-                    step=step
+                    step=step,
+                    epoch=epoch
                 )
 
-                # Validate the learned model
-                # self.validate(
-                #     init=self.validation_init,
-                #     sess=sess,
-                #     writer=validation_writer,
-                #     step=step
-                # )
+                # Validate once
+                self.validate(
+                    init=self.validation_init,
+                    sess=sess,
+                    writer=validation_writer,
+                    epoch=epoch
+                )
