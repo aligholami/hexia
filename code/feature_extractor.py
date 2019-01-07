@@ -1,11 +1,7 @@
 import tensorflow as tf
 
 class FeatureExtractor:
-
-    # CNN_INPUT_HEIGHT = 256
-    # CNN_INPUT_WIDTH = 256
-    # CNN_INPUT_CHANNELS = 3
-
+    
     CONV1_NUM_FILTERS = 10
     CONV1_FILTER_SIZE = 3
 
