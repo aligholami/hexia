@@ -253,7 +253,11 @@ class VQA_SAN:
         with tf.Session().as_default() as sess:
 
             # Initialize variables
-            sess.run(tf.global_variables_initializer())
+            # sess.run(tf.global_variables_initializer())
+
+            # Restore model
+            saver.restore(sess, self.PATH_TO_MODEL_CHECKPOINTS)
+            print("Model Restored.")
 
             # Initialize tables
             sess.run(tf.tables_initializer())
