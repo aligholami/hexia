@@ -18,7 +18,7 @@ class VQA_SAN:
     PATH_TO_VALIDATION_VISUALIZATION_GRAPHS = '../visualization/validation'
     PATH_TO_MODEL_CHECKPOINTS = '../models/checkpoints'
 
-    BATCH_SIZE = 32
+    BATCH_SIZE = 64
     NUM_CLASSES = 3     # Yes / Maybe / No
     LEARNING_RATE = 0.0001
 
@@ -221,7 +221,7 @@ class VQA_SAN:
         
         return step
 
-    def validate(self, init, sess, writer, epoch):
+    def validate(self, init, sess, writer, step, epoch):
         """
         Validate the trained model on validation data.
         """
@@ -236,13 +236,11 @@ class VQA_SAN:
                 step_accuracy, step_loss, step_summary = sess.run([self.accuracy, self.loss_val, self.summary])
                 total_loss += step_loss
 
-                if((step + 1) % self.skip_steps == 0):
-                    writer.add_summary(step_summary, global_step=step)
-
         except tf.errors.OutOfRangeError:
             pass;
 
         print("Validation Loss at epoch {}: {}\n".format(epoch, total_loss))
+        writer.add_summary(step_summary, global_step=step)
 
     def train_and_validate(self, num_epochs):
         """
@@ -251,7 +249,7 @@ class VQA_SAN:
         
         # Tensorflow writer for graphs and summary saving
         train_writer = tf.summary.FileWriter(self.PATH_TO_TRAIN_VISUALIZATION_GRAPHS, tf.get_default_graph())
-        validation_writer = tf.summary.FileWriter(self.PATH_TO_VALIDATION_VISUALIZATION_GRAPHS, tf.get_default_graph())
+        validation_writer = tf.summary.FileWriter(self.PATH_TO_VALIDATION_VISUALIZATION_GRAPHS)
 
         # Saving operation (also for resotre)
         saver = tf.train.Saver()
@@ -291,5 +289,6 @@ class VQA_SAN:
                     init=self.validation_init,
                     sess=sess,
                     writer=validation_writer,
+                    step=step,
                     epoch=epoch
                 )
