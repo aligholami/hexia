@@ -1,4 +1,5 @@
 import tensorflow as tf
+import os
 from feature_extractor import FeatureExtractor
 from word_vectorizer import WordVectorizer
 from classifier import Classifier
@@ -18,7 +19,7 @@ class VQA_SAN:
     PATH_TO_VALIDATION_VISUALIZATION_GRAPHS = '../visualization/validation'
     PATH_TO_MODEL_CHECKPOINTS = '../models/checkpoints'
 
-    BATCH_SIZE = 64
+    BATCH_SIZE = 128
     NUM_CLASSES = 3     # Yes / Maybe / No
     LEARNING_RATE = 0.0001
 
@@ -172,10 +173,10 @@ class VQA_SAN:
 
         # self.iqa_vector = tf.concat(values=[self.question_glove_vector, self.image_feature_map], axis=1)
 
-        # self.iqa_vector = tf.concat(values=[iqa_vector, self.answer_glove_vector], axis=1)
+        self.iqa_vector = tf.concat(values=[self.sentence_glove_vector, self.image_feature_map], axis=1)
 
         # Classify the concatenated vector
-        self.predictions = classifier.classify_input(self.sentence_glove_vector)
+        self.predictions = classifier.classify_input(self.iqa_vector)
 
         # Setup loss function
         self.loss()
@@ -260,9 +261,13 @@ class VQA_SAN:
             sess.run(tf.global_variables_initializer())
 
             # Restore model
-            # saver.restore(sess, self.PATH_TO_MODEL_CHECKPOINTS)
-            # print("Model Restored.")
-
+            if os.path.exists(self.PATH_TO_MODEL_CHECKPOINTS):
+                saver.restore(sess, self.PATH_TO_MODEL_CHECKPOINTS)
+                print("Model Restored.")
+            else:
+                # Initialize variables
+                sess.run(tf.global_variables_initializer())
+            
             # Initialize tables
             sess.run(tf.tables_initializer())
 
