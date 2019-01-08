@@ -14,7 +14,8 @@ class VQA_SAN:
     PATH_TO_VALIDATION_ANSWERS = '../data/validation/answers/v2_mscoco_val2014_annotations.json'
     PATH_TO_TRAINED_GLOVE = '../models/GloVe/glove.6B.50d.txt'
     PATH_TO_WORD_VOCAB = '../models/GloVe/vocab_only.txt'
-    PATH_TO_VISUALIZATION_GRAPHS = '../visualization/'
+    PATH_TO_TRAIN_VISUALIZATION_GRAPHS = '../visualization/train'
+    PATH_TO_VALIDATION_VISUALIZATION_GRAPHS = '../visualization/validation'
     PATH_TO_MODEL_CHECKPOINTS = '../models/checkpoints'
 
     BATCH_SIZE = 32
@@ -216,7 +217,9 @@ class VQA_SAN:
         except tf.errors.OutOfRangeError:
             pass;
         
-        print("Train Loss at epoch {}: {}".format(epoch, total_loss))
+        print("Train Loss at epoch {}: {}\n".format(epoch, total_loss))
+        
+        return step
 
     def validate(self, init, sess, writer, epoch):
         """
@@ -233,10 +236,13 @@ class VQA_SAN:
                 step_accuracy, step_loss, step_summary = sess.run([self.accuracy, self.loss_val, self.summary])
                 total_loss += step_loss
 
+                if((step + 1) % self.skip_steps == 0):
+                    writer.add_summary(step_summary, global_step=step)
+
         except tf.errors.OutOfRangeError:
             pass;
 
-        print("Validation Loss at epoch {}: {}".format(epoch, total_loss))
+        print("Validation Loss at epoch {}: {}\n".format(epoch, total_loss))
 
     def train_and_validate(self, num_epochs):
         """
@@ -244,8 +250,8 @@ class VQA_SAN:
         """
         
         # Tensorflow writer for graphs and summary saving
-        train_writer = tf.summary.FileWriter(self.PATH_TO_VISUALIZATION_GRAPHS, tf.get_default_graph())
-        # validation_writer = tf.summary.FileWriter(self.PATH_TO_VISUALIZATION_GRAPHS, tf.get_default_graph())
+        train_writer = tf.summary.FileWriter(self.PATH_TO_TRAIN_VISUALIZATION_GRAPHS, tf.get_default_graph())
+        validation_writer = tf.summary.FileWriter(self.PATH_TO_VALIDATION_VISUALIZATION_GRAPHS, tf.get_default_graph())
 
         # Saving operation (also for resotre)
         saver = tf.train.Saver()
@@ -253,11 +259,11 @@ class VQA_SAN:
         with tf.Session().as_default() as sess:
 
             # Initialize variables
-            # sess.run(tf.global_variables_initializer())
+            sess.run(tf.global_variables_initializer())
 
             # Restore model
-            saver.restore(sess, self.PATH_TO_MODEL_CHECKPOINTS)
-            print("Model Restored.")
+            # saver.restore(sess, self.PATH_TO_MODEL_CHECKPOINTS)
+            # print("Model Restored.")
 
             # Initialize tables
             sess.run(tf.tables_initializer())

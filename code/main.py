@@ -7,4 +7,4 @@ vqa_model = VQA_SAN()
 vqa_model.build_model()
 
 # Start training
-vqa_model.train_and_validate(num_epochs=5)
+vqa_model.train_and_validate(num_epochs=20)
