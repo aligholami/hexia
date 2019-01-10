@@ -2,13 +2,13 @@ import tensorflow as tf
 
 class FeatureExtractor:
 
-    CONV1_NUM_FILTERS = 10
+    CONV1_NUM_FILTERS = 15
     CONV1_FILTER_SIZE = 3
 
-    CONV2_NUM_FILTERS = 15
+    CONV2_NUM_FILTERS = 30
     CONV2_FILTER_SIZE = 3
 
-    CONV3_NUM_FILTERS = 30
+    CONV3_NUM_FILTERS = 50
     CONV3_FILTER_SIZE = 3
 
     def __init__(self, keep_prob):

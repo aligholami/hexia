@@ -1,4 +1,5 @@
 import tensorflow as tf
+import numpy as np
 import os
 from feature_extractor import FeatureExtractor
 from word_vectorizer import WordVectorizer
@@ -7,21 +8,21 @@ from data_generator import DataGenerator
 
 class VQA_SAN:
 
-    PATH_TO_TRAIN_IMAGES = '../data/train/images/full-image-dir'
-    PATH_TO_TRAIN_QUESTIONS = '../data/train/questions/v2_OpenEnded_mscoco_train2014_questions.json'
-    PATH_TO_TRAIN_ANSWERS = '../data/train/answers/v2_mscoco_train2014_annotations.json'
-    PATH_TO_VALIDATION_IMAGES = '../data/validation/images/full-image-dir'
-    PATH_TO_VALIDATION_QUESTIONS = '../data/validation/questions/v2_OpenEnded_mscoco_val2014_questions.json'
-    PATH_TO_VALIDATION_ANSWERS = '../data/validation/answers/v2_mscoco_val2014_annotations.json'
-    PATH_TO_TRAINED_GLOVE = '../models/GloVe/glove.6B.50d.txt'
-    PATH_TO_WORD_VOCAB = '../models/GloVe/vocab_only.txt'
-    PATH_TO_TRAIN_VISUALIZATION_GRAPHS = '../visualization/train'
-    PATH_TO_VALIDATION_VISUALIZATION_GRAPHS = '../visualization/validation'
-    PATH_TO_MODEL_CHECKPOINTS = '../models/checkpoints'
+    PATH_TO_TRAIN_IMAGES = '../../data/train/images/full-image-dir'
+    PATH_TO_TRAIN_QUESTIONS = '../../data/train/questions/v2_OpenEnded_mscoco_train2014_questions.json'
+    PATH_TO_TRAIN_ANSWERS = '../../data/train/answers/v2_mscoco_train2014_annotations.json'
+    PATH_TO_VALIDATION_IMAGES = '../../data/validation/images/full-image-dir'
+    PATH_TO_VALIDATION_QUESTIONS = '../../data/validation/questions/v2_OpenEnded_mscoco_val2014_questions.json'
+    PATH_TO_VALIDATION_ANSWERS = '../../data/validation/answers/v2_mscoco_val2014_annotations.json'
+    PATH_TO_TRAINED_GLOVE = '../../models/GloVe/glove.6B.50d.txt'
+    PATH_TO_WORD_VOCAB = '../../models/GloVe/vocab_only.txt'
+    PATH_TO_TRAIN_VISUALIZATION_GRAPHS = '../../visualization/train'
+    PATH_TO_VALIDATION_VISUALIZATION_GRAPHS = '../../visualization/validation'
+    PATH_TO_MODEL_CHECKPOINTS = '../../models/checkpoints/baseline'
 
-    BATCH_SIZE = 128
+    BATCH_SIZE = 64
     NUM_CLASSES = 3     # Yes / Maybe / No
-    LEARNING_RATE = 0.0001
+    LEARNING_RATE = 0.00001
 
     def __init__(self):
 
@@ -106,9 +107,9 @@ class VQA_SAN:
 
         with tf.name_scope('SGDOptimizer'):
 
-            self.opt = tf.train.GradientDescentOptimizer(
+            self.opt = tf.train.AdamOptimizer(
                 learning_rate=self.LEARNING_RATE,
-                name='SGDOptimizer'
+                name='AdamOptimizer'
             ).minimize(self.loss_val, global_step=self.g_step)
 
     def eval(self):
@@ -200,6 +201,8 @@ class VQA_SAN:
         sess.run(init)
         total_loss = 0
 
+        losses = []
+
         try:
             while True:
                 # Get accuracy, loss value and optimize the network + summary of validation
@@ -207,10 +210,11 @@ class VQA_SAN:
 
                 step += 1
                 total_loss += step_loss
+                losses.append(step_loss)
 
                 if((step + 1) % self.skip_steps == 0):
                     print('Loss at step {}: {}'.format(step, step_loss))
-                    writer.add_summary(step_summary, global_step=step)
+                    # writer.add_summary(step_summary, global_step=step)
 
                 if((step + 1) % self.n_steps_to_save == 0):
                     save_path = saver.save(sess, self.PATH_TO_MODEL_CHECKPOINTS)
@@ -218,7 +222,14 @@ class VQA_SAN:
         except tf.errors.OutOfRangeError:
             pass;
         
-        print("Train Loss at epoch {}: {}\n".format(epoch, total_loss))
+        # Take the mean of all losses
+        epoch_loss = np.mean(losses)
+        summary = tf.Summary()
+        summary.value.add(tag="Loss", simple_value=epoch_loss)
+
+        writer.add(summary, step)
+
+        print("Train Loss at epoch {}: {}\n".format(epoch, epoch_loss))
         
         return step
 
