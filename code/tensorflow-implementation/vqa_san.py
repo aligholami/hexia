@@ -118,8 +118,10 @@ class VQA_SAN:
         """
 
         with tf.name_scope('Accuracy'):
-
-            self.accuracy = tf.reduce_sum(tf.cast(tf.equal(tf.argmax(self.predictions, 1), tf.argmax(self.label, 1)), tf.float32))
+            
+            softmaxed_preds = tf.nn.softmax(self.predictions)
+            self.accuracy = tf.reduce_sum(tf.cast(tf.equal(tf.argmax(softmaxed_preds, 1), tf.argmax(self.label, 1)), tf.float32))
+            self.acc, self.acc_vector = tf.metrics.accuracy(labels=tf.argmax(self.label, 1), predictions=tf.argmax(softmaxed_preds, 1))
 
     def summary(self):
         """
@@ -202,15 +204,16 @@ class VQA_SAN:
         total_loss = 0
 
         losses = []
-
+        accuracies = []
         try:
             while True:
                 # Get accuracy, loss value and optimize the network + summary of validation
-                step_accuracy, step_loss, _, step_summary= sess.run([self.accuracy, self.loss_val, self.opt, self.summary])
+                batch_accuracy, step_loss, _, step_summary= sess.run([self.acc, self.loss_val, self.opt, self.summary])
 
                 step += 1
                 total_loss += step_loss
                 losses.append(step_loss)
+                accuracies.append(batch_accuracy)
 
                 if((step + 1) % self.skip_steps == 0):
                     print('Loss at step {}: {}'.format(step, step_loss))
@@ -222,14 +225,17 @@ class VQA_SAN:
         except tf.errors.OutOfRangeError:
             pass;
         
-        # Take the mean of all losses
+        # Compute training loss
         epoch_loss = np.mean(losses)
+        epoch_accuracy = np.mean(accuracies)
         summary = tf.Summary()
-        summary.value.add(tag="Loss", simple_value=epoch_loss)
+        summary.value.add(tag="Training Loss", simple_value=epoch_loss)
+        summary.value.add(tag="Training Accuracy", simple_value=epoch_accuracy)
+    
+        writer.add_summary(summary, epoch)
 
-        writer.add(summary, step)
-
-        print("Train Loss at epoch {}: {}\n".format(epoch, epoch_loss))
+        print("Train Loss at epoch {}: {}".format(epoch, epoch_loss))
+        print("Train Accuracy at epoch {}: {}\n".format(epoch, epoch_accuracy))
         
         return step
 
@@ -242,17 +248,30 @@ class VQA_SAN:
         sess.run(init)
         total_loss = 0
 
+        losses = []
+        accuracies = []
+
         try:
             while True:
                 # Get accuracy and summary of validation
-                step_accuracy, step_loss, step_summary = sess.run([self.accuracy, self.loss_val, self.summary])
+                batch_accuracy, step_loss, step_summary = sess.run([self.accuracy, self.loss_val, self.summary])
                 total_loss += step_loss
-
+                losses.append(step_loss)
+                accuracies.append(batch_accuracy)
         except tf.errors.OutOfRangeError:
             pass;
 
-        print("Validation Loss at epoch {}: {}\n".format(epoch, total_loss))
-        writer.add_summary(step_summary, global_step=step)
+        # Compute validation loss
+        val_loss = np.mean(losses)
+        val_accuracy = np.mean(accuracies)
+        summary = tf.Summary()
+        summary.value.add(tag="Validation Loss", simple_value=val_loss)
+        summary.value.add(tag="Validation Accuracy", simple_value=val_accuracy)
+        writer.add_summary(summary, epoch)
+
+        print("Validation Loss at epoch {}: {}".format(epoch, total_loss))
+        print("Validation Accuracy at epoch {}: {}\n".format(epoch, val_accuracy))
+
 
     def train_and_validate(self, num_epochs):
         """
@@ -278,7 +297,8 @@ class VQA_SAN:
             else:
                 # Initialize variables
                 sess.run(tf.global_variables_initializer())
-            
+                sess.run(tf.local_variables_initializer())
+                
             # Initialize tables
             sess.run(tf.tables_initializer())
 
