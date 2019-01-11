@@ -20,7 +20,7 @@ class VQA_SAN:
     PATH_TO_VALIDATION_VISUALIZATION_GRAPHS = '../../visualization/validation'
     PATH_TO_MODEL_CHECKPOINTS = '../../models/checkpoints/baseline'
 
-    BATCH_SIZE = 64
+    BATCH_SIZE = 32
     NUM_CLASSES = 3     # Yes / Maybe / No
     LEARNING_RATE = 0.00001
 
@@ -121,7 +121,7 @@ class VQA_SAN:
             
             softmaxed_preds = tf.nn.softmax(self.predictions)
             self.accuracy = tf.reduce_sum(tf.cast(tf.equal(tf.argmax(softmaxed_preds, 1), tf.argmax(self.label, 1)), tf.float32))
-            self.acc, self.acc_vector = tf.metrics.accuracy(labels=tf.argmax(self.label, 1), predictions=tf.argmax(softmaxed_preds, 1))
+            self.acc, self.acc_update = tf.metrics.accuracy(labels=tf.argmax(self.label, 1), predictions=tf.argmax(softmaxed_preds, 1))
 
     def summary(self):
         """
@@ -208,7 +208,7 @@ class VQA_SAN:
         try:
             while True:
                 # Get accuracy, loss value and optimize the network + summary of validation
-                batch_accuracy, step_loss, _, step_summary= sess.run([self.acc, self.loss_val, self.opt, self.summary])
+                batch_accuracy, step_loss, _, step_summary= sess.run([self.acc_update, self.loss_val, self.opt, self.summary])
 
                 step += 1
                 total_loss += step_loss
@@ -216,7 +216,7 @@ class VQA_SAN:
                 accuracies.append(batch_accuracy)
 
                 if((step + 1) % self.skip_steps == 0):
-                    print('Loss at step {}: {}'.format(step, step_loss))
+                    print('Training is being done at step {}'.format(step))
                     # writer.add_summary(step_summary, global_step=step)
 
                 if((step + 1) % self.n_steps_to_save == 0):
@@ -234,7 +234,7 @@ class VQA_SAN:
     
         writer.add_summary(summary, epoch)
 
-        print("Train Loss at epoch {}: {}".format(epoch, epoch_loss))
+        print("\nTrain Loss at epoch {}: {}".format(epoch, epoch_loss))
         print("Train Accuracy at epoch {}: {}\n".format(epoch, epoch_accuracy))
         
         return step
@@ -254,7 +254,7 @@ class VQA_SAN:
         try:
             while True:
                 # Get accuracy and summary of validation
-                batch_accuracy, step_loss, step_summary = sess.run([self.accuracy, self.loss_val, self.summary])
+                batch_accuracy, step_loss, step_summary = sess.run([self.acc_update, self.loss_val, self.summary])
                 total_loss += step_loss
                 losses.append(step_loss)
                 accuracies.append(batch_accuracy)
@@ -269,7 +269,7 @@ class VQA_SAN:
         summary.value.add(tag="Validation Accuracy", simple_value=val_accuracy)
         writer.add_summary(summary, epoch)
 
-        print("Validation Loss at epoch {}: {}".format(epoch, total_loss))
+        print("\nValidation Loss at epoch {}: {}".format(epoch, val_loss))
         print("Validation Accuracy at epoch {}: {}\n".format(epoch, val_accuracy))
 
 
@@ -287,9 +287,6 @@ class VQA_SAN:
 
         with tf.Session().as_default() as sess:
 
-            # Initialize variables
-            sess.run(tf.global_variables_initializer())
-
             # Restore model
             if os.path.exists(self.PATH_TO_MODEL_CHECKPOINTS):
                 saver.restore(sess, self.PATH_TO_MODEL_CHECKPOINTS)
@@ -298,7 +295,7 @@ class VQA_SAN:
                 # Initialize variables
                 sess.run(tf.global_variables_initializer())
                 sess.run(tf.local_variables_initializer())
-                
+            
             # Initialize tables
             sess.run(tf.tables_initializer())
 

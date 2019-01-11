@@ -11,11 +11,22 @@ class Classifier:
         """
         Computation graph definition of a simple multi layer perceptron.
         """
-        
-        predictions = tf.layers.dense(
-            inputs=feature_vector,
-            units=self.num_classes,
-            name='Classifier'
-        )
+
+        with tf.name_scope("Classifier"):
+
+            fc_1 = tf.layers.dense(
+                inputs=feature_vector,
+                units=120
+            )
+
+            fc_2 = tf.layers.dense(
+                inputs=fc_1,
+                units=64
+            )
+
+            predictions = tf.layers.dense(
+                inputs=fc_2,
+                units=self.num_classes,
+            )
 
         return predictions
