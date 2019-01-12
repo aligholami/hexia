@@ -1,5 +1,6 @@
 import tensorflow as tf
-from tensorflow.contrib import slim
+from nets import resnet_v1
+
 
 class FeatureExtractor:
 
