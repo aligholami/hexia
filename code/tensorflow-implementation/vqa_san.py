@@ -216,7 +216,7 @@ class VQA_SAN:
                 accuracies.append(batch_accuracy)
 
                 if((step + 1) % self.skip_steps == 0):
-                    print('Training is being done at step {}'.format(step))
+                    print('Loss at step {}: {}'.format(step, step_loss))
                     # writer.add_summary(step_summary, global_step=step)
 
                 if((step + 1) % self.n_steps_to_save == 0):
