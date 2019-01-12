@@ -16,16 +16,11 @@ class Classifier:
 
             fc_1 = tf.layers.dense(
                 inputs=feature_vector,
-                units=120
-            )
-
-            fc_2 = tf.layers.dense(
-                inputs=fc_1,
-                units=64
+                units=1024
             )
 
             predictions = tf.layers.dense(
-                inputs=fc_2,
+                inputs=fc_1,
                 units=self.num_classes,
             )
 

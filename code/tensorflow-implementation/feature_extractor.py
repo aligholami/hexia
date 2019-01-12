@@ -2,7 +2,6 @@ import tensorflow as tf
 from tensorflow.contrib import slim
 from nets import resnet_v1 as resnet
 
-
 class FeatureExtractor:
 
     CONV1_NUM_FILTERS = 15
@@ -23,7 +22,7 @@ class FeatureExtractor:
         Computation graph defnition (with the help of tf.slim) for a ResNet101 architecture to extract image feature maps.
         """
 
-        with slim.arg_scope(resnet_v1.resnet_arg_scope()):
+        with slim.arg_scope(resnet.resnet_arg_scope()):
             features, _ = resnet.resnet_v1_101(inputs=cnn_input, is_training=True)
 
         # Flatten feature maps
@@ -33,7 +32,7 @@ class FeatureExtractor:
         )
 
         return flattened
-        
+
     def generate_image_feature_map(self, cnn_input, name='Image_Feature_Extractor'):
         """
         Computation graph definition of the Convolutional Neural Network to extract image feature maps.

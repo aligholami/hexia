@@ -160,7 +160,9 @@ class VQA_SAN:
         classifier = Classifier(self.NUM_CLASSES)
 
         # Obtain image feature maps
-        self.image_feature_map = feature_extractor.generate_image_feature_map(self.img)
+        # self.image_feature_map = feature_extractor.generate_image_feature_map(self.img)
+
+        self.image_feature_map = feature_extractor.generate_image_feature_map_with_resnet(self.img)
 
         # # Obtain answer embeddings
         # self.answer_glove_vector = tf.layers.flatten(word_vectorizer.generate_sentence_vector(self.answer))
