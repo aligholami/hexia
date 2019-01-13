@@ -1,6 +1,7 @@
 import tensorflow as tf
 from tensorflow.contrib import slim
 from nets import resnet_v1 as resnet
+from datasets import dataset_utils
 
 class FeatureExtractor:
 
@@ -13,9 +14,29 @@ class FeatureExtractor:
     CONV3_NUM_FILTERS = 50
     CONV3_FILTER_SIZE = 3
 
-    def __init__(self, keep_prob):
+    def __init__(self, keep_prob, enable_pre_trained_weights=True, path_to_pretrained_cnn_weights):
 
         self.keep_prob = keep_prob
+        self.enable_pre_trained_weights = enable_pre_trained_weights
+
+        if self.enable_pre_trained_weights == True:
+            self.grab_pre_trained_weights(path_to_pretrained_cnn_weights)
+        
+    def grab_pre_trained_weights(self, checkpoint_dir):
+        WEIGHTS_URL = " "
+
+        # Check existence of files with native Tensorflow file system implementation
+        if not tf.gfile.Exists(checkpoint_dir):
+            tf.gfile.MakeDirs(checkpoint_dir)
+
+        # Download the dataset using tensorflow dataset utils
+        dataset_utils.download_and_uncompress_tarball(url, checkpoint_dir)
+    
+    def load_trained_model_tensors(self):
+        init_fn = slim.assign_from_checkpoint_fn(os.path.join(checkpoints_dir, 'inception_v1.ckpt'),
+                                                slim.get_model_variables('InceptionV1'))
+        
+        return init_fn
 
     def generate_image_feature_map_with_resnet(self, cnn_input, name="Pre-trained ResNet101"):
         """

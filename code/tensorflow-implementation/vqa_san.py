@@ -19,6 +19,7 @@ class VQA_SAN:
     PATH_TO_TRAIN_VISUALIZATION_GRAPHS = '../../visualization/train'
     PATH_TO_VALIDATION_VISUALIZATION_GRAPHS = '../../visualization/validation'
     PATH_TO_MODEL_CHECKPOINTS = '../../models/checkpoints/baseline'
+    PATH_TO_PRETRAINED_CNN_WEIGHTS = '../../models/ResNet'
 
     BATCH_SIZE = 32
     NUM_CLASSES = 3     # Yes / Maybe / No
@@ -146,7 +147,12 @@ class VQA_SAN:
         self.get_data()
 
         # Feature extraction for the image
-        feature_extractor = FeatureExtractor(keep_prob=1.0)
+        feature_extractor = FeatureExtractor(keep_prob=1.0,
+                                            enable_pre_trained_weights=True,
+                                            path_to_pretrained_cnn_weights=self.PATH_TO_PRETRAINED_CNN_WEIGHTS)
+
+        
+        self.pre_trained_cnn_weights_init = feature_extractor.load_trained_model_tensors()
 
         # Word embeddings
         word_vectorizer = WordVectorizer(batch_size=self.BATCH_SIZE,
@@ -303,6 +309,9 @@ class VQA_SAN:
 
             # Load GloVe embeddings
             sess.run(self.embedding_init)
+
+            # Load pre-trained weights
+            sess.run(self.pre_trained_cnn_weights_init)
 
             step = self.g_step.eval()
 
