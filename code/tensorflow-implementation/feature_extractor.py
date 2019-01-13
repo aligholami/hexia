@@ -32,6 +32,7 @@ class FeatureExtractor:
         # Download the dataset using tensorflow dataset utils
         dataset_utils.download_and_uncompress_tarball(url, checkpoint_dir)
     
+    # Todo: Test this function
     def load_trained_model_tensors(self):
         init_fn = slim.assign_from_checkpoint_fn(os.path.join(checkpoints_dir, 'inception_v1.ckpt'),
                                                 slim.get_model_variables('InceptionV1'))
