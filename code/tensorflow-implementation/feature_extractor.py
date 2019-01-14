@@ -36,9 +36,14 @@ class FeatureExtractor:
     
     # Todo: Test this function
     def load_trained_model_tensors(self):
-        init_fn = slim.assign_from_checkpoint_fn(os.path.join(self.path_to_pretrained_cnn_weights, 'resnet_v1_101.ckpt'),
-                                                slim.get_model_variables('ResnetV1'))
-        
+
+        with slim.arg_scope(resnet.resnet_arg_scope()):
+
+            variables_to_restore = slim.get_model_variables("resnet_v1_101")
+            print("Restored variables: ", variables_to_restore)
+            init_fn = slim.assign_from_checkpoint_fn(os.path.join(self.path_to_pretrained_cnn_weights, 'resnet_v1_101.ckpt'),
+                                                    slim.get_model_variables(variables_to_restore))
+            
         return init_fn
 
     def generate_image_feature_map_with_resnet(self, cnn_input, name="Pre-trained ResNet101"):
@@ -49,13 +54,18 @@ class FeatureExtractor:
         with slim.arg_scope(resnet.resnet_arg_scope()):
             features, _ = resnet.resnet_v1_101(inputs=cnn_input, is_training=True)
 
+            variables_to_restore = slim.get_model_variables("resnet_v1_101")
+            print("Restored variables: ", variables_to_restore)
+            init_fn = slim.assign_from_checkpoint_fn(os.path.join(self.path_to_pretrained_cnn_weights, 'resnet_v1_101.ckpt'),
+                                                    slim.get_model_variables(variables_to_restore))
+            
         # Flatten feature maps
         flattened = tf.layers.flatten(
             inputs=features,
             name="flatten_features"
         )
 
-        return flattened
+        return flattened, init_fn
 
     def generate_image_feature_map(self, cnn_input, name='Image_Feature_Extractor'):
         """
