@@ -1,4 +1,5 @@
 import tensorflow as tf
+import os
 from tensorflow.contrib import slim
 from nets import resnet_v1 as resnet
 from datasets import dataset_utils
@@ -14,7 +15,7 @@ class FeatureExtractor:
     CONV3_NUM_FILTERS = 50
     CONV3_FILTER_SIZE = 3
 
-    def __init__(self, keep_prob, enable_pre_trained_weights=True, path_to_pretrained_cnn_weights):
+    def __init__(self, keep_prob, enable_pre_trained_weights, path_to_pretrained_cnn_weights):
 
         self.keep_prob = keep_prob
         self.enable_pre_trained_weights = enable_pre_trained_weights
@@ -31,7 +32,7 @@ class FeatureExtractor:
             tf.gfile.MakeDirs(checkpoint_dir)
 
         # Download the dataset using tensorflow dataset utils
-        dataset_utils.download_and_uncompress_tarball(url, checkpoint_dir)
+        dataset_utils.download_and_uncompress_tarball(WEIGHTS_URL, checkpoint_dir)
     
     # Todo: Test this function
     def load_trained_model_tensors(self):

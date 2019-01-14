@@ -148,7 +148,7 @@ class VQA_SAN:
 
         # Feature extraction for the image
         feature_extractor = FeatureExtractor(keep_prob=1.0,
-                                            enable_pre_trained_weights=True,
+                                            enable_pre_trained_weights=False,
                                             path_to_pretrained_cnn_weights=self.PATH_TO_PRETRAINED_CNN_WEIGHTS)
 
         
