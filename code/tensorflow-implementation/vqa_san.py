@@ -152,7 +152,7 @@ class VQA_SAN:
                                             path_to_pretrained_cnn_weights=self.PATH_TO_PRETRAINED_CNN_WEIGHTS)
 
         
-        self.pre_trained_cnn_weights_init = feature_extractor.load_trained_model_tensors()
+        # self.pre_trained_cnn_weights_init = feature_extractor.load_trained_model_tensors()
 
         # Word embeddings
         word_vectorizer = WordVectorizer(batch_size=self.BATCH_SIZE,
@@ -168,7 +168,7 @@ class VQA_SAN:
         # Obtain image feature maps
         # self.image_feature_map = feature_extractor.generate_image_feature_map(self.img)
 
-        self.image_feature_map = feature_extractor.generate_image_feature_map_with_resnet(self.img)
+        self.image_feature_map, self.pre_trained_cnn_weights_init = feature_extractor.generate_image_feature_map_with_resnet(self.img)
 
         # # Obtain answer embeddings
         # self.answer_glove_vector = tf.layers.flatten(word_vectorizer.generate_sentence_vector(self.answer))

@@ -34,18 +34,6 @@ class FeatureExtractor:
         # Download the dataset using tensorflow dataset utils
         dataset_utils.download_and_uncompress_tarball(WEIGHTS_URL, checkpoint_dir)
     
-    # Todo: Test this function
-    def load_trained_model_tensors(self):
-
-        with slim.arg_scope(resnet.resnet_arg_scope()):
-
-            variables_to_restore = slim.get_model_variables("resnet_v1_101")
-            print("Restored variables: ", variables_to_restore)
-            init_fn = slim.assign_from_checkpoint_fn(os.path.join(self.path_to_pretrained_cnn_weights, 'resnet_v1_101.ckpt'),
-                                                    slim.get_model_variables(variables_to_restore))
-            
-        return init_fn
-
     def generate_image_feature_map_with_resnet(self, cnn_input, name="Pre-trained ResNet101"):
         """
         Computation graph defnition (with the help of tf.slim) for a ResNet101 architecture to extract image feature maps.
