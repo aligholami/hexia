@@ -293,7 +293,11 @@ class VQA_SAN:
         # Saving operation (also for resotre)
         saver = tf.train.Saver()
 
-        with tf.Session().as_default() as sess:
+        # GPU Options for allocating a part of GPU Ram :D
+        config = tf.ConfigProto()
+        config.gpu_options.allow_growth = True
+
+        with tf.Session(config=config).as_default() as sess:
 
             # Restore model
             if os.path.exists(self.PATH_TO_MODEL_CHECKPOINTS):

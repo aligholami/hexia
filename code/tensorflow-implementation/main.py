@@ -1,4 +1,7 @@
 from vqa_san import VQA_SAN
+import os
+
+os.environ["CUDA_VISIBLE_DEVICES"] = '0'
 
 # Instantiate the VQA class
 vqa_model = VQA_SAN()
