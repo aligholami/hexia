@@ -311,7 +311,7 @@ class VQA_SAN:
             sess.run(self.embedding_init)
 
             # Load pre-trained weights
-            sess.run(self.pre_trained_cnn_weights_init)
+            self.pre_trained_cnn_weights_init(sess)
 
             step = self.g_step.eval()
 
