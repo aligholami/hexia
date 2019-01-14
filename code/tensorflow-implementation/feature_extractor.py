@@ -18,6 +18,7 @@ class FeatureExtractor:
 
         self.keep_prob = keep_prob
         self.enable_pre_trained_weights = enable_pre_trained_weights
+        self.path_to_pretrained_cnn_weights = path_to_pretrained_cnn_weights
 
         if self.enable_pre_trained_weights == True:
             self.grab_pre_trained_weights(path_to_pretrained_cnn_weights)
@@ -34,8 +35,8 @@ class FeatureExtractor:
     
     # Todo: Test this function
     def load_trained_model_tensors(self):
-        init_fn = slim.assign_from_checkpoint_fn(os.path.join(checkpoints_dir, 'inception_v1.ckpt'),
-                                                slim.get_model_variables('InceptionV1'))
+        init_fn = slim.assign_from_checkpoint_fn(os.path.join(self.path_to_pretrained_cnn_weights, 'resnet_v1_101.ckpt'),
+                                                slim.get_model_variables('ResnetV1'))
         
         return init_fn
 
