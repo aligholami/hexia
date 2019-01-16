@@ -8,18 +8,18 @@ from data_generator import DataGenerator
 
 class VQA_SAN:
 
-    PATH_TO_TRAIN_IMAGES = '../../data/train/images/full-image-dir'
-    PATH_TO_TRAIN_QUESTIONS = '../../data/train/questions/v2_OpenEnded_mscoco_train2014_questions.json'
-    PATH_TO_TRAIN_ANSWERS = '../../data/train/answers/v2_mscoco_train2014_annotations.json'
-    PATH_TO_VALIDATION_IMAGES = '../../data/validation/images/full-image-dir'
-    PATH_TO_VALIDATION_QUESTIONS = '../../data/validation/questions/v2_OpenEnded_mscoco_val2014_questions.json'
-    PATH_TO_VALIDATION_ANSWERS = '../../data/validation/answers/v2_mscoco_val2014_annotations.json'
-    PATH_TO_TRAINED_GLOVE = '../../models/GloVe/glove.6B.50d.txt'
-    PATH_TO_WORD_VOCAB = '../../models/GloVe/vocab_only.txt'
-    PATH_TO_TRAIN_VISUALIZATION_GRAPHS = '../../visualization/train'
-    PATH_TO_VALIDATION_VISUALIZATION_GRAPHS = '../../visualization/validation'
-    PATH_TO_MODEL_CHECKPOINTS = '../../models/checkpoints/baseline'
-    PATH_TO_PRETRAINED_CNN_WEIGHTS = '../../models/ResNet'
+    PATH_TO_TRAIN_IMAGES = '../../../data/train/images/full-image-dir'
+    PATH_TO_TRAIN_QUESTIONS = '../../../data/train/questions/v2_OpenEnded_mscoco_train2014_questions.json'
+    PATH_TO_TRAIN_ANSWERS = '../../../data/train/answers/v2_mscoco_train2014_annotations.json'
+    PATH_TO_VALIDATION_IMAGES = '../../../data/validation/images/full-image-dir'
+    PATH_TO_VALIDATION_QUESTIONS = '../../../data/validation/questions/v2_OpenEnded_mscoco_val2014_questions.json'
+    PATH_TO_VALIDATION_ANSWERS = '../../../data/validation/answers/v2_mscoco_val2014_annotations.json'
+    PATH_TO_TRAINED_GLOVE = '../../../models/GloVe/glove.6B.50d.txt'
+    PATH_TO_WORD_VOCAB = '../../../models/GloVe/vocab_only.txt'
+    PATH_TO_TRAIN_VISUALIZATION_GRAPHS = '../../../visualization/train'
+    PATH_TO_VALIDATION_VISUALIZATION_GRAPHS = '../../../visualization/validation'
+    PATH_TO_MODEL_CHECKPOINTS = '../../../models/checkpoints/baseline'
+    PATH_TO_PRETRAINED_CNN_WEIGHTS = '../../../models/ResNet'
 
     BATCH_SIZE = 32
     NUM_CLASSES = 3     # Yes / Maybe / No
