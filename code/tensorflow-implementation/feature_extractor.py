@@ -42,7 +42,9 @@ class FeatureExtractor:
         with slim.arg_scope(resnet.resnet_arg_scope()):
             features, _ = resnet.resnet_v1_101(inputs=cnn_input, is_training=True)
 
-            variables_to_restore = slim.get_model_variables("resnet_v1_101")
+            # variables_to_restore = slim.get_model_variables("resnet_v1_101")
+            variables_to_restore = slim.get_trainable_variables()
+            
             print("Restored variables: ", variables_to_restore)
             init_resnet = slim.assign_from_checkpoint_fn(os.path.join(self.path_to_pretrained_cnn_weights, 'resnet_v1_101.ckpt'), variables_to_restore)
             
