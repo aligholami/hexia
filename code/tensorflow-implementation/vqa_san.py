@@ -114,6 +114,7 @@ class VQA_SAN:
             all_vars = tf.trainable_variables()
             trainable_vars = [var for var in all_vars if 'resnet' not in var.name]
 
+            print("All Variables: ", all_vars)
             print("Trainable Variables: ", trainable_vars)
             
             self.opt = tf.train.AdamOptimizer(
