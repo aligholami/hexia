@@ -34,13 +34,13 @@ class FeatureExtractor:
         # Download the dataset using tensorflow dataset utils
         dataset_utils.download_and_uncompress_tarball(WEIGHTS_URL, checkpoint_dir)
     
-    def generate_image_feature_map_with_resnet(self, cnn_input, name="Pre-trained ResNet101"):
+    def generate_image_feature_map_with_resnet(self, cnn_input, is_training, name="Pre-trained ResNet101"):
         """
         Computation graph defnition (with the help of tf.slim) for a ResNet101 architecture to extract image feature maps.
         """
 
         with slim.arg_scope(resnet.resnet_arg_scope()):
-            features, _ = resnet.resnet_v1_101(inputs=cnn_input, is_training=True)
+            features, _ = resnet.resnet_v1_101(inputs=cnn_input, is_training=is_training)
 
             # variables_to_restore = slim.get_model_variables("resnet_v1_101")
             variables_to_restore = slim.get_trainable_variables()

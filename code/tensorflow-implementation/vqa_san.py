@@ -30,6 +30,9 @@ class VQA_SAN:
         # Define global step variable
         self.g_step = tf.Variable(0, dtype=tf.int32, trainable=False, name='global_step')
 
+        # Define is)traning for variations in batch_norm while trainig and testing
+        self.is_training = tf.placeholder(tf.bool)
+
         self.skip_steps = 100
         self.n_steps_to_save = 500
 
@@ -168,7 +171,7 @@ class VQA_SAN:
         # Obtain image feature maps
         # self.image_feature_map = feature_extractor.generate_image_feature_map(self.img)
 
-        self.image_feature_map, self.pre_trained_cnn_weights_init = feature_extractor.generate_image_feature_map_with_resnet(self.img)
+        self.image_feature_map, self.pre_trained_cnn_weights_init = feature_extractor.generate_image_feature_map_with_resnet(self.img, is_training=self.is_training)
 
         # # Obtain answer embeddings
         # self.answer_glove_vector = tf.layers.flatten(word_vectorizer.generate_sentence_vector(self.answer))
@@ -216,7 +219,7 @@ class VQA_SAN:
         try:
             while True:
                 # Get accuracy, loss value and optimize the network + summary of validation
-                batch_accuracy, step_loss, _, step_summary= sess.run([self.acc_update, self.loss_val, self.opt, self.summary])
+                batch_accuracy, step_loss, _, step_summary= sess.run([self.acc_update, self.loss_val, self.opt, self.summary], feed_dict={self.is_training: True})
 
                 step += 1
                 total_loss += step_loss
@@ -262,7 +265,7 @@ class VQA_SAN:
         try:
             while True:
                 # Get accuracy and summary of validation
-                batch_accuracy, step_loss, step_summary = sess.run([self.acc_update, self.loss_val, self.summary])
+                batch_accuracy, step_loss, step_summary = sess.run([self.acc_update, self.loss_val, self.summary], feed_dict={self.is_training: False})
                 total_loss += step_loss
                 losses.append(step_loss)
                 accuracies.append(batch_accuracy)
