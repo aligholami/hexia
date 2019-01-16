@@ -8,18 +8,18 @@ from data_generator import DataGenerator
 
 class VQA_SAN:
 
-    PATH_TO_TRAIN_IMAGES = '../../../data/train/images/full-image-dir'
-    PATH_TO_TRAIN_QUESTIONS = '../../../data/train/questions/v2_OpenEnded_mscoco_train2014_questions.json'
-    PATH_TO_TRAIN_ANSWERS = '../../../data/train/answers/v2_mscoco_train2014_annotations.json'
-    PATH_TO_VALIDATION_IMAGES = '../../../data/validation/images/full-image-dir'
-    PATH_TO_VALIDATION_QUESTIONS = '../../../data/validation/questions/v2_OpenEnded_mscoco_val2014_questions.json'
-    PATH_TO_VALIDATION_ANSWERS = '../../../data/validation/answers/v2_mscoco_val2014_annotations.json'
-    PATH_TO_TRAINED_GLOVE = '../../../models/GloVe/glove.6B.50d.txt'
-    PATH_TO_WORD_VOCAB = '../../../models/GloVe/vocab_only.txt'
-    PATH_TO_TRAIN_VISUALIZATION_GRAPHS = '../../../visualization/train'
-    PATH_TO_VALIDATION_VISUALIZATION_GRAPHS = '../../../visualization/validation'
-    PATH_TO_MODEL_CHECKPOINTS = '../../../models/checkpoints/baseline'
-    PATH_TO_PRETRAINED_CNN_WEIGHTS = '../../../models/ResNet'
+    PATH_TO_TRAIN_IMAGES = '../../data/train/images/'
+    PATH_TO_TRAIN_QUESTIONS = '../../data/train/questions/v2_OpenEnded_mscoco_train2014_questions.json'
+    PATH_TO_TRAIN_ANSWERS = '../../data/train/answers/v2_mscoco_train2014_annotations.json'
+    PATH_TO_VALIDATION_IMAGES = '../../data/validation/images/'
+    PATH_TO_VALIDATION_QUESTIONS = '../../data/validation/questions/v2_OpenEnded_mscoco_val2014_questions.json'
+    PATH_TO_VALIDATION_ANSWERS = '../../data/validation/answers/v2_mscoco_val2014_annotations.json'
+    PATH_TO_TRAINED_GLOVE = '../../models/GloVe/glove.6B.50d.txt'
+    PATH_TO_WORD_VOCAB = '../../models/GloVe/vocab_only.txt'
+    PATH_TO_TRAIN_VISUALIZATION_GRAPHS = '../../visualization/train'
+    PATH_TO_VALIDATION_VISUALIZATION_GRAPHS = '../../visualization/validation'
+    PATH_TO_MODEL_CHECKPOINTS = '../../models/checkpoints/baseline'
+    PATH_TO_PRETRAINED_CNN_WEIGHTS = '../../models/ResNet'
 
     BATCH_SIZE = 32
     NUM_CLASSES = 3     # Yes / Maybe / No
@@ -30,7 +30,7 @@ class VQA_SAN:
         # Define global step variable
         self.g_step = tf.Variable(0, dtype=tf.int32, trainable=False, name='global_step')
 
-        # Define is)traning for variations in batch_norm while trainig and testing
+        # Define is_traning for variations in batch_norm while trainig and testing
         self.is_training = tf.placeholder(tf.bool)
 
         self.skip_steps = 100
@@ -109,12 +109,15 @@ class VQA_SAN:
         Define proper optimization method for training the neural network.
         """
 
-        with tf.name_scope('SGDOptimizer'):
+        with tf.name_scope('AdamOptimizer'):
+            
+            all_vars = tf.trainable_variables()
+            trainable_vars = [var for var in all_vars if 'resnet' not in var.name]
 
             self.opt = tf.train.AdamOptimizer(
                 learning_rate=self.LEARNING_RATE,
                 name='AdamOptimizer'
-            ).minimize(self.loss_val, global_step=self.g_step)
+            ).minimize(self.loss_val, global_step=self.g_step, var_list=trainable_vars)
 
     def eval(self):
         """
