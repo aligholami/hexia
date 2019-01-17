@@ -12,10 +12,17 @@ In this project, we will analyze different methods for building a VQA system. Ou
 
 ## Baseline 1
 
-In this section, we initially implement a VQA model with the following characteristics:
+##
+Initially, the VQA model is trained and validated with the following configurations:
 
-1.  Extraction of image feature maps with a custom CNN of depth 3.
-2.  Averaging embedding scores of words in a question.
-3.  Averaging embedding scores of words in an answer.
-4.  Concatenating image feature maps and averaged embedding scores of answer and question.
-5.  Classifying the concatenated maps as correct/maybe/incorrect based on the confidence in the dataset.
+| Visual Features | Text Features | Merged Features | Normalization | Training Method | Total Parameters | 
+| ------------- |:-------------:| -----:| -----:| -----:| -----:|
+| CNN[] | right-aligned | $1600 | $1600 | $1600 | $1600 |
+
+###
+<p align="center">
+    <img src="https://github.com/hexpheus/SimpNet-Tensorflow/blob/master/result/mnist_acc.png">
+</p>
+
+---
+## Baseline 2
