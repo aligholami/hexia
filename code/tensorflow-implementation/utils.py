@@ -14,7 +14,7 @@ def get_image_id(filename):
     return img_id
         
 
-def pad_sentence(sentence, target_length=25, word_to_pad_with='hashemali'):
+def pad_sentence(sentence, target_length=30, word_to_pad_with='hashemali'):
     """
     Pad input sentences for batch usage in Tensorflow.
     """

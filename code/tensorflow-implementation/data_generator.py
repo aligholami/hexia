@@ -58,8 +58,9 @@ class DataGenerator:
                 if(question['image_id'] == int(img_id)):
                     for annotation in self.a_data['annotations']:
                         if(annotation['question_id'] == question['question_id']):
-                            answer_no = 0
-                            for _ in annotation['answers']:
+                            
+                            # Select first 3 answers only
+                            for answer_no in range(3):
 
                                 batch_item = {}
                                 batch_item['image'] = img
