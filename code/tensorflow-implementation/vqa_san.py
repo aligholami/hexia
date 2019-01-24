@@ -60,8 +60,8 @@ class VQA_SAN:
 
         self.num_validation_samples = validation_generator.get_num_of_samples()
 
-        train_data_generator = lambda: train_generator.mini_batch_generator()
-        validation_data_generator = lambda: validation_generator.mini_batch_generator()
+        train_data_generator = lambda: train_generator.mini_batch_generator_v2()
+        validation_data_generator = lambda: validation_generator.mini_batch_generator_v2()
 
         train_data = tf.data.Dataset.from_generator(
             generator=train_data_generator,
