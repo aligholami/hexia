@@ -232,7 +232,7 @@ class VQA_SAN:
         accuracies = []
 
         pbar = tqdm(total=int(self.num_train_samples/self.BATCH_SIZE))
-        pbar.set_description("Trainig epoch {}".format(epoch))
+        pbar.set_description("Trainig Epoch {}".format(epoch))
         try:
             while True:
                 # Get accuracy, loss value and optimize the network + summary of validation
@@ -281,7 +281,7 @@ class VQA_SAN:
         accuracies = []
 
         pbar = tqdm(total=int(self.num_validation_samples/self.BATCH_SIZE))
-        pbar.set_description("Validation at epoch {1}".format(epoch))
+        pbar.set_description("Validation Epoch {}".format(epoch))
         try:
             while True:
                 # Get accuracy and summary of validation
