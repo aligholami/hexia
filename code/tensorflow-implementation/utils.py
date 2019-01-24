@@ -18,7 +18,7 @@ def get_image_name_in_dir(img_id):
     Get actual image name in the directory
     """
 
-    padded_id = img_id.rjust(12, '0')
+    padded_id = str(img_id).rjust(12, '0')
     signed_id = "COCO_train2014_" + padded_id
     typed_id = signed_id + '.jpg'
     img_name = typed_id
