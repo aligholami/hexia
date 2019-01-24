@@ -49,10 +49,14 @@ class VQA_SAN:
                         a_path=self.PATH_TO_TRAIN_ANSWERS,
                         image_rescale=1, image_horizontal_flip=False, image_target_size=(150, 150))
 
+        self.num_train_samples = train_generator.get_num_of_samples()
+
         validation_generator = DataGenerator(image_path=self.PATH_TO_VALIDATION_IMAGES,
                 q_path=self.PATH_TO_VALIDATION_QUESTIONS,
                 a_path=self.PATH_TO_VALIDATION_ANSWERS,
                 image_rescale=1, image_horizontal_flip=False, image_target_size=(150, 150))
+
+        self.num_validation_samples = validation_generator.get_num_of_samples()
 
         train_data_generator = lambda: train_generator.mini_batch_generator()
         validation_data_generator = lambda: validation_generator.mini_batch_generator()
@@ -225,13 +229,14 @@ class VQA_SAN:
         losses = []
         accuracies = []
 
-        pbar = tqdm(total=
+        pbar = tqdm(total=int(self.num_train_samples/self.BATCH_SIZE))
+        pbar.set_description("Trainig epoch {}".format(epoch))
         try:
             while True:
                 # Get accuracy, loss value and optimize the network + summary of validation
                 batch_accuracy, step_loss, _, step_summary= sess.run([self.acc_update, self.loss_val, self.opt, self.summary], feed_dict={self.is_training: True})
 
-                pbar.update()
+                pbar.update(1)
                 step += 1
                 total_loss += step_loss
                 losses.append(step_loss)
@@ -273,6 +278,8 @@ class VQA_SAN:
         losses = []
         accuracies = []
 
+        pbar = tqdm(total=int(self.num_validation_samples/self.BATCH_SIZE))
+        pbar.set_description("Validation at epoch {1}".format(epoch))
         try:
             while True:
                 # Get accuracy and summary of validation
@@ -280,6 +287,8 @@ class VQA_SAN:
                 total_loss += step_loss
                 losses.append(step_loss)
                 accuracies.append(batch_accuracy)
+                pbar.update(1)
+
         except tf.errors.OutOfRangeError:
             pass;
 
