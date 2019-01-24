@@ -1,7 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import os
-import tqdm
+from tqdm import tqdm
 from feature_extractor import FeatureExtractor
 from word_vectorizer import WordVectorizer
 from classifier import Classifier
@@ -45,16 +45,18 @@ class VQA_SAN:
 
         # Setup the train generator
         train_generator = DataGenerator(image_path=self.PATH_TO_TRAIN_IMAGES,
-                        q_path=self.PATH_TO_TRAIN_QUESTIONS,
-                        a_path=self.PATH_TO_TRAIN_ANSWERS,
-                        image_rescale=1, image_horizontal_flip=False, image_target_size=(150, 150))
+                q_path=self.PATH_TO_TRAIN_QUESTIONS,
+                a_path=self.PATH_TO_TRAIN_ANSWERS,
+                image_rescale=1, image_horizontal_flip=False, image_target_size=(150, 150),
+                use_num_answers=3)
 
         self.num_train_samples = train_generator.get_num_of_samples()
 
         validation_generator = DataGenerator(image_path=self.PATH_TO_VALIDATION_IMAGES,
                 q_path=self.PATH_TO_VALIDATION_QUESTIONS,
                 a_path=self.PATH_TO_VALIDATION_ANSWERS,
-                image_rescale=1, image_horizontal_flip=False, image_target_size=(150, 150))
+                image_rescale=1, image_horizontal_flip=False, image_target_size=(150, 150),
+                use_num_answers=3)
 
         self.num_validation_samples = validation_generator.get_num_of_samples()
 
