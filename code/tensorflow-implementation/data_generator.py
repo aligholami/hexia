@@ -28,12 +28,24 @@ class DataGenerator:
         # Load all image files of directory into the memory
         self.image_list = os.listdir(self.image_path)
 
-        with open(self.q_path, encoding='utf-8') as q_file:
+        # Try loading questions/answers jsons (Compatible with any Python version)
+        try:
+            with open(self.q_path, encoding='utf-8') as q_file:
             self.q_data = json.loads(q_file.read())
 
-        with open(self.a_path, encoding='utf-8') as a_file:
+            with open(self.a_path, encoding='utf-8') as a_file:
             self.a_data = json.loads(a_file.read())
 
+        except Exception as version_exception:
+            try:
+                with open(self.q_path, "r") as q_file:
+                self.q_data = json.loads(q_file.read().decode("latin1").encode("utf8"))
+
+                with open(self.a_path, "r") as a_file:
+                self.a_data = json.loads(a_file.read().decode("latin1").encode("utf8"))
+
+            except Exception as loading_exception:
+                pass
 
     def get_num_of_samples(self):
         """
