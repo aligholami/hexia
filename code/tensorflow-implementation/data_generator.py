@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from utils import get_image_id, get_image_name_in_dir, clean_sentence, confidence_to_one_hot
+from utils import get_file_list_in_dir, get_image_id, get_image_name_in_dir, clean_sentence, confidence_to_one_hot
 import json
 import os
 
@@ -9,6 +9,7 @@ import os
 class DataGenerator:
 
     def __init__(self, image_path, q_path, a_path, image_rescale, image_horizontal_flip, image_target_size, use_num_answers):
+        self.data_items = []
         self.image_path = image_path
         self.q_path = q_path
         self.a_path = a_path
@@ -20,13 +21,14 @@ class DataGenerator:
 
         # Load Questions and Answers JSON into memory
         self.load_qa_into_mem()
+        self.prepare_generator_iterable()
 
     def load_qa_into_mem(self):
         """
         Load json files to memory for further usage.
         """
         # Load all image files of directory into the memory
-        self.image_list = os.listdir(self.image_path)
+        self.image_list = get_file_list_in_dir(self.image_path)
 
         # Try loading questions/answers jsons (Compatible with any Python version)
         try:
@@ -64,7 +66,7 @@ class DataGenerator:
 
     def mini_batch_generator_v1(self):
         """
-        Generator for feeding data through Tensorflow dataset API. (Please use updated version instead)
+        Generator for feeding data through Tensorflow dataset API.
         """
         # For each file in the image list
         for image_name in self.image_list:
@@ -98,39 +100,43 @@ class DataGenerator:
                                 # print(len(batch_item['sentence']))
                                 # print(len(batch_item['sentence'].split()))
                                 yield np.array(batch_item['image'].flatten()), batch_item['sentence'], np.array(batch_item['iqa_label'])
-            
-            # yield np.array(img.flatten()), clean_sentence("Go get them up fucking beathches"), np.array(confidence_to_one_hot('yes'))
-  
+              
     def mini_batch_generator_v2(self):
         """
         Generator for feeding data through Tensorflow dataset API.
         """
 
-        # Generate a batch of images
-        # for each image in the batch generate
-        
-        for question in self.q_data['questions']:
-            target_img_id = question['image_id']
-            target_img_name = get_image_name_in_dir(target_img_id)
+        for _, (image_name, sentence, confidence) in enumerate(self.data_items):
 
             # Read corresponding image from directory
-            img = cv2.imread(os.path.join(self.image_path, target_img_name))
+            img = cv2.imread(os.path.join(self.image_path, image_name))
             img = cv2.resize(img, (64, 64))
 
             # Normalize
             img = img / 255.0
 
+            img = np.array(img.flatten())
+
+            yield img, sentence, confidence
+
+    def prepare_generator_iterable(self):
+        """
+        Prepares a list of tuples to use inside the generator
+        """
+        for question in self.q_data['questions']:
+            image_id = question['image_id']
+            image_name = get_image_name_in_dir(image_id)
+
             for annotation in self.a_data['annotations']:
-                if(annotation['question_id'] == question['question_id']):
+                if annotation['question_id'] == question['question_id']:
                     for answer_no in range(self.use_num_answers):
-                        batch_item = {}
-                        batch_item['image'] = img
-                        batch_item['sentence'] = clean_sentence(question['question'] + ' ' + annotation['answers'][answer_no]['answer'])
-                        # batch_item['question'] = clean_sentence(question['question'])
-                        # batch_item['answer'] = clean_sentence(annotation['answers'][answer_no]['answer'])
-                        batch_item['iqa_label'] = confidence_to_one_hot(annotation['answers'][answer_no]['answer_confidence'])
-                        answer_no = answer_no + 1
-                        # print(len(batch_item['sentence']))
-                        # print(len(batch_item['sentence'].split()))
-                        yield np.array(batch_item['image'].flatten()), batch_item['sentence'], np.array(batch_item['iqa_label'])
+
+                        item = {'image_name': image_name, 'sentence': clean_sentence(
+                            question['question'] + ' ' + annotation['answers'][answer_no]['answer']),
+                                'confidence': confidence_to_one_hot(
+                                    annotation['answers'][answer_no]['answer_confidence'])}
+
+                        data_item = (item['image_name'], item['sentence'], np.array(item['confidence']))
+                        self.data_items.append(data_item)
+
         
