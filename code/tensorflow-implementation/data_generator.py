@@ -1,7 +1,9 @@
 import cv2
 import numpy as np
 from utils import get_file_list_in_dir, get_image_id, get_image_name_in_dir, clean_sentence, confidence_to_one_hot
-import json
+import ujson as json
+from tqdm import tqdm
+import pickle
 import os
 
 # from text_generator import TextGenerator
@@ -123,20 +125,42 @@ class DataGenerator:
         """
         Prepares a list of tuples to use inside the generator
         """
-        for question in self.q_data['questions']:
-            image_id = question['image_id']
-            image_name = get_image_name_in_dir(image_id)
 
-            for annotation in self.a_data['annotations']:
-                if annotation['question_id'] == question['question_id']:
-                    for answer_no in range(self.use_num_answers):
+        print("Loading Data Items: ")
 
-                        item = {'image_name': image_name, 'sentence': clean_sentence(
-                            question['question'] + ' ' + annotation['answers'][answer_no]['answer']),
-                                'confidence': confidence_to_one_hot(
-                                    annotation['answers'][answer_no]['answer_confidence'])}
+        skip_steps = 200
+        pickle_file_addr = '../../models/data_items.txt'
 
-                        data_item = (item['image_name'], item['sentence'], np.array(item['confidence']))
-                        self.data_items.append(data_item)
+        # Check if pickle file exists
+        if os.path.isfile(pickle_file_addr):
+            try:
+                with open(pickle_file_addr, 'rb') as f:
+                    self.data_items = pickle.load(f)
+            except Exception as _:
+                pass
+        else:
+            for i, question in tqdm(enumerate(self.q_data['questions'])):
+                image_id = question['image_id']
+                image_name = get_image_name_in_dir(image_id)
 
-        
+                for annotation in self.a_data['annotations']:
+                    if annotation['question_id'] == question['question_id']:
+                        for answer_no in range(self.use_num_answers):
+
+                            item = {'image_name': image_name, 'sentence': clean_sentence(
+                                question['question'] + ' ' + annotation['answers'][answer_no]['answer']),
+                                    'confidence': confidence_to_one_hot(
+                                        annotation['answers'][answer_no]['answer_confidence'])}
+
+                            data_item = (item['image_name'], item['sentence'], np.array(item['confidence']))
+                            self.data_items.append(data_item)
+
+                if (i % skip_steps) == 0:
+                    # Save pickle
+                    try:
+                        with open(pickle_file_addr, 'wb') as f:
+                            pickle.dump(self.data_items, f)
+                    except Exception as _:
+                        pass
+
+        print("Loaded Data Items.")
