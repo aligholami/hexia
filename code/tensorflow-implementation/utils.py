@@ -12,7 +12,18 @@ def get_image_id(filename):
     img_id = img_id.lstrip('0')
 
     return img_id
-        
+
+def get_image_name_in_dir(img_id):
+    """
+    Get actual image name in the directory
+    """
+
+    padded_id = img_id.rjust(12, '0')
+    signed_id = "COCO_train2014_" + padded_id
+    typed_id = signed_id + '.jpg'
+    img_name = typed_id
+
+    return img_name    
 
 def pad_sentence(sentence, target_length=30, word_to_pad_with='hashemali'):
     """
@@ -78,7 +89,6 @@ def load_embedding_from_disks(glove_filename, with_indexes=True):
         index_to_embedding_array = []
     else:
         word_to_embedding_dict = dict()
-
     
     with open(glove_filename, 'r', encoding='utf-8') as glove_file:
         for (i, line) in enumerate(glove_file):

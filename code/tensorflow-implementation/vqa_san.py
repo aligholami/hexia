@@ -22,11 +22,11 @@ class VQA_SAN:
     PATH_TO_MODEL_CHECKPOINTS = '../../models/checkpoints/baseline'
     PATH_TO_PRETRAINED_CNN_WEIGHTS = '../../models/ResNet'
 
-    BATCH_SIZE = 32
+    BATCH_SIZE = 128
     NUM_CLASSES = 3     # Yes / Maybe / No
     LEARNING_RATE = 0.00001
-    PREFETCH = 10
-
+    PREFETCH = 256
+    
     def __init__(self):
 
         # Define global step variable
@@ -183,9 +183,9 @@ class VQA_SAN:
         classifier = Classifier(self.NUM_CLASSES)
 
         # Obtain image feature maps
-        self.image_feature_map = feature_extractor.generate_image_feature_map(self.img)
+        # self.image_feature_map = feature_extractor.generate_image_feature_map(self.img)
 
-        # self.image_feature_map, self.pre_trained_cnn_weights_init = feature_extractor.generate_image_feature_map_with_resnet(self.img, is_training=self.is_training)
+        self.image_feature_map, self.pre_trained_cnn_weights_init = feature_extractor.generate_image_feature_map_with_resnet(self.img, is_training=self.is_training)
 
         # # Obtain answer embeddings
         # self.answer_glove_vector = tf.layers.flatten(word_vectorizer.generate_sentence_vector(self.answer))
@@ -244,8 +244,8 @@ class VQA_SAN:
                 losses.append(step_loss)
                 accuracies.append(batch_accuracy)
 
-                if((step + 1) % self.skip_steps == 0):
-                    print('Loss at step {}: {}'.format(step, step_loss))
+                # if((step + 1) % self.skip_steps == 0):
+                #     print('Loss at step {}: {}'.format(step, step_loss))
                     # writer.add_summary(step_summary, global_step=step)
 
                 # if((step + 1) % self.n_steps_to_save == 0):
@@ -340,7 +340,7 @@ class VQA_SAN:
             sess.run(self.embedding_init)
 
             # Load pre-trained weights
-            # self.pre_trained_cnn_weights_init(sess)
+            self.pre_trained_cnn_weights_init(sess)
 
             step = self.g_step.eval()
 
