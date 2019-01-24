@@ -25,7 +25,7 @@ class VQA_SAN:
     BATCH_SIZE = 32
     NUM_CLASSES = 3     # Yes / Maybe / No
     LEARNING_RATE = 0.00001
-    PREFETCH = 256
+    PREFETCH = 10
 
     def __init__(self):
 
@@ -181,9 +181,9 @@ class VQA_SAN:
         classifier = Classifier(self.NUM_CLASSES)
 
         # Obtain image feature maps
-        # self.image_feature_map = feature_extractor.generate_image_feature_map(self.img)
+        self.image_feature_map = feature_extractor.generate_image_feature_map(self.img)
 
-        self.image_feature_map, self.pre_trained_cnn_weights_init = feature_extractor.generate_image_feature_map_with_resnet(self.img, is_training=self.is_training)
+        # self.image_feature_map, self.pre_trained_cnn_weights_init = feature_extractor.generate_image_feature_map_with_resnet(self.img, is_training=self.is_training)
 
         # # Obtain answer embeddings
         # self.answer_glove_vector = tf.layers.flatten(word_vectorizer.generate_sentence_vector(self.answer))
@@ -338,7 +338,7 @@ class VQA_SAN:
             sess.run(self.embedding_init)
 
             # Load pre-trained weights
-            self.pre_trained_cnn_weights_init(sess)
+            # self.pre_trained_cnn_weights_init(sess)
 
             step = self.g_step.eval()
 
