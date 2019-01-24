@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import os
+import tqdm
 from feature_extractor import FeatureExtractor
 from word_vectorizer import WordVectorizer
 from classifier import Classifier
@@ -24,6 +25,7 @@ class VQA_SAN:
     BATCH_SIZE = 32
     NUM_CLASSES = 3     # Yes / Maybe / No
     LEARNING_RATE = 0.00001
+    PREFETCH = 256
 
     def __init__(self):
 
@@ -59,13 +61,13 @@ class VQA_SAN:
             generator=train_data_generator,
             output_types=(tf.float32, tf.string, tf.float32),
             output_shapes=(tf.TensorShape(None), tf.TensorShape(None), tf.TensorShape(None)),
-        ).batch(self.BATCH_SIZE)
+        ).batch(self.BATCH_SIZE).prefetch(self.PREFETCH)
 
         validation_data = tf.data.Dataset.from_generator(
             generator=validation_data_generator,
             output_types=(tf.float32, tf.string, tf.float32),
             output_shapes=(tf.TensorShape(None), tf.TensorShape(None), tf.TensorShape(None)),
-        ).batch(self.BATCH_SIZE)
+        ).batch(self.BATCH_SIZE).prefetch(self.PREFETCH)
 
         # Load words vocab table for quick lookup
         word_table = tf.contrib.lookup.index_table_from_file(vocabulary_file=self.PATH_TO_WORD_VOCAB, num_oov_buckets=1)
@@ -222,11 +224,14 @@ class VQA_SAN:
 
         losses = []
         accuracies = []
+
+        pbar = tqdm(total=
         try:
             while True:
                 # Get accuracy, loss value and optimize the network + summary of validation
                 batch_accuracy, step_loss, _, step_summary= sess.run([self.acc_update, self.loss_val, self.opt, self.summary], feed_dict={self.is_training: True})
 
+                pbar.update()
                 step += 1
                 total_loss += step_loss
                 losses.append(step_loss)
@@ -236,9 +241,9 @@ class VQA_SAN:
                     print('Loss at step {}: {}'.format(step, step_loss))
                     # writer.add_summary(step_summary, global_step=step)
 
-                if((step + 1) % self.n_steps_to_save == 0):
-                    save_path = saver.save(sess, self.PATH_TO_MODEL_CHECKPOINTS)
-                    print("Trained weights saved in path: {}".format(save_path))
+                # if((step + 1) % self.n_steps_to_save == 0):
+                #     save_path = saver.save(sess, self.PATH_TO_MODEL_CHECKPOINTS)
+                #     print("Trained weights saved in path: {}".format(save_path))
         except tf.errors.OutOfRangeError:
             pass;
         
@@ -303,7 +308,7 @@ class VQA_SAN:
         saver = tf.train.Saver()
 
         # GPU Options for allocating a part of GPU Ram :D
-        config = tf.ConfigProto()
+        config = tf.ConfigProto(allow_soft_placement=False) # No soft placement on CPU
         config.gpu_options.allow_growth = True
 
         with tf.Session(config=config).as_default() as sess:

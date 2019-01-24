@@ -8,13 +8,15 @@ import os
 
 class DataGenerator:
 
-    def __init__(self, image_path, q_path, a_path, image_rescale, image_horizontal_flip, image_target_size):
+    def __init__(self, image_path, q_path, a_path, image_rescale, image_horizontal_flip, image_target_size, use_num_answers):
         self.image_path = image_path
         self.q_path = q_path
         self.a_path = a_path
         self.image_rescale = image_rescale
         self.image_horizontal_flip = image_horizontal_flip
         self.image_target_size = image_target_size
+
+        self.use_num_answers = use_num_answers
 
         # Load Questions and Answers JSON into memory
         self.load_qa_into_mem()
@@ -31,6 +33,22 @@ class DataGenerator:
 
         with open(self.a_path, encoding='utf-8') as a_file:
             self.a_data = json.loads(a_file.read())
+
+
+    def get_num_of_samples(self):
+        """
+        Return the number of training samples
+        """
+        num_samples = 0 
+
+        num_all_questions = len(self.q_data['questions'])
+        num_answers_for_each_question = self.use_num_answers
+        # num_images = len(os.listdir(self.image_path))
+
+        num_samples = num_all_questions * num_answers_for_each_question
+
+        return num_samples
+
 
     def mini_batch_generator(self):
         """
@@ -60,7 +78,7 @@ class DataGenerator:
                         if(annotation['question_id'] == question['question_id']):
                             
                             # Select first 3 answers only
-                            for answer_no in range(3):
+                            for answer_no in range(self.use_num_answers):
 
                                 batch_item = {}
                                 batch_item['image'] = img
