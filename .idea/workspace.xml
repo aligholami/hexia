@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6160afd0-0291-4fcc-b059-74faefcb2a9b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/code/tensorflow-implementation/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/tensorflow-implementation/main.py" afterDir="false" />
+    <list default="true" id="6160afd0-0291-4fcc-b059-74faefcb2a9b" name="Default Changelist" comment="Update: added fast generator support">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/tensorflow-implementation/data_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/tensorflow-implementation/data_generator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/tensorflow-implementation/test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/tensorflow-implementation/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/tensorflow-implementation/utils.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -11,12 +15,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="true">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="21">
-              <caret line="1" column="9" lean-forward="true" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
+            <state relative-caret-position="72">
+              <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
               </folding>
@@ -24,11 +28,34 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/feature_extractor.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/data_generator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="5" selection-start-line="5" selection-end-line="5" />
+            <state relative-caret-position="306">
+              <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/utils.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1080">
+              <caret line="63" column="31" selection-start-line="63" selection-start-column="31" selection-end-line="63" selection-end-column="31" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/word_vectorizer.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -36,7 +63,35 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/test_train.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="342">
+              <caret line="19" column="42" selection-start-line="19" selection-start-column="42" selection-end-line="19" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/test_val.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="5" column="32" selection-start-line="5" selection-start-column="32" selection-end-line="5" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>BEL</find>
+      <find>XC</find>
+      <find>PA</find>
+      <find>founder</find>
+      <find>pad</find>
+      <find>nul</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -46,6 +101,13 @@
       <list>
         <option value="$PROJECT_DIR$/code/tensorflow-implementation/feature_extractor.py" />
         <option value="$PROJECT_DIR$/code/tensorflow-implementation/main.py" />
+        <option value="$PROJECT_DIR$/code/tensorflow-implementation/vqa_san.py" />
+        <option value="$PROJECT_DIR$/code/tensorflow-implementation/test.py" />
+        <option value="$PROJECT_DIR$/code/tensorflow-implementation/test_train.py" />
+        <option value="$PROJECT_DIR$/code/tensorflow-implementation/test_val.py" />
+        <option value="$PROJECT_DIR$/code/tensorflow-implementation/utils.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/code/tensorflow-implementation/data_generator.py" />
       </list>
     </option>
   </component>
@@ -80,6 +142,11 @@
             </path>
             <path>
               <item name="Visual-Question-Answering-with-Stacked-Attention-Networks" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Visual-Question-Answering-with-Stacked-Attention-Networks" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Visual-Question-Answering-with-Stacked-Attention-Networks" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
@@ -91,10 +158,16 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="full.screen.before.presentation.mode" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
+    <property name="settings.editor.selected.configurable" value="MTConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Ali Gholami\Desktop\BSc\Visual-Question-Answering-with-Stacked-Attention-Networks\code\tensorflow-implementation" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -119,58 +192,167 @@
       <option name="presentableId" value="Default" />
       <updated>1548270623068</updated>
       <workItem from="1548270639817" duration="912000" />
+      <workItem from="1548340340395" duration="8911000" />
+      <workItem from="1548368305269" duration="1567000" />
+      <workItem from="1548396819108" duration="175000" />
+      <workItem from="1548397064275" duration="78000" />
+      <workItem from="1548449123399" duration="1599000" />
+      <workItem from="1548453377198" duration="1005000" />
+      <workItem from="1548493690187" duration="130000" />
     </task>
+    <task id="LOCAL-00001" summary="Update: added fast generator support">
+      <created>1548342130150</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1548342130150</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Update: added fast generator support">
+      <created>1548345360010</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1548345360010</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="912000" />
+    <option name="totallyTimeSpent" value="14377000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20686963" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20374708" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Database Changes" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Python Console" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32998326" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="SciView" />
-      <window_info anchor="right" id="Database" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Database Changes" order="9" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" weight="0.32998326" />
+      <window_info anchor="bottom" id="Terminal" order="11" />
+      <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="SciView" order="3" />
+      <window_info anchor="right" id="Database" order="4" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Update: added fast generator support" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update: added fast generator support" />
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/feature_extractor.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        <state relative-caret-position="31">
+          <caret line="5" selection-end-line="155" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/vqa_san.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="22" column="58" selection-start-line="22" selection-start-column="58" selection-end-line="22" selection-end-column="58" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/data_items.txt" />
+    <entry file="file://$PROJECT_DIR$/models/GloVe/vocab_only.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/GloVe/glove.6B.50d.txt">
+      <provider selected="true" editor-type-id="LargeFileEditor">
+        <state relative-caret-position="465">
+          <caret line="2709" column="1" selection-start-line="2709" selection-start-column="1" selection-end-line="2709" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/train_data_items.txt">
+      <provider selected="true" editor-type-id="LargeFileEditor" />
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="12" column="38" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/validation_data_items.txt">
+      <provider selected="true" editor-type-id="LargeFileEditor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="1" column="9" lean-forward="true" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
+        <state relative-caret-position="72">
+          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1080">
+          <caret line="63" column="31" selection-start-line="63" selection-start-column="31" selection-end-line="63" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/word_vectorizer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/test_train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="19" column="42" selection-start-line="19" selection-start-column="42" selection-end-line="19" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/test_val.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="32" selection-start-line="5" selection-start-column="32" selection-end-line="5" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="12" lean-forward="true" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/data_generator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>

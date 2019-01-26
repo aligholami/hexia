@@ -1,6 +1,15 @@
 import numpy as np
 from collections import defaultdict
 import re
+import os
+
+
+def get_file_list_in_dir(dir_path):
+
+    file_list = os.listdir(dir_path)
+
+    return file_list
+
 
 def get_image_id(filename):
     """
@@ -12,6 +21,7 @@ def get_image_id(filename):
     img_id = img_id.lstrip('0')
 
     return img_id
+
 
 def get_image_name_in_dir(img_id):
     """
@@ -25,7 +35,7 @@ def get_image_name_in_dir(img_id):
 
     return img_name    
 
-def pad_sentence(sentence, target_length=30, word_to_pad_with='hashemali'):
+def pad_sentence(sentence, target_length=45, word_to_pad_with='NUL'):
     """
     Pad input sentences for batch usage in Tensorflow.
     """
@@ -52,7 +62,7 @@ def clean_sentence(sentence):
     sentence = sentence.rstrip()
 
     # Pad the stripped sentence
-    sentence = pad_sentence(sentence, target_length=25, word_to_pad_with='hashemali')
+    sentence = pad_sentence(sentence, target_length=45, word_to_pad_with='NUL')
 
     return sentence
 

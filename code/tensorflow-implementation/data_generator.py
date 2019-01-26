@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 from utils import get_file_list_in_dir, get_image_id, get_image_name_in_dir, clean_sentence, confidence_to_one_hot
-import ujson as json
+import json as json
 from tqdm import tqdm
 import pickle
 import os
@@ -121,15 +121,19 @@ class DataGenerator:
 
             yield img, sentence, confidence
 
-    def prepare_generator_iterable(self):
+    def get_data_list(self):
+
+        return self.data_items
+
+    def prepare_generator_iterable(self, f_name):
         """
         Prepares a list of tuples to use inside the generator
         """
 
         print("Loading Data Items: ")
 
-        skip_steps = 200
-        pickle_file_addr = '../../models/data_items.txt'
+        skip_steps = 200000
+        pickle_file_addr = f_name
 
         # Check if pickle file exists
         if os.path.isfile(pickle_file_addr):
@@ -158,9 +162,18 @@ class DataGenerator:
                 if (i % skip_steps) == 0:
                     # Save pickle
                     try:
-                        with open(pickle_file_addr, 'wb') as f:
+                        with open(pickle_file_addr, 'ab') as f:
                             pickle.dump(self.data_items, f)
+
+                            # Free some memory
+                            self.data_items = []
                     except Exception as _:
                         pass
 
+        # Write whats left behind
+        try:
+            with open(pickle_file_addr, 'ab') as f:
+                pickle.dump(self.data_items, f)
+        except Exception as _:
+            pass
         print("Loaded Data Items.")

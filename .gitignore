@@ -3,3 +3,4 @@
 *.6B.50d.txt
 checkpoint*
 *.ckpt
+/PickleFiles
