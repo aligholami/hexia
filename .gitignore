@@ -4,3 +4,6 @@
 checkpoint*
 *.ckpt
 /PickleFiles
+/data
+/images*
+*items.txt

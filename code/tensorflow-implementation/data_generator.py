@@ -25,6 +25,9 @@ class DataGenerator:
         self.load_qa_into_mem()
         self.prepare_generator_iterable()
 
+    def get_data_items(self):
+        return self.data_items
+
     def load_qa_into_mem(self):
         """
         Load json files to memory for further usage.
@@ -119,6 +122,8 @@ class DataGenerator:
 
             img = np.array(img.flatten())
 
+            print("Sequence: {}, {}, {}".format(img, sentence, confidence))
+
             yield img, sentence, confidence
 
     def get_data_list(self):
@@ -137,11 +142,18 @@ class DataGenerator:
 
         # Check if pickle file exists
         if os.path.isfile(pickle_file_addr):
-            try:
-                with open(pickle_file_addr, 'rb') as f:
-                    self.data_items = pickle.load(f)
-            except Exception as _:
-                pass
+
+            with open(pickle_file_addr, 'rb') as f:
+
+                while True:
+                    try:
+                        self.data_items.append(pickle.load(f))
+
+                    except EOFError:
+                        break
+
+                    print("Data Items on Disk.")
+
         else:
             for i, question in tqdm(enumerate(self.q_data['questions'])):
                 image_id = question['image_id']
@@ -163,7 +175,7 @@ class DataGenerator:
                     # Save pickle
                     try:
                         with open(pickle_file_addr, 'ab') as f:
-                            pickle.dump(self.data_items, f)
+                            pickle.dump(self.data_items, f, protocol=2)
 
                             # Free some memory
                             self.data_items = []
@@ -173,7 +185,7 @@ class DataGenerator:
             # Write whats left behind
             try:
                 with open(pickle_file_addr, 'ab') as f:
-                    pickle.dump(self.data_items, f)
+                    pickle.dump(self.data_items, f, protocol=2)
             except Exception as _:
                 pass
 
