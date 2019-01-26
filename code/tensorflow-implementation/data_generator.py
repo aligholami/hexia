@@ -10,7 +10,7 @@ import os
 
 class DataGenerator:
 
-    def __init__(self, image_path, q_path, a_path, image_rescale, image_horizontal_flip, image_target_size, use_num_answers):
+    def __init__(self, image_path, q_path, a_path, p_path, image_rescale, image_horizontal_flip, image_target_size, use_num_answers):
         self.data_items = []
         self.image_path = image_path
         self.q_path = q_path
@@ -18,7 +18,7 @@ class DataGenerator:
         self.image_rescale = image_rescale
         self.image_horizontal_flip = image_horizontal_flip
         self.image_target_size = image_target_size
-
+        self.p_path = p_path
         self.use_num_answers = use_num_answers
 
         # Load Questions and Answers JSON into memory
@@ -125,7 +125,7 @@ class DataGenerator:
 
         return self.data_items
 
-    def prepare_generator_iterable(self, f_name):
+    def prepare_generator_iterable(self):
         """
         Prepares a list of tuples to use inside the generator
         """
@@ -133,7 +133,7 @@ class DataGenerator:
         print("Loading Data Items: ")
 
         skip_steps = 200000
-        pickle_file_addr = f_name
+        pickle_file_addr = self.p_path
 
         # Check if pickle file exists
         if os.path.isfile(pickle_file_addr):
@@ -170,10 +170,11 @@ class DataGenerator:
                     except Exception as _:
                         pass
 
-        # Write whats left behind
-        try:
-            with open(pickle_file_addr, 'ab') as f:
-                pickle.dump(self.data_items, f)
-        except Exception as _:
-            pass
+            # Write whats left behind
+            try:
+                with open(pickle_file_addr, 'ab') as f:
+                    pickle.dump(self.data_items, f)
+            except Exception as _:
+                pass
+
         print("Loaded Data Items.")

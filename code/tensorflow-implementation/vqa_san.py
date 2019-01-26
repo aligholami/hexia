@@ -21,6 +21,8 @@ class VQA_SAN:
     PATH_TO_VALIDATION_VISUALIZATION_GRAPHS = '../../visualization/validation'
     PATH_TO_MODEL_CHECKPOINTS = '../../models/checkpoints/baseline'
     PATH_TO_PRETRAINED_CNN_WEIGHTS = '../../models/ResNet'
+    PATH_TO_TRAIN_PICKLE_FILES = '../../models/PickleFiles/train_data_items.txt'
+    PATH_TO_VALIDATION_PICKLE_FILES = '../../models/PickleFiles/validation_data_items.txt'
 
     BATCH_SIZE = 128
     NUM_CLASSES = 3     # Yes / Maybe / No
@@ -47,16 +49,18 @@ class VQA_SAN:
         train_generator = DataGenerator(image_path=self.PATH_TO_TRAIN_IMAGES,
                 q_path=self.PATH_TO_TRAIN_QUESTIONS,
                 a_path=self.PATH_TO_TRAIN_ANSWERS,
+                p_path=self.PATH_TO_TRAIN_PICKLE_FILES,
                 image_rescale=1, image_horizontal_flip=False, image_target_size=(150, 150),
-                use_num_answers=3)
+                use_num_answers=5)
 
         self.num_train_samples = train_generator.get_num_of_samples()
 
         validation_generator = DataGenerator(image_path=self.PATH_TO_VALIDATION_IMAGES,
                 q_path=self.PATH_TO_VALIDATION_QUESTIONS,
                 a_path=self.PATH_TO_VALIDATION_ANSWERS,
+                p_path=self.PATH_TO_VALIDATION_PICKLE_FILES,
                 image_rescale=1, image_horizontal_flip=False, image_target_size=(150, 150),
-                use_num_answers=3)
+                use_num_answers=5)
 
         self.num_validation_samples = validation_generator.get_num_of_samples()
 
