@@ -2,7 +2,7 @@ import pickle
 
 data_items = []
 
-with open('validation_data_items.pickle', 'rb') as f:
+with open('validation_data_items.txt', 'rb') as f:
     while True:
         try:
             data_items.append(pickle.load(f))
@@ -10,4 +10,7 @@ with open('validation_data_items.pickle', 'rb') as f:
         except EOFError:
             break
 
-print(data_items)
+
+for item in data_items:
+    for img, sent, conf in item:
+        print("item 1: {}, {}, {}".format(img, sent, conf))

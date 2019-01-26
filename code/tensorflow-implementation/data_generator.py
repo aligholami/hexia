@@ -111,20 +111,23 @@ class DataGenerator:
         Generator for feeding data through Tensorflow dataset API.
         """
 
-        for _, (image_name, sentence, confidence) in enumerate(self.data_items):
+        # print("Inside the generator..")
 
-            # Read corresponding image from directory
-            img = cv2.imread(os.path.join(self.image_path, image_name))
-            img = cv2.resize(img, (64, 64))
+        for data_item in self.data_items:
 
-            # Normalize
-            img = img / 255.0
+            for image_name, sentence, confidence in data_item:
+                # Read corresponding image from directory
+                img = cv2.imread(os.path.join(self.image_path, image_name))
+                img = cv2.resize(img, (64, 64))
 
-            img = np.array(img.flatten())
+                # Normalize
+                img = img / 255.0
 
-            print("Sequence: {}, {}, {}".format(img, sentence, confidence))
+                img = np.array(img.flatten())
 
-            yield img, sentence, confidence
+                # print("Sequence: {}, {}, {}".format(img, sentence, confidence))
+
+                yield img, sentence, confidence
 
     def get_data_list(self):
 
