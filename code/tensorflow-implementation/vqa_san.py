@@ -24,6 +24,9 @@ class VQA_SAN:
     PATH_TO_TRAIN_PICKLE_FILES = '../../models/PickleFiles/train_data_items.txt'
     PATH_TO_VALIDATION_PICKLE_FILES = '../../models/PickleFiles/validation_data_items.txt'
 
+    TRAIN_INIT_CODE = 2
+    VAL_INIT_CODE = 3
+
     BATCH_SIZE = 128
     NUM_CLASSES = 3     # Yes / Maybe / No
     LEARNING_RATE = 0.00001
@@ -51,7 +54,7 @@ class VQA_SAN:
                 a_path=self.PATH_TO_TRAIN_ANSWERS,
                 p_path=self.PATH_TO_TRAIN_PICKLE_FILES,
                 image_rescale=1, image_horizontal_flip=False, image_target_size=(150, 150),
-                use_num_answers=5)
+                use_num_answers=5, init_code=self.TRAIN_INIT_CODE)
 
         self.num_train_samples = train_generator.get_num_of_samples()
 
@@ -60,7 +63,7 @@ class VQA_SAN:
                 a_path=self.PATH_TO_VALIDATION_ANSWERS,
                 p_path=self.PATH_TO_VALIDATION_PICKLE_FILES,
                 image_rescale=1, image_horizontal_flip=False, image_target_size=(150, 150),
-                use_num_answers=5)
+                use_num_answers=5, init_code=self.VAL_INIT_CODE)
 
         self.num_validation_samples = validation_generator.get_num_of_samples()
 
@@ -351,15 +354,15 @@ class VQA_SAN:
             # Train multiple epochs
             for epoch in range(num_epochs):
                 
-                # Train one epoch
-                step = self.train_one_epoch(
-                    init=self.train_init,
-                    sess=sess,
-                    saver=saver,
-                    writer=train_writer,
-                    step=step,
-                    epoch=epoch
-                )
+                # # Train one epoch
+                # step = self.train_one_epoch(
+                #     init=self.train_init,
+                #     sess=sess,
+                #     saver=saver,
+                #     writer=train_writer,
+                #     step=step,
+                #     epoch=epoch
+                # )
 
                 # Validate once
                 self.validate(

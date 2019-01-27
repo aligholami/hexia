@@ -4,6 +4,9 @@ import re
 import os
 
 
+TRAIN_INIT_CODE = 2
+VAL_INIT_CODE = 3
+
 def get_file_list_in_dir(dir_path):
 
     file_list = os.listdir(dir_path)
@@ -23,13 +26,23 @@ def get_image_id(filename):
     return img_id
 
 
-def get_image_name_in_dir(img_id):
+def get_image_name_in_dir(img_id, init_code):
     """
     Get actual image name in the directory
     """
-
     padded_id = str(img_id).rjust(12, '0')
-    signed_id = "COCO_train2014_" + padded_id
+
+    if(init_code == TRAIN_INIT_CODE):
+        signed_id = "COCO_train2014_" + padded_id
+
+    elif(init_code == VAL_INIT_CODE):
+        signed_id = "COCO_val2014_" + padded_id
+
+    else:
+        # Use train by default
+        signed_id = "COCO_train2014_" + padded_id
+        print("Please provide a train init.")
+
     typed_id = signed_id + '.jpg'
     img_name = typed_id
 

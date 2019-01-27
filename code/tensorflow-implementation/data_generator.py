@@ -6,11 +6,13 @@ from tqdm import tqdm
 import pickle
 import os
 
+
 # from text_generator import TextGenerator
 
 class DataGenerator:
 
-    def __init__(self, image_path, q_path, a_path, p_path, image_rescale, image_horizontal_flip, image_target_size, use_num_answers):
+    def __init__(self, image_path, q_path, a_path, p_path, image_rescale, image_horizontal_flip, image_target_size,
+                 use_num_answers, init_code):
         self.data_items = []
         self.image_path = image_path
         self.q_path = q_path
@@ -20,6 +22,7 @@ class DataGenerator:
         self.image_target_size = image_target_size
         self.p_path = p_path
         self.use_num_answers = use_num_answers
+        self.init_code = init_code
 
         # Load Questions and Answers JSON into memory
         self.load_qa_into_mem()
@@ -50,7 +53,7 @@ class DataGenerator:
 
                 with open(self.a_path, "r") as a_file:
                     self.a_data = json.loads(a_file.read().decode("latin1").encode("utf8"))
-                    
+
             except Exception as loading_exception:
                 pass
 
@@ -58,7 +61,7 @@ class DataGenerator:
         """
         Return the number of training samples
         """
-        num_samples = 0 
+        num_samples = 0
 
         num_all_questions = len(self.q_data['questions'])
         num_answers_for_each_question = self.use_num_answers
@@ -67,7 +70,6 @@ class DataGenerator:
         num_samples = num_all_questions * num_answers_for_each_question
 
         return num_samples
-
 
     def mini_batch_generator_v1(self):
         """
@@ -88,34 +90,38 @@ class DataGenerator:
 
             # Extract questions, answers, and labels (confidences) from the JSON files
             for question in self.q_data['questions']:
-                if(question['image_id'] == int(img_id)):
+                if (question['image_id'] == int(img_id)):
                     for annotation in self.a_data['annotations']:
-                        if(annotation['question_id'] == question['question_id']):
-                            
+                        if (annotation['question_id'] == question['question_id']):
+
                             # Select first 3 answers only
                             for answer_no in range(self.use_num_answers):
-
                                 batch_item = {}
                                 batch_item['image'] = img
-                                batch_item['sentence'] = clean_sentence(question['question'] + ' ' + annotation['answers'][answer_no]['answer'])
+                                batch_item['sentence'] = clean_sentence(
+                                    question['question'] + ' ' + annotation['answers'][answer_no]['answer'])
                                 # batch_item['question'] = clean_sentence(question['question'])
                                 # batch_item['answer'] = clean_sentence(annotation['answers'][answer_no]['answer'])
-                                batch_item['iqa_label'] = confidence_to_one_hot(annotation['answers'][answer_no]['answer_confidence'])
+                                batch_item['iqa_label'] = confidence_to_one_hot(
+                                    annotation['answers'][answer_no]['answer_confidence'])
                                 answer_no = answer_no + 1
                                 # print(len(batch_item['sentence']))
                                 # print(len(batch_item['sentence'].split()))
-                                yield np.array(batch_item['image'].flatten()), batch_item['sentence'], np.array(batch_item['iqa_label'])
-              
+                                yield np.array(batch_item['image'].flatten()), batch_item['sentence'], np.array(
+                                    batch_item['iqa_label'])
+
     def mini_batch_generator_v2(self):
         """
         Generator for feeding data through Tensorflow dataset API.
         """
 
-        # print("Inside the generator..")
+        print("Inside the generator..")
 
         for data_item in self.data_items:
 
             for image_name, sentence, confidence in data_item:
+                print("Sequence: {}, {}, {}".format(image_name, sentence, confidence))
+
                 # Read corresponding image from directory
                 img = cv2.imread(os.path.join(self.image_path, image_name))
                 img = cv2.resize(img, (64, 64))
@@ -124,8 +130,6 @@ class DataGenerator:
                 img = img / 255.0
 
                 img = np.array(img.flatten())
-
-                # print("Sequence: {}, {}, {}".format(img, sentence, confidence))
 
                 yield img, sentence, confidence
 
@@ -155,17 +159,16 @@ class DataGenerator:
                     except EOFError:
                         break
 
-                    print("Data Items on Disk.")
+                    # print("Data Items on Disk.")
 
         else:
             for i, question in tqdm(enumerate(self.q_data['questions'])):
                 image_id = question['image_id']
-                image_name = get_image_name_in_dir(image_id)
+                image_name = get_image_name_in_dir(image_id, self.init_code)
 
                 for annotation in self.a_data['annotations']:
                     if annotation['question_id'] == question['question_id']:
                         for answer_no in range(self.use_num_answers):
-
                             item = {'image_name': image_name, 'sentence': clean_sentence(
                                 question['question'] + ' ' + annotation['answers'][answer_no]['answer']),
                                     'confidence': confidence_to_one_hot(
