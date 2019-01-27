@@ -30,7 +30,7 @@ class VQA_SAN:
     BATCH_SIZE = 128
     NUM_CLASSES = 3     # Yes / Maybe / No
     LEARNING_RATE = 0.00001
-    PREFETCH = 256
+    PREFETCH = 1024
     
     def __init__(self):
 
@@ -354,15 +354,15 @@ class VQA_SAN:
             # Train multiple epochs
             for epoch in range(num_epochs):
                 
-                # # Train one epoch
-                # step = self.train_one_epoch(
-                #     init=self.train_init,
-                #     sess=sess,
-                #     saver=saver,
-                #     writer=train_writer,
-                #     step=step,
-                #     epoch=epoch
-                # )
+                # Train one epoch
+                step = self.train_one_epoch(
+                    init=self.train_init,
+                    sess=sess,
+                    saver=saver,
+                    writer=train_writer,
+                    step=step,
+                    epoch=epoch
+                )
 
                 # Validate once
                 self.validate(

@@ -11,6 +11,9 @@ import os
 
 class DataGenerator:
 
+    TRAIN_INIT_CODE = 2
+    VAL_INIT_CODE = 3
+
     def __init__(self, image_path, q_path, a_path, p_path, image_rescale, image_horizontal_flip, image_target_size,
                  use_num_answers, init_code):
         self.data_items = []
@@ -120,7 +123,12 @@ class DataGenerator:
         for data_item in self.data_items:
 
             for image_name, sentence, confidence in data_item:
-                print("Sequence: {}, {}, {}".format(image_name, sentence, confidence))
+
+                # Please remove this in future releases
+                if(self.init_code == VAL_INIT_CODE):
+                    image_name = image_name.replace("train", "val")
+                    
+                # print("Sequence: {}, {}, {}".format(image_name, sentence, confidence))
 
                 # Read corresponding image from directory
                 img = cv2.imread(os.path.join(self.image_path, image_name))

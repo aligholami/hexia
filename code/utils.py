@@ -1,18 +1,6 @@
 import numpy as np
 from collections import defaultdict
 import re
-import os
-
-
-TRAIN_INIT_CODE = 2
-VAL_INIT_CODE = 3
-
-def get_file_list_in_dir(dir_path):
-
-    file_list = os.listdir(dir_path)
-
-    return file_list
-
 
 def get_image_id(filename):
     """
@@ -24,31 +12,9 @@ def get_image_id(filename):
     img_id = img_id.lstrip('0')
 
     return img_id
+        
 
-
-def get_image_name_in_dir(img_id, init_code):
-    """
-    Get actual image name in the directory
-    """
-    padded_id = str(img_id).rjust(12, '0')
-
-    if(init_code == TRAIN_INIT_CODE):
-        signed_id = "COCO_train2014_" + padded_id
-
-    elif(init_code == VAL_INIT_CODE):
-        signed_id = "COCO_val2014_" + padded_id
-
-    else:
-        # Use train by default
-        signed_id = "COCO_train2014_" + padded_id
-        print("Please provide a train init.")
-
-    typed_id = signed_id + '.jpg'
-    img_name = typed_id
-
-    return img_name    
-
-def pad_sentence(sentence, target_length=45, word_to_pad_with='NUL'):
+def pad_sentence(sentence, target_length=25, word_to_pad_with='hashemali'):
     """
     Pad input sentences for batch usage in Tensorflow.
     """
@@ -75,7 +41,7 @@ def clean_sentence(sentence):
     sentence = sentence.rstrip()
 
     # Pad the stripped sentence
-    sentence = pad_sentence(sentence, target_length=45, word_to_pad_with='NUL')
+    sentence = pad_sentence(sentence, target_length=25, word_to_pad_with='hashemali')
 
     return sentence
 
@@ -112,8 +78,9 @@ def load_embedding_from_disks(glove_filename, with_indexes=True):
         index_to_embedding_array = []
     else:
         word_to_embedding_dict = dict()
+
     
-    with open(glove_filename, 'r') as glove_file:
+    with open(glove_filename, "r") as glove_file:
         for (i, line) in enumerate(glove_file):
             
             split = line.split(' ')
