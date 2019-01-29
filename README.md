@@ -15,14 +15,18 @@ In this project, we will analyze different methods for building a VQA system. Ou
 ##
 Initially, the VQA model is trained and validated with the following configurations:
 
-| Visual Features | Text Features | Merged Features | Normalization | Training Method | Total Parameters | 
-| ------------- |:-------------:| -----:| -----:| -----:| -----:|
-| CNN[] | right-aligned | $1600 | $1600 | $1600 | $1600 |
+| Visual Features | Text Features | Merged Features | Normalization | Training Method | Cls. Method | Epochs | 
+| ------------- |:-------------:| -----:| -----:| -----:| -----:| -----:|
+| Pre-trained ResNet-50 | GloVe 50D | Concatenation | None | Adam (LR = 1e-5) | Dense (8192 Hidden Units) | 6 |
 
 ###
 <p align="center">
-    <img src="https://github.com/hexpheus/SimpNet-Tensorflow/blob/master/result/mnist_acc.png">
+
+    | Italic             |  Block letters |
+:-------------------------:|:-------------------------:
+![](outputs/output_Biotouch/18-15_02-02-2018/Identification/ITALIC/ITALIC_movementPoints_cmc.png)  |  ![](outputs/output_Biotouch/18-15_02-02-2018/Identification/BLOCK_LETTERS/BLOCK_LETTERS_movementPoints_cmc.png)
+![](outputs/output_Biotouch/18-15_02-02-2018/Verification/ITALIC/ITALIC_movementPoints_notbalanced_roc.png)  |  ![](outputs/output_Biotouch/18-15_02-02-2018/Verification/BLOCK_LETTERS/BLOCK_LETTERS_movementPoints_notbalanced_roc.png)
+
 </p>
 
 ---
-## Baseline 2
