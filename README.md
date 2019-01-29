@@ -23,7 +23,5 @@ Initially, the VQA model is trained and validated with the following configurati
 
 | | |
 |:-------------------------:|:-------------------------:|
-|<img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/t_acc.PNG">  |  <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/t_loss.PNG">| <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" 
-
-| | |
-|:-------------------------:|:-------------------------:|src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/v_acc.PNG">  |  <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/v_loss.PNG">|
+|<img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/t_acc.PNG">  |  <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/t_loss.PNG">| 
+<img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" > | src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/v_acc.PNG">  |  <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/v_loss.PNG">|
