@@ -23,7 +23,7 @@ Initially, the VQA model is trained and validated with the following configurati
 
     | Italic             |  Block letters |
 :-------------------------:|:-------------------------:
-![](https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/t_acc.PNG)  |  ![](https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/t_loss.PNG)
-![](https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/v_acc.PNG)  |  ![](https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/v_loss.PNG)
+![](https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/t_acc.PNG)|![](https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/t_loss.PNG)
+![](https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/v_acc.PNG)|![](https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/v_loss.PNG)
 
 ---
