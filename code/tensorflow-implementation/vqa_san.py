@@ -31,6 +31,8 @@ class VQA_SAN:
     NUM_CLASSES = 3     # Yes / Maybe / No
     LEARNING_RATE = 0.0001
     PREFETCH = 1
+    NUM_PARALLEL_CALLS = 8
+    IMAGE_SIZE = 128
     
     def __init__(self):
 
@@ -53,7 +55,7 @@ class VQA_SAN:
                 q_path=self.PATH_TO_TRAIN_QUESTIONS,
                 a_path=self.PATH_TO_TRAIN_ANSWERS,
                 p_path=self.PATH_TO_TRAIN_PICKLE_FILES,
-                image_rescale=1, image_horizontal_flip=False, image_target_size=(150, 150),
+                image_rescale=1, image_horizontal_flip=False, image_target_size=self.IMAGE_SIZE,
                 use_num_answers=5, init_code=self.TRAIN_INIT_CODE)
 
         self.num_train_samples = train_generator.get_num_of_samples()
@@ -62,7 +64,7 @@ class VQA_SAN:
                 q_path=self.PATH_TO_VALIDATION_QUESTIONS,
                 a_path=self.PATH_TO_VALIDATION_ANSWERS,
                 p_path=self.PATH_TO_VALIDATION_PICKLE_FILES,
-                image_rescale=1, image_horizontal_flip=False, image_target_size=(150, 150),
+                image_rescale=1, image_horizontal_flip=False, image_target_size=self.IMAGE_SIZE,
                 use_num_answers=5, init_code=self.VAL_INIT_CODE)
 
         self.num_validation_samples = validation_generator.get_num_of_samples()
@@ -90,17 +92,13 @@ class VQA_SAN:
         img, sentence, self.label = iterator.get_next()
 
         with tf.name_scope('sentence_splitter'):
-            # question = tf.map_fn(lambda x: tf.string_split([x], delimiter=' ').values, question, dtype=tf.string)
-            # answer = tf.map_fn(lambda x: tf.string_split([x], delimiter=' ').values, answer, dtype=tf.string)
-            sentence = tf.map_fn(lambda x: tf.string_split([x], delimiter=' ').values, sentence, dtype=tf.string, num_parallel_calls=8)
-        
+            sentence = sentence.data.Dataset.map(lambda x: tf.string_split([x], delimiter=' ').values, num_parallel_calls=self.NUM_PARALLEL_CALLS)
+
         with tf.name_scope('word_table_lookup'):
-            # self.question = tf.map_fn(lambda x: tf.cast(word_table.lookup(x), tf.int32), question, dtype=tf.int32)
-            # self.answer = tf.map_fn(lambda x: tf.cast(word_table.lookup(x), tf.int32), answer, dtype=tf.int32)
-            self.sentence = tf.map_fn(lambda x: tf.cast(word_table.lookup(x), tf.int32), sentence, dtype=tf.int32, num_parallel_calls=8)
+            self.sentence = sentence.data.Dataset.map(lambda x: tf.cast(word_table.lookup(x), tf.int32), num_parallel_calls=self.NUM_PARALLEL_CALLS)
 
         # Preapre image for a CNN pass
-        self.img = tf.reshape(img, [-1, 64, 64, 3])
+        self.img = tf.reshape(img, [-1, self.IMAGE_SIZE, self.IMAGE_SIZE, 3])
 
         # Add iterators to the graph
         self.train_init = iterator.make_initializer(train_data)           # Train iterator

@@ -83,7 +83,7 @@ class DataGenerator:
 
             # Read image from directory
             img = cv2.imread(os.path.join(self.image_path, image_name))
-            img = cv2.resize(img, (64, 64))
+            img = cv2.resize(img, (self.image_target_size, self.image_target_size))
 
             # Normalize
             img = img / 255.0
@@ -132,7 +132,7 @@ class DataGenerator:
 
                 # Read corresponding image from directory
                 img = cv2.imread(os.path.join(self.image_path, image_name))
-                img = cv2.resize(img, (64, 64))
+                img = cv2.resize(img, (self.image_target_size, self.image_target_size))
 
                 # Normalize
                 img = img / 255.0
