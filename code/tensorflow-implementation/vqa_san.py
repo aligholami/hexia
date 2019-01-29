@@ -29,8 +29,8 @@ class VQA_SAN:
 
     BATCH_SIZE = 128
     NUM_CLASSES = 3     # Yes / Maybe / No
-    LEARNING_RATE = 0.00001
-    PREFETCH = 1024
+    LEARNING_RATE = 0.0001
+    PREFETCH = 1
     
     def __init__(self):
 
@@ -92,12 +92,12 @@ class VQA_SAN:
         with tf.name_scope('sentence_splitter'):
             # question = tf.map_fn(lambda x: tf.string_split([x], delimiter=' ').values, question, dtype=tf.string)
             # answer = tf.map_fn(lambda x: tf.string_split([x], delimiter=' ').values, answer, dtype=tf.string)
-            sentence = tf.map_fn(lambda x: tf.string_split([x], delimiter=' ').values, sentence, dtype=tf.string)
+            sentence = tf.map_fn(lambda x: tf.string_split([x], delimiter=' ').values, sentence, dtype=tf.string, num_parallel_calls=8)
         
         with tf.name_scope('word_table_lookup'):
             # self.question = tf.map_fn(lambda x: tf.cast(word_table.lookup(x), tf.int32), question, dtype=tf.int32)
             # self.answer = tf.map_fn(lambda x: tf.cast(word_table.lookup(x), tf.int32), answer, dtype=tf.int32)
-            self.sentence = tf.map_fn(lambda x: tf.cast(word_table.lookup(x), tf.int32), sentence, dtype=tf.int32)
+            self.sentence = tf.map_fn(lambda x: tf.cast(word_table.lookup(x), tf.int32), sentence, dtype=tf.int32, num_parallel_calls=8)
 
         # Preapre image for a CNN pass
         self.img = tf.reshape(img, [-1, 64, 64, 3])
