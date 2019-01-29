@@ -20,13 +20,10 @@ Initially, the VQA model is trained and validated with the following configurati
 | Pre-trained ResNet-50 | GloVe 50D | Concatenation | None | Adam (LR = 1e-5) | Dense (8192 Hidden Units) | 6 |
 
 ###
-<p align="center">
 
     | Italic             |  Block letters |
 :-------------------------:|:-------------------------:
 ![](https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/t_acc.PNG)  |  ![](https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/t_loss.PNG)
 ![](https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/v_acc.PNG)  |  ![](https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/v_loss.PNG)
-
-</p>
 
 ---
