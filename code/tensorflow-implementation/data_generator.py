@@ -118,14 +118,14 @@ class DataGenerator:
         Generator for feeding data through Tensorflow dataset API.
         """
 
-        print("Inside the generator..")
+        # print("Inside the generator..")
 
         for data_item in self.data_items:
 
             for image_name, sentence, confidence in data_item:
 
                 # Please remove this in future releases
-                if(self.init_code == VAL_INIT_CODE):
+                if(self.init_code == self.VAL_INIT_CODE):
                     image_name = image_name.replace("train", "val")
                     
                 # print("Sequence: {}, {}, {}".format(image_name, sentence, confidence))
