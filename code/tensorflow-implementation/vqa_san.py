@@ -32,7 +32,7 @@ class VQA_SAN:
     LEARNING_RATE = 0.0001
     PREFETCH = 1
     NUM_PARALLEL_CALLS = 8
-    IMAGE_SIZE = 128
+    IMAGE_SIZE = 256
     
     def __init__(self):
 
@@ -92,10 +92,10 @@ class VQA_SAN:
         img, sentence, self.label = iterator.get_next()
 
         with tf.name_scope('sentence_splitter'):
-            sentence = sentence.data.Dataset.map(lambda x: tf.string_split([x], delimiter=' ').values, num_parallel_calls=self.NUM_PARALLEL_CALLS)
+            sentence = tf.map_fn(lambda x: tf.string_split([x], delimiter=' ').values, sentence, dtype=tf.string)
 
         with tf.name_scope('word_table_lookup'):
-            self.sentence = sentence.data.Dataset.map(lambda x: tf.cast(word_table.lookup(x), tf.int32), num_parallel_calls=self.NUM_PARALLEL_CALLS)
+            self.sentence = tf.map_fn(lambda x: tf.cast(word_table.lookup(x), tf.int32), sentence, dtype=tf.int32)
 
         # Preapre image for a CNN pass
         self.img = tf.reshape(img, [-1, self.IMAGE_SIZE, self.IMAGE_SIZE, 3])
