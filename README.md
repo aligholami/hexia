@@ -21,9 +21,11 @@ Initially, the VQA model is trained and validated with the following configurati
 
 #### Visualization
 ##### Computation Graph Visualization
+
 <p align='center'>
-    <img width="400" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/computation-graph/c_graph_b2.png">
+    <img width="1000" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/computation-graph/c_graph_b2.png">
 </p>
+
 ##### Learning Visualization
 | | |
 |:-------------------------:|:-------------------------:|
