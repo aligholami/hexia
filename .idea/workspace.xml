@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6160afd0-0291-4fcc-b059-74faefcb2a9b" name="Default Changelist" comment="Update: added fast generator support" />
+    <list default="true" id="6160afd0-0291-4fcc-b059-74faefcb2a9b" name="Default Changelist" comment="Update: added fast generator support">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/tensorflow-implementation/vqa_san.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/tensorflow-implementation/vqa_san.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,8 +58,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/vqa_san.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="31" column="26" lean-forward="true" selection-start-line="31" selection-start-column="26" selection-end-line="31" selection-end-column="26" />
+            <state relative-caret-position="252">
+              <caret line="256" lean-forward="true" selection-start-line="256" selection-end-line="256" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -68,8 +71,8 @@
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="FIRST">
-              <first_editor relative-caret-position="486">
-                <caret line="33" selection-start-line="33" selection-end-line="33" />
+              <first_editor relative-caret-position="774">
+                <caret line="43" selection-start-line="43" selection-end-line="43" />
               </first_editor>
               <second_editor />
             </state>
@@ -100,7 +103,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/word_vectorizer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="720">
+            <state relative-caret-position="500">
               <caret line="41" column="32" selection-start-line="41" selection-start-column="32" selection-end-line="41" selection-end-column="32" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
@@ -120,6 +123,7 @@
       <find>pad</find>
       <find>nul</find>
       <find>get_image_name_in_dir</find>
+      <find>softmaxed_preds</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -152,6 +156,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -207,7 +212,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -260,7 +264,8 @@
       <workItem from="1548738355909" duration="1249000" />
       <workItem from="1548777884512" duration="4464000" />
       <workItem from="1548783290090" duration="24000" />
-      <workItem from="1548795706546" duration="386000" />
+      <workItem from="1548795706546" duration="1584000" />
+      <workItem from="1548829551382" duration="4315000" />
     </task>
     <task id="LOCAL-00001" summary="Update: added fast generator support">
       <created>1548342130150</created>
@@ -280,7 +285,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32405000" />
+    <option name="totallyTimeSpent" value="37918000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
@@ -341,10 +346,10 @@
     <entry file="file://$PROJECT_DIR$/models/train_data_items.txt" />
     <entry file="file://$PROJECT_DIR$/models/validation_data_items.txt" />
     <entry file="file://$PROJECT_DIR$/models/PickleFiles/train_data_items.txt">
+      <provider editor-type-id="text-editor" />
       <provider selected="true" editor-type-id="LargeFileEditor">
         <state relative-caret-position="-432" />
       </provider>
-      <provider editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/models/PickleFiles/train_data_items.pickle" />
     <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/test_val.py">
@@ -407,8 +412,8 @@
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="FIRST">
-          <first_editor relative-caret-position="486">
-            <caret line="33" selection-start-line="33" selection-end-line="33" />
+          <first_editor relative-caret-position="774">
+            <caret line="43" selection-start-line="43" selection-end-line="43" />
           </first_editor>
           <second_editor />
         </state>
@@ -433,7 +438,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/word_vectorizer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
+        <state relative-caret-position="500">
           <caret line="41" column="32" selection-start-line="41" selection-start-column="32" selection-end-line="41" selection-end-column="32" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
@@ -443,8 +448,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/vqa_san.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="31" column="26" lean-forward="true" selection-start-line="31" selection-start-column="26" selection-end-line="31" selection-end-column="26" />
+        <state relative-caret-position="252">
+          <caret line="256" lean-forward="true" selection-start-line="256" selection-end-line="256" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>

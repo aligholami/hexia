@@ -1,7 +1,10 @@
 import tensorflow as tf
 import numpy as np
+import pandas as pd
 import os
+import time
 from tqdm import tqdm
+from sklearn.metrics import accuracy_score, roc_auc_score, precision_recall_fscore_support
 from feature_extractor import FeatureExtractor
 from word_vectorizer import WordVectorizer
 from classifier import Classifier
@@ -33,6 +36,7 @@ class VQA_SAN:
     PREFETCH = 1
     NUM_PARALLEL_CALLS = 8
     IMAGE_SIZE = 256
+    CLASS_LIST = ['Yes', 'Maybe', 'No']
     
     def __init__(self):
 
@@ -142,9 +146,9 @@ class VQA_SAN:
 
         with tf.name_scope('Accuracy'):
             
-            softmaxed_preds = tf.nn.softmax(self.predictions)
-            self.accuracy = tf.reduce_sum(tf.cast(tf.equal(tf.argmax(softmaxed_preds, 1), tf.argmax(self.label, 1)), tf.float32))
-            self.acc, self.acc_update = tf.metrics.accuracy(labels=tf.argmax(self.label, 1), predictions=tf.argmax(softmaxed_preds, 1))
+            self.softmaxed_preds = tf.nn.softmax(self.predictions)
+            self.accuracy = tf.reduce_sum(tf.cast(tf.equal(tf.argmax(self.softmaxed_preds, 1), tf.argmax(self.label, 1)), tf.float32))
+            self.acc, self.acc_update = tf.metrics.accuracy(labels=tf.argmax(self.label, 1), predictions=tf.argmax(self.softmaxed_preds, 1))
 
     def summary(self):
         """
@@ -223,31 +227,83 @@ class VQA_SAN:
         # Training/Testing summary
         self.summary()
 
+    def get_model_statistics(self, preds, truths, losses):
+
+        auc_scores = np.zeros(shape=len(self.CLASS_LIST))
+        acc_scores = np.zeros(shape=len(self.CLASS_LIST))
+
+        for class_idx in range(len(self.CLASS_LIST)):
+            class_name = self.CLASS_LIST[class_idx]
+            auc_scores[class_idx] = roc_auc_score(truths[class_name], preds[class_name])
+            acc_scores[class_idx] = accuracy_score(truths[class_name], preds[class_name])
+
+        avg_auc = np.mean(auc_scores)
+        avg_acc = np.mean(acc_scores)
+        avg_loss = np.mean(losses)
+
+        return auc_scores, acc_scores, avg_auc, avg_acc, avg_loss
+
+    def report_model_statistics(self, auc_scores, acc_scores, avg_auc, avg_acc, loss, epoch, start_time, mode=self.TRAIN_INIT_CODE):
+
+        if(mode == self.TRAIN_INIT_CODE):
+            superb = 'Training'
+        else:
+            superb = 'Validation'
+
+        print("\n************ {} ************".format(superb))
+
+        print("[CLASS ROC-AUC SCORES]: ")
+        for class_idx in range(len(self.CLASS_LIST)):
+
+            class_name = self.CLASS_LIST[class_idx]
+            print("{0} -> {1}".format(class_name, auc_scores[class_idx]))
+
+        print("[AVG AUC] at Epoch {0}: {1}".format(epoch, avg_auc))
+
+        print("**************************************")
+        print("[CLASS ACCURACY SCORES]: ")
+        for class_idx in range(len(self.CLASS_LIST)):
+
+            class_name = self.CLASS_LIST[class_idx]
+            print("{0} -> {1}".format(class_name, acc_scores[class_idx]))
+
+        print("[AVG ACC] at Epoch {0}: {1}".format(epoch, avg_acc))
+        print("[LOSS] at Epoch {0}: {1}".format(epoch, loss))
+
+        print("[TIMING] Took {0} Seconds...".format(time.time() - start_time))
 
     def train_one_epoch(self, init, sess, saver, writer, step, epoch):
         """
         Train network one epoch. Display accuracy and loss metrics for based on the number defined in self.skip_steps.
         """
 
+        # Get current system time
+        start_time = time.time()
+
         # Initialize dataset pipeline with train data
         sess.run(init)
-        total_loss = 0
-
         losses = []
-        accuracies = []
+
+        all_predictions = pd.DataFrame(columns=self.CLASS_LIST)
+        all_labels = pd.DataFrame(columns=self.CLASS_LIST)
 
         pbar = tqdm(total=int(self.num_train_samples/self.BATCH_SIZE))
-        pbar.set_description("Trainig Epoch {}".format(epoch))
+        pbar.set_description("Training Epoch {}".format(epoch))
         try:
             while True:
                 # Get accuracy, loss value and optimize the network + summary of validation
-                batch_accuracy, step_loss, _, step_summary= sess.run([self.acc_update, self.loss_val, self.opt, self.summary], feed_dict={self.is_training: True})
+                batch_accuracy, step_loss, _, step_summary, preds, truths = sess.run([self.acc_update, self.loss_val, self.opt, self.summary, self.softmaxed_preds, self.label], feed_dict={self.is_training: True})
 
                 pbar.update(1)
                 step += 1
-                total_loss += step_loss
                 losses.append(step_loss)
-                accuracies.append(batch_accuracy)
+
+                for pred in preds:
+                    all_predictions.loc[len(all_predictions)] = pred
+
+                for truth in truths:
+                    all_labels.loc[len(all_labels)] = truth
+
 
                 # if((step + 1) % self.skip_steps == 0):
                 #     print('Loss at step {}: {}'.format(step, step_loss))
@@ -258,58 +314,67 @@ class VQA_SAN:
                 #     print("Trained weights saved in path: {}".format(save_path))
         except tf.errors.OutOfRangeError:
             pass;
-        
-        # Compute training loss
-        epoch_loss = np.mean(losses)
-        epoch_accuracy = np.mean(accuracies)
+
+
+        # Get model statistics
+        auc_scores, acc_scores, avg_auc, avg_acc, avg_loss = self.get_model_statistics(
+                                                                                    all_predictions, all_labels, losses)
+
+        # Report model statistics
+        self.report_model_statistics(auc_scores, acc_scores, avg_auc, avg_acc, avg_loss, epoch, start_time, mode=self.TRAIN_INIT_CODE)
+
+        # Write TF summaries
         summary = tf.Summary()
-        summary.value.add(tag="Training Loss", simple_value=epoch_loss)
-        summary.value.add(tag="Training Accuracy", simple_value=epoch_accuracy)
-    
+        summary.value.add(tag="Training Loss", simple_value=avg_loss)
+        summary.value.add(tag="Training Accuracy", simple_value=avg_acc)
         writer.add_summary(summary, epoch)
 
-        print("\nTrain Loss at epoch {}: {}".format(epoch, epoch_loss))
-        print("Train Accuracy at epoch {}: {}\n".format(epoch, epoch_accuracy))
-        
         return step
 
     def validate(self, init, sess, writer, step, epoch):
         """
         Validate the trained model on validation data.
         """
+        # Get current system time
+        start_time = time.time()
 
         # Initialize dataset pipeline with validation data
         sess.run(init)
-        total_loss = 0
-
         losses = []
-        accuracies = []
+        
+        all_predictions = pd.DataFrame(columns=self.CLASS_LIST)
+        all_labels = pd.DataFrame(columns=self.CLASS_LIST)
 
         pbar = tqdm(total=int(self.num_validation_samples/self.BATCH_SIZE))
         pbar.set_description("Validation Epoch {}".format(epoch))
         try:
             while True:
                 # Get accuracy and summary of validation
-                batch_accuracy, step_loss, step_summary = sess.run([self.acc_update, self.loss_val, self.summary], feed_dict={self.is_training: False})
-                total_loss += step_loss
-                losses.append(step_loss)
-                accuracies.append(batch_accuracy)
+                batch_accuracy, step_loss, step_summary, preds, truths = sess.run([self.acc_update, self.loss_val, self.summary, self.softmaxed_preds, self.label], feed_dict={self.is_training: False})
                 pbar.update(1)
+                losses.append(step_loss)
+
+                for pred in preds:
+                    all_predictions.loc[len(all_predictions)] = pred
+
+                for truth in truths:
+                    all_labels.loc[len(all_labels)] = truth
 
         except tf.errors.OutOfRangeError:
             pass;
 
-        # Compute validation loss
-        val_loss = np.mean(losses)
-        val_accuracy = np.mean(accuracies)
+
+        # Get model statistics
+        auc_scores, acc_scores, avg_auc, avg_acc, avg_loss = self.get_model_statistics(
+                                                                                    all_predictions, all_labels, losses)
+
+        # Report model statistics
+        self.report_model_statistics(auc_scores, acc_scores, avg_auc, avg_acc, avg_loss, epoch, start_time, mode=self.VAL_INIT_CODE)
+
         summary = tf.Summary()
-        summary.value.add(tag="Validation Loss", simple_value=val_loss)
-        summary.value.add(tag="Validation Accuracy", simple_value=val_accuracy)
+        summary.value.add(tag="Validation Loss", simple_value=avg_loss)
+        summary.value.add(tag="Validation Accuracy", simple_value=avg_acc)
         writer.add_summary(summary, epoch)
-
-        print("\nValidation Loss at epoch {}: {}".format(epoch, val_loss))
-        print("Validation Accuracy at epoch {}: {}\n".format(epoch, val_accuracy))
-
 
     def train_and_validate(self, num_epochs):
         """
