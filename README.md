@@ -21,8 +21,11 @@ Initially, the VQA model is trained and validated with the following configurati
 
 #### Visualization
 ##### Computation Graph Visualization
+<p align='center'>
+    <img width="400" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/computation-graph/c_graph_b2.png">
+</p>
 ##### Learning Visualization
 | | |
 |:-------------------------:|:-------------------------:|
-|<img width="400" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/t_acc.PNG">  |  <img width="400" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/t_loss.PNG">| 
-<img width="400" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/v_acc.PNG">  |  <img width="400" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/v_loss.PNG">|
+|<img width="400" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/learning-visualization/t_acc.PNG">  |  <img width="400" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/learning-visualization/t_loss.PNG">| 
+<img width="400" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/learning-visualization/v_acc.PNG">  |  <img width="400" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/experiments/B2/learning-visualization/v_loss.PNG">|
