@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import pandas as pd
 from utils import get_file_list_in_dir, get_image_id, get_image_name_in_dir, clean_sentence, confidence_to_one_hot
 import json as json
 from tqdm import tqdm
@@ -140,6 +141,39 @@ class DataGenerator:
                 img = np.array(img.flatten())
 
                 yield img, sentence, confidence
+
+    def get_and_preprocess_image(self, image_name):
+
+        img = cv2.imread(os.path.join(self.image_path, image_name))
+
+        # Resize
+        img = cv2.resize(img, (self.image_target_size, self.image_target_size))
+
+        # Normalize
+        img = img / 255.0
+
+        # Flatten
+        img = np.array(img.flatten())
+
+        return img
+
+    def prefetch_images_to_memory(self, load_n_gb_in_mem):
+
+        images_in_memory = []
+        n_gb_loaded = 0
+
+        for data_item_index, data_item in self.data_items:
+            for image_index, image_name, _, _ in enumerate(data_item):
+
+                if n_gb_loaded < load_n_gb_in_mem:
+                    img = self.get_and_preprocess_image(image_name)
+                    images_in_memory.append(img)
+                else:
+                    # Save last image name
+                    self.last_image_name_in_mem = (data_item_index, image_index)
+
+
+
 
     def get_data_list(self):
 

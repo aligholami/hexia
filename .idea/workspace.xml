@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6160afd0-0291-4fcc-b059-74faefcb2a9b" name="Default Changelist" comment="Update: added fast generator support">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/tensorflow-implementation/data_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/tensorflow-implementation/data_generator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/code/tensorflow-implementation/vqa_san.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/tensorflow-implementation/vqa_san.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,7 +17,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
+            <state relative-caret-position="68">
               <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
@@ -25,11 +26,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/data_generator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2862">
-              <caret line="165" selection-start-line="165" selection-end-line="165" />
+            <state relative-caret-position="451">
+              <caret line="172" column="80" lean-forward="true" selection-start-line="172" selection-start-column="80" selection-end-line="172" selection-end-column="80" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -40,7 +41,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/PickleFiles/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
+            <state relative-caret-position="255">
               <caret line="15" column="57" selection-start-line="15" selection-start-column="57" selection-end-line="15" selection-end-column="57" />
             </state>
           </provider>
@@ -49,17 +50,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
+            <state relative-caret-position="136">
               <caret line="8" column="10" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/vqa_san.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="256" lean-forward="true" selection-start-line="256" selection-end-line="256" />
+            <state relative-caret-position="17">
+              <caret line="39" column="19" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="19" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -71,7 +72,7 @@
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="FIRST">
-              <first_editor relative-caret-position="774">
+              <first_editor relative-caret-position="731">
                 <caret line="43" selection-start-line="43" selection-end-line="43" />
               </first_editor>
               <second_editor />
@@ -82,7 +83,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2016">
+            <state relative-caret-position="1904">
               <caret line="115" column="33" selection-start-line="115" selection-start-column="33" selection-end-line="115" selection-end-column="33" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -94,7 +95,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="738">
+            <state relative-caret-position="697">
               <caret line="41" column="30" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
             </state>
           </provider>
@@ -103,7 +104,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/word_vectorizer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="500">
+            <state relative-caret-position="680">
               <caret line="41" column="32" selection-start-line="41" selection-start-column="32" selection-end-line="41" selection-end-column="32" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
@@ -140,8 +141,8 @@
         <option value="$PROJECT_DIR$/code/tensorflow-implementation/test_train.py" />
         <option value="$PROJECT_DIR$/models/PickleFiles/test.py" />
         <option value="$PROJECT_DIR$/code/tensorflow-implementation/utils.py" />
-        <option value="$PROJECT_DIR$/code/tensorflow-implementation/data_generator.py" />
         <option value="$PROJECT_DIR$/code/tensorflow-implementation/vqa_san.py" />
+        <option value="$PROJECT_DIR$/code/tensorflow-implementation/data_generator.py" />
       </list>
     </option>
   </component>
@@ -220,7 +221,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="MTConfigurable" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -265,7 +266,11 @@
       <workItem from="1548777884512" duration="4464000" />
       <workItem from="1548783290090" duration="24000" />
       <workItem from="1548795706546" duration="1584000" />
-      <workItem from="1548829551382" duration="4315000" />
+      <workItem from="1548829551382" duration="6133000" />
+      <workItem from="1548837310229" duration="1262000" />
+      <workItem from="1548860282599" duration="73000" />
+      <workItem from="1548881819032" duration="1265000" />
+      <workItem from="1548955955512" duration="1805000" />
     </task>
     <task id="LOCAL-00001" summary="Update: added fast generator support">
       <created>1548342130150</created>
@@ -285,13 +290,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="37918000" />
+    <option name="totallyTimeSpent" value="44141000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11007026" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22248244" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -346,10 +351,10 @@
     <entry file="file://$PROJECT_DIR$/models/train_data_items.txt" />
     <entry file="file://$PROJECT_DIR$/models/validation_data_items.txt" />
     <entry file="file://$PROJECT_DIR$/models/PickleFiles/train_data_items.txt">
-      <provider editor-type-id="text-editor" />
       <provider selected="true" editor-type-id="LargeFileEditor">
         <state relative-caret-position="-432" />
       </provider>
+      <provider editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/models/PickleFiles/train_data_items.pickle" />
     <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/test_val.py">
@@ -377,7 +382,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
+        <state relative-caret-position="68">
           <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
@@ -385,26 +390,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/data_generator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2862">
-          <caret line="165" selection-start-line="165" selection-end-line="165" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/PickleFiles/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
+        <state relative-caret-position="255">
           <caret line="15" column="57" selection-start-line="15" selection-start-column="57" selection-end-line="15" selection-end-column="57" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
+        <state relative-caret-position="136">
           <caret line="8" column="10" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
         </state>
       </provider>
@@ -412,7 +407,7 @@
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="FIRST">
-          <first_editor relative-caret-position="774">
+          <first_editor relative-caret-position="731">
             <caret line="43" selection-start-line="43" selection-end-line="43" />
           </first_editor>
           <second_editor />
@@ -421,7 +416,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2016">
+        <state relative-caret-position="1904">
           <caret line="115" column="33" selection-start-line="115" selection-start-column="33" selection-end-line="115" selection-end-column="33" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
@@ -431,14 +426,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="738">
+        <state relative-caret-position="697">
           <caret line="41" column="30" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/word_vectorizer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
+        <state relative-caret-position="680">
           <caret line="41" column="32" selection-start-line="41" selection-start-column="32" selection-end-line="41" selection-end-column="32" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
@@ -448,10 +443,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/vqa_san.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="256" lean-forward="true" selection-start-line="256" selection-end-line="256" />
+        <state relative-caret-position="17">
+          <caret line="39" column="19" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="19" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/data_generator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="451">
+          <caret line="172" column="80" lean-forward="true" selection-start-line="172" selection-start-column="80" selection-end-line="172" selection-end-column="80" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>

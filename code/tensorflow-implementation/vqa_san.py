@@ -5,6 +5,7 @@ import os
 import time
 from tqdm import tqdm
 from sklearn.metrics import accuracy_score, roc_auc_score, precision_recall_fscore_support
+from tensorflow.python.client import timeline
 from feature_extractor import FeatureExtractor
 from word_vectorizer import WordVectorizer
 from classifier import Classifier
@@ -26,6 +27,7 @@ class VQA_SAN:
     PATH_TO_PRETRAINED_CNN_WEIGHTS = '../../models/ResNet'
     PATH_TO_TRAIN_PICKLE_FILES = '../../models/PickleFiles/train_data_items.txt'
     PATH_TO_VALIDATION_PICKLE_FILES = '../../models/PickleFiles/validation_data_items.txt'
+    PATH_TO_TRACE_FILE = '../../visualization/trace/trace_f.ctf.json'
 
     TRAIN_INIT_CODE = 2
     VAL_INIT_CODE = 3
@@ -35,7 +37,7 @@ class VQA_SAN:
     LEARNING_RATE = 0.0001
     PREFETCH = 1
     NUM_PARALLEL_CALLS = 8
-    IMAGE_SIZE = 256
+    IMAGE_SIZE = 64
     CLASS_LIST = ['Yes', 'Maybe', 'No']
     
     def __init__(self):
@@ -243,7 +245,7 @@ class VQA_SAN:
 
         return auc_scores, acc_scores, avg_auc, avg_acc, avg_loss
 
-    def report_model_statistics(self, auc_scores, acc_scores, avg_auc, avg_acc, loss, epoch, start_time, mode=self.TRAIN_INIT_CODE):
+    def report_model_statistics(self, auc_scores, acc_scores, avg_auc, avg_acc, loss, epoch, start_time, mode):
 
         if(mode == self.TRAIN_INIT_CODE):
             superb = 'Training'
@@ -289,10 +291,18 @@ class VQA_SAN:
 
         pbar = tqdm(total=int(self.num_train_samples/self.BATCH_SIZE))
         pbar.set_description("Training Epoch {}".format(epoch))
+
+        # Trace and profile
+        run_metadata = tf.RunMetadata()
+
         try:
             while True:
                 # Get accuracy, loss value and optimize the network + summary of validation
-                batch_accuracy, step_loss, _, step_summary, preds, truths = sess.run([self.acc_update, self.loss_val, self.opt, self.summary, self.softmaxed_preds, self.label], feed_dict={self.is_training: True})
+                batch_accuracy, step_loss, _, step_summary, preds, truths = sess.run(
+                    [self.acc_update, self.loss_val, self.opt, self.summary, self.softmaxed_preds, self.label],
+                    feed_dict={self.is_training: True},
+                    options=tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE),
+                    run_metadata=run_metadata)
 
                 pbar.update(1)
                 step += 1
@@ -304,6 +314,10 @@ class VQA_SAN:
                 for truth in truths:
                     all_labels.loc[len(all_labels)] = truth
 
+                # Get step stats
+                trace = timeline.Timeline(step_stats=run_metadata.step_stats)
+                trace_file = open(self.PATH_TO_TRACE_FILE, 'w')
+                trace_file.write(trace.generate_chrome_trace_format())
 
                 # if((step + 1) % self.skip_steps == 0):
                 #     print('Loss at step {}: {}'.format(step, step_loss))
