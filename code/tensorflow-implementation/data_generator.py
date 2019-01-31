@@ -6,6 +6,7 @@ import json as json
 from tqdm import tqdm
 import pickle
 import os
+import sys
 
 
 # from text_generator import TextGenerator
@@ -17,6 +18,7 @@ class DataGenerator:
 
     def __init__(self, image_path, q_path, a_path, p_path, image_rescale, image_horizontal_flip, image_target_size,
                  use_num_answers, init_code):
+
         self.data_items = []
         self.image_path = image_path
         self.q_path = q_path
@@ -28,9 +30,14 @@ class DataGenerator:
         self.use_num_answers = use_num_answers
         self.init_code = init_code
 
+        # A tuple containing the last data item and last image name loaded into memory for speed purposes
+        self.last_image_name_in_mem = 0, 0
+        self.images_in_memory = []
+
         # Load Questions and Answers JSON into memory
         self.load_qa_into_mem()
         self.prepare_generator_iterable()
+        self.prefetch_images_to_memory(load_n_gb_in_mem=0.5)    # Load 500 MB to memory
 
     def get_data_items(self):
         return self.data_items
@@ -159,21 +166,34 @@ class DataGenerator:
 
     def prefetch_images_to_memory(self, load_n_gb_in_mem):
 
-        images_in_memory = []
+        data_item_index, image_index = self.last_image_name_in_mem
+        image_index = 0
         n_gb_loaded = 0
 
-        for data_item_index, data_item in self.data_items:
-            for image_index, image_name, _, _ in enumerate(data_item):
+        while data_item_index < len(self.data_items):
+            data_item = self.data_items[data_item_index]
+
+            while image_index < len(data_item):
+                image_name, _, _ = data_item[image_index]
+
+                # Get array size in GB
+                n_gb_loaded = sys.getsizeof(self.images_in_memory) / float(1 << 30)
 
                 if n_gb_loaded < load_n_gb_in_mem:
                     img = self.get_and_preprocess_image(image_name)
-                    images_in_memory.append(img)
+                    self.images_in_memory.append(img)
                 else:
-                    # Save last image name
-                    self.last_image_name_in_mem = (data_item_index, image_index)
+                    break
 
+                # Get next image name
+                image_index += 1
 
+            # Get next data item
+            data_item_index += 1
 
+        # Save last image name
+        self.last_image_name_in_mem = (data_item_index, image_index)
+        print("Loaded {} GB of Images to Memory".format(n_gb_loaded))
 
     def get_data_list(self):
 
