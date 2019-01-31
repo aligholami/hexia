@@ -37,7 +37,7 @@ class DataGenerator:
         # Load Questions and Answers JSON into memory
         self.load_qa_into_mem()
         self.prepare_generator_iterable()
-        self.prefetch_images_to_memory(load_n_gb_in_mem=0.5)    # Load 500 MB to memory
+        self.prefetch_images_to_memory(load_n_mb_in_mem=100)    # Load 100 MB to memor
 
     def get_data_items(self):
         return self.data_items
@@ -164,11 +164,15 @@ class DataGenerator:
 
         return img
 
-    def prefetch_images_to_memory(self, load_n_gb_in_mem):
+    def prefetch_images_to_memory(self, load_n_mb_in_mem):
+
+        superb = 'Training' if self.init_code == self.TRAIN_INIT_CODE else 'Validation'
+
+        print("Loading {} images to memory.".format(superb))
 
         data_item_index, image_index = self.last_image_name_in_mem
         image_index = 0
-        n_gb_loaded = 0
+        n_mb_loaded = 0
 
         while data_item_index < len(self.data_items):
             data_item = self.data_items[data_item_index]
@@ -177,10 +181,22 @@ class DataGenerator:
                 image_name, _, _ = data_item[image_index]
 
                 # Get array size in GB
-                n_gb_loaded = sys.getsizeof(self.images_in_memory) / float(1 << 30)
+                n_mb_loaded = sys.getsizeof(self.images_in_memory) / float(1 << 20)
+                print("Loaded {:,.0f} MB".format(n_mb_loaded))
+                if n_mb_loaded < load_n_mb_in_mem:
+                    # img = self.get_and_preprocess_image(image_name)
 
-                if n_gb_loaded < load_n_gb_in_mem:
-                    img = self.get_and_preprocess_image(image_name)
+                    img = cv2.imread(os.path.join(self.image_path, image_name))
+
+                    # Resize
+                    img = cv2.resize(img, (self.image_target_size, self.image_target_size))
+
+                    # Normalize
+                    img = img / 255.0
+
+                    # Flatten
+                    img = np.array(img.flatten())
+
                     self.images_in_memory.append(img)
                 else:
                     break
@@ -193,7 +209,7 @@ class DataGenerator:
 
         # Save last image name
         self.last_image_name_in_mem = (data_item_index, image_index)
-        print("Loaded {} GB of Images to Memory".format(n_gb_loaded))
+        print("Loaded {} mb of Images to Memory".format(n_mb_loaded))
 
     def get_data_list(self):
 
