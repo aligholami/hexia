@@ -172,7 +172,7 @@ class DataGenerator:
 
         data_item_index, image_index = self.last_image_name_in_mem
         image_index = 0
-        n_mb_loaded = 0
+        n_gb_loaded = 0
 
         while data_item_index < len(self.data_items):
             data_item = self.data_items[data_item_index]
@@ -180,16 +180,17 @@ class DataGenerator:
             while image_index < len(data_item):
                 image_name, _, _ = data_item[image_index]
 
-                # Get array size in GB
-                    n_mb_loaded = sys.getsizeof(self.images_in_memory) / float(1 << 20)
-                print("Loaded {} MB".format(n_mb_loaded))
-                if n_mb_loaded < load_n_mb_in_mem:
+                print("Loaded {} MB".format(n_gb_loaded))
+                if n_gb_loaded < load_n_mb_in_mem:
                     # img = self.get_and_preprocess_image(image_name)
 
                     img = cv2.imread(os.path.join(self.image_path, image_name))
 
                     # Resize
                     img = cv2.resize(img, (self.image_target_size, self.image_target_size))
+
+                    # Get array size in GB
+                    n_gb_loaded += sys.getsizeof(img) / float(1 << 30)
 
                     # Normalize
                     img = img / 255.0
