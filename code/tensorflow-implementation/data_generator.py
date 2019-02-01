@@ -181,8 +181,8 @@ class DataGenerator:
                 image_name, _, _ = data_item[image_index]
 
                 # Get array size in GB
-                n_mb_loaded = sys.getsizeof(self.images_in_memory) / float(1 << 20)
-                print("Loaded {:,.0f} MB".format(n_mb_loaded))
+                    n_mb_loaded = sys.getsizeof(self.images_in_memory) / float(1 << 20)
+                print("Loaded {} MB".format(n_mb_loaded))
                 if n_mb_loaded < load_n_mb_in_mem:
                     # img = self.get_and_preprocess_image(image_name)
 
