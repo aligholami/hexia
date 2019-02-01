@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6160afd0-0291-4fcc-b059-74faefcb2a9b" name="Default Changelist" comment="Update: added fast generator support">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/code/tensorflow-implementation/data_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/tensorflow-implementation/data_generator.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -28,8 +27,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/data_generator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-651">
-              <caret line="187" lean-forward="true" selection-start-line="187" selection-end-line="187" />
+            <state relative-caret-position="255">
+              <caret line="191" column="52" selection-start-line="191" selection-start-column="52" selection-end-line="191" selection-end-column="52" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -58,8 +57,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/vqa_san.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5015">
-              <caret line="306" column="16" selection-start-line="306" selection-start-column="16" selection-end-line="306" selection-end-column="30" />
+            <state relative-caret-position="1661">
+              <caret line="280" lean-forward="true" selection-start-line="280" selection-end-line="280" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -103,7 +102,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/word_vectorizer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="680">
+            <state relative-caret-position="502">
               <caret line="41" column="32" selection-start-line="41" selection-start-column="32" selection-end-line="41" selection-end-column="32" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
@@ -125,11 +124,11 @@
       <find>get_image_name_in_dir</find>
       <find>softmaxed_preds</find>
       <find>super</find>
-      <find>superb</find>
       <find>size</find>
       <find>resize</find>
       <find>cast</find>
       <find>type</find>
+      <find>superb</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -276,7 +275,7 @@
       <workItem from="1548860282599" duration="73000" />
       <workItem from="1548881819032" duration="1265000" />
       <workItem from="1548955955512" duration="13782000" />
-      <workItem from="1549019353230" duration="317000" />
+      <workItem from="1549019353230" duration="3705000" />
     </task>
     <task id="LOCAL-00001" summary="Update: added fast generator support">
       <created>1548342130150</created>
@@ -296,7 +295,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56435000" />
+    <option name="totallyTimeSpent" value="59823000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
@@ -409,16 +408,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/vqa_san.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5015">
-          <caret line="306" column="16" selection-start-line="306" selection-start-column="16" selection-end-line="306" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="FIRST">
@@ -448,8 +437,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/word_vectorizer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
+        <state relative-caret-position="502">
           <caret line="41" column="32" selection-start-line="41" selection-start-column="32" selection-end-line="41" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/vqa_san.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1661">
+          <caret line="280" lean-forward="true" selection-start-line="280" selection-end-line="280" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
@@ -458,8 +457,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/code/tensorflow-implementation/data_generator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-651">
-          <caret line="187" lean-forward="true" selection-start-line="187" selection-end-line="187" />
+        <state relative-caret-position="255">
+          <caret line="191" column="52" selection-start-line="191" selection-start-column="52" selection-end-line="191" selection-end-column="52" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>

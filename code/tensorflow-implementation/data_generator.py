@@ -30,6 +30,8 @@ class DataGenerator:
         self.use_num_answers = use_num_answers
         self.init_code = init_code
 
+        self.superb = 'Training' if self.init_code == self.TRAIN_INIT_CODE else 'Validation'
+
         # A tuple containing the last data item and last image name loaded into memory for speed purposes
         self.last_image_name_in_mem = 0, 0
         self.images_in_memory = []
@@ -37,7 +39,7 @@ class DataGenerator:
         # Load Questions and Answers JSON into memory
         self.load_qa_into_mem()
         self.prepare_generator_iterable()
-        self.prefetch_images_to_memory(load_n_mb_in_mem=100)    # Load 100 MB to memor
+        self.prefetch_images_to_memory(load_n_gb_in_mem=0.5)    # Load 100 MB to memor
 
     def get_data_items(self):
         return self.data_items
@@ -164,11 +166,9 @@ class DataGenerator:
 
         return img
 
-    def prefetch_images_to_memory(self, load_n_mb_in_mem):
+    def prefetch_images_to_memory(self, load_n_gb_in_mem):
 
-        superb = 'Training' if self.init_code == self.TRAIN_INIT_CODE else 'Validation'
-
-        print("Loading {} images to memory.".format(superb))
+        print("Loading {} images to memory.".format(self.superb))
 
         data_item_index, image_index = self.last_image_name_in_mem
         image_index = 0
@@ -180,14 +180,19 @@ class DataGenerator:
             while image_index < len(data_item):
                 image_name, _, _ = data_item[image_index]
 
-                print("Loaded {} MB".format(n_gb_loaded))
-                if n_gb_loaded < load_n_mb_in_mem:
+                # print("Loaded {} GB".format(n_gb_loaded))
+                if n_gb_loaded < load_n_gb_in_mem:
                     # img = self.get_and_preprocess_image(image_name)
 
+                    # Please remove this in future releases
+                    if (self.init_code == self.VAL_INIT_CODE):
+                        image_name = image_name.replace("train", "val")
+
+                    # print("Tried to read path {}".format(os.path.join(self.image_path, image_name)))
                     img = cv2.imread(os.path.join(self.image_path, image_name))
 
                     # Resize
-                    img = cv2.resize(img, (self.image_target_size, self.image_target_size))
+                    # img = cv2.resize(img, (self.image_target_size, self.image_target_size))
 
                     # Get array size in GB
                     n_gb_loaded += sys.getsizeof(img) / float(1 << 30)
@@ -210,7 +215,7 @@ class DataGenerator:
 
         # Save last image name
         self.last_image_name_in_mem = (data_item_index, image_index)
-        print("Loaded {} mb of Images to Memory".format(n_mb_loaded))
+        print("Loaded {} GB of Images to Memory".format(load_n_gb_in_mem))
 
     def get_data_list(self):
 
@@ -221,7 +226,7 @@ class DataGenerator:
         Prepares a list of tuples to use inside the generator
         """
 
-        print("Loading Data Items: ")
+        print("Loading {} Data Items: ".format(self.superb))
 
         skip_steps = 200000
         pickle_file_addr = self.p_path
@@ -274,4 +279,4 @@ class DataGenerator:
             except Exception as _:
                 pass
 
-        print("Loaded Data Items.")
+        print("Loaded {} Data Items.".format(self.superb))
