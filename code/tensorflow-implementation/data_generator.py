@@ -40,7 +40,7 @@ class DataGenerator:
         # Load Questions and Answers JSON into memory
         self.load_qa_into_mem()
         self.prepare_generator_iterable()
-        self.prefetch_data_to_memory(load_n_gb_in_mem=0.5)    # Load 100 MB to memor
+        self.prefetch_data_to_memory(load_n_gb_in_mem=0.5)    # Load 100 MB to memory
 
     def get_data_items(self):
         return self.data_items
@@ -133,8 +133,7 @@ class DataGenerator:
 
         for img, sentence, confidence in self.data_in_memory:
 
-            if self.n_gb_loaded < 0:
-                self.n_gb_loaded = 0
+            if self.n_gb_loaded < 0.001:
                 self.prefetch_data_to_memory(load_n_gb_in_mem=0.5)
 
             # Update size in memory
@@ -218,7 +217,7 @@ class DataGenerator:
         Prepares a list of tuples to use inside the generator
         """
 
-        print("Loading {} Data Items: ".format(self.superb))
+        print("Preparing {} Iterables: ".format(self.superb))
 
         skip_steps = 200000
         pickle_file_addr = self.p_path
@@ -271,4 +270,4 @@ class DataGenerator:
             except Exception as _:
                 pass
 
-        print("Loaded {} Data Items.".format(self.superb))
+        print("Prepared {} Iterables.".format(self.superb))
