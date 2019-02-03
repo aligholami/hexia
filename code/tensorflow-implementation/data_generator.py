@@ -19,6 +19,7 @@ class DataGenerator:
     def __init__(self, image_path, q_path, a_path, p_path, image_rescale, image_horizontal_flip, image_target_size,
                  use_num_answers, init_code):
 
+        self.n_gb_loaded = 0
         self.data_items = []
         self.image_path = image_path
         self.q_path = q_path
@@ -33,13 +34,13 @@ class DataGenerator:
         self.superb = 'Training' if self.init_code == self.TRAIN_INIT_CODE else 'Validation'
 
         # A tuple containing the last data item and last image name loaded into memory for speed purposes
-        self.last_image_name_in_mem = 0, 0
-        self.images_in_memory = []
+        self.last_data_name_in_mem = 0, 0
+        self.data_in_memory = []
 
         # Load Questions and Answers JSON into memory
         self.load_qa_into_mem()
         self.prepare_generator_iterable()
-        self.prefetch_images_to_memory(load_n_gb_in_mem=0.5)    # Load 100 MB to memor
+        self.prefetch_data_to_memory(load_n_gb_in_mem=0.5)    # Load 100 MB to memor
 
     def get_data_items(self):
         return self.data_items
@@ -130,26 +131,16 @@ class DataGenerator:
 
         # print("Inside the generator..")
 
-        for data_item in self.data_items:
+        for img, sentence, confidence in self.data_in_memory:
 
-            for image_name, sentence, confidence in data_item:
+            if self.n_gb_loaded < 0:
+                self.n_gb_loaded = 0
+                self.prefetch_data_to_memory(load_n_gb_in_mem=0.5)
 
-                # Please remove this in future releases
-                if(self.init_code == self.VAL_INIT_CODE):
-                    image_name = image_name.replace("train", "val")
-                    
-                # print("Sequence: {}, {}, {}".format(image_name, sentence, confidence))
+            # Update size in memory
+            self.n_gb_loaded -= sys.getsizeof(img) / float(1 << 30)
 
-                # Read corresponding image from directory
-                img = cv2.imread(os.path.join(self.image_path, image_name))
-                img = cv2.resize(img, (self.image_target_size, self.image_target_size))
-
-                # Normalize
-                img = img / 255.0
-
-                img = np.array(img.flatten())
-
-                yield img, sentence, confidence
+            yield img, sentence, confidence
 
     def get_and_preprocess_image(self, image_name):
 
@@ -166,22 +157,21 @@ class DataGenerator:
 
         return img
 
-    def prefetch_images_to_memory(self, load_n_gb_in_mem):
+    def prefetch_data_to_memory(self, load_n_gb_in_mem):
 
-        print("Loading {} images to memory.".format(self.superb))
+        print("Loading {} data to memory.".format(self.superb))
 
-        data_item_index, image_index = self.last_image_name_in_mem
-        image_index = 0
-        n_gb_loaded = 0
+        data_item_index, data_index = self.last_data_name_in_mem
+        data_index = 0
 
         while data_item_index < len(self.data_items):
             data_item = self.data_items[data_item_index]
 
-            while image_index < len(data_item):
-                image_name, _, _ = data_item[image_index]
+            while data_index < len(data_item):
+                image_name, sentence, confidence = data_item[data_index]
 
                 # print("Loaded {} GB".format(n_gb_loaded))
-                if n_gb_loaded < load_n_gb_in_mem:
+                if self.n_gb_loaded < load_n_gb_in_mem:
                     # img = self.get_and_preprocess_image(image_name)
 
                     # Please remove this in future releases
@@ -195,7 +185,7 @@ class DataGenerator:
                     # img = cv2.resize(img, (self.image_target_size, self.image_target_size))
 
                     # Get array size in GB
-                    n_gb_loaded += sys.getsizeof(img) / float(1 << 30)
+                    self.n_gb_loaded += sys.getsizeof(img) / float(1 << 30)
 
                     # Normalize
                     img = img / 255.0
@@ -203,19 +193,21 @@ class DataGenerator:
                     # Flatten
                     img = np.array(img.flatten())
 
-                    self.images_in_memory.append(img)
+                    item = (img, sentence, confidence)
+
+                    self.data_in_memory.append(item)
                 else:
                     break
 
                 # Get next image name
-                image_index += 1
+                data_index += 1
 
             # Get next data item
             data_item_index += 1
 
         # Save last image name
-        self.last_image_name_in_mem = (data_item_index, image_index)
-        print("Loaded {} GB of Images to Memory".format(load_n_gb_in_mem))
+        self.last_data_name_in_mem = (data_item_index, data_index)
+        print("Loaded {} GB of Data to Memory".format(load_n_gb_in_mem))
 
     def get_data_list(self):
 
