@@ -131,14 +131,23 @@ class DataGenerator:
 
         # print("Inside the generator..")
 
-        for img, sentence, confidence in self.data_in_memory:
+        for item in self.data_in_memory:
 
-            if self.n_gb_loaded < 0.001:
+            # Unpack item
+            img, sentence, confidence = item
+
+            if self.n_gb_loaded <= 0:
                 self.prefetch_data_to_memory(load_n_gb_in_mem=0.5)
 
             # Update size in memory
             self.n_gb_loaded -= sys.getsizeof(img) / float(1 << 30)
 
+            print("Image: ", img)
+            print("Image Shape: ", np.shape(img))
+            print("Sentence: ", sentence)
+            print("Sentence Length:", len(sentence))
+            print("Label: ", confidence)
+            print("Label Shape: ", np.shape(confidence))
             yield img, sentence, confidence
 
     def get_and_preprocess_image(self, image_name):
@@ -168,7 +177,6 @@ class DataGenerator:
 
             while data_index < len(data_item):
                 image_name, sentence, confidence = data_item[data_index]
-
                 # print("Loaded {} GB".format(n_gb_loaded))
                 if self.n_gb_loaded < load_n_gb_in_mem:
                     # img = self.get_and_preprocess_image(image_name)
@@ -181,7 +189,7 @@ class DataGenerator:
                     img = cv2.imread(os.path.join(self.image_path, image_name))
 
                     # Resize
-                    # img = cv2.resize(img, (self.image_target_size, self.image_target_size))
+                    img = cv2.resize(img, (self.image_target_size, self.image_target_size))
 
                     # Get array size in GB
                     self.n_gb_loaded += sys.getsizeof(img) / float(1 << 30)
@@ -190,10 +198,12 @@ class DataGenerator:
                     img = img / 255.0
 
                     # Flatten
-                    img = np.array(img.flatten())
+                    img = img.flatten()
 
+                    # Create the tuple
                     item = (img, sentence, confidence)
 
+                    # Merge the data tuple with data in memory
                     self.data_in_memory.append(item)
                 else:
                     break

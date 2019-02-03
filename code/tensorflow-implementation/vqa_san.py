@@ -149,7 +149,9 @@ class VQA_SAN:
         with tf.name_scope('Accuracy'):
             
             self.softmaxed_preds = tf.nn.softmax(self.predictions)
+            self.argmaxed_preds = tf.argmax(self.softmaxed_preds, 1)
             self.accuracy = tf.reduce_sum(tf.cast(tf.equal(tf.argmax(self.softmaxed_preds, 1), tf.argmax(self.label, 1)), tf.float32))
+
             self.acc, self.acc_update = tf.metrics.accuracy(labels=tf.argmax(self.label, 1), predictions=tf.argmax(self.softmaxed_preds, 1))
 
     def summary(self):
@@ -299,7 +301,7 @@ class VQA_SAN:
             while True:
                 # Get accuracy, loss value and optimize the network + summary of validation
                 batch_accuracy, step_loss, _, step_summary, preds, truths = sess.run(
-                    [self.acc_update, self.loss_val, self.opt, self.summary, self.softmaxed_preds, self.label],
+                    [self.acc_update, self.loss_val, self.opt, self.summary, self.argmaxed_preds, self.label],
                     feed_dict={self.is_training: True},
                     options=tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE),
                     run_metadata=run_metadata)
@@ -329,6 +331,9 @@ class VQA_SAN:
         except tf.errors.OutOfRangeError:
             pass;
 
+
+        print("Predictions: ", all_predictions)
+        print("Labels: ", all_labels)
 
         # Get model statistics
         auc_scores, acc_scores, avg_auc, avg_acc, avg_loss = self.get_model_statistics(
@@ -364,7 +369,7 @@ class VQA_SAN:
         try:
             while True:
                 # Get accuracy and summary of validation
-                batch_accuracy, step_loss, step_summary, preds, truths = sess.run([self.acc_update, self.loss_val, self.summary, self.softmaxed_preds, self.label], feed_dict={self.is_training: False})
+                batch_accuracy, step_loss, step_summary, preds, truths = sess.run([self.acc_update, self.loss_val, self.summary, self.argmaxed_preds, self.label], feed_dict={self.is_training: False})
                 pbar.update(1)
                 losses.append(step_loss)
 
