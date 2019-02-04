@@ -32,7 +32,7 @@ class VQA_SAN:
     TRAIN_INIT_CODE = 2
     VAL_INIT_CODE = 3
 
-    BATCH_SIZE = 128
+    BATCH_SIZE = 512
     NUM_CLASSES = 3     # Yes / Maybe / No
     LEARNING_RATE = 0.0001
     PREFETCH = 1

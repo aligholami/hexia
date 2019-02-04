@@ -142,12 +142,6 @@ class DataGenerator:
             # Update size in memory
             self.n_gb_loaded -= sys.getsizeof(img) / float(1 << 30)
 
-            print("Image: ", img)
-            print("Image Shape: ", np.shape(img))
-            print("Sentence: ", sentence)
-            print("Sentence Length:", len(sentence))
-            print("Label: ", confidence)
-            print("Label Shape: ", np.shape(confidence))
             yield img, sentence, confidence
 
     def get_and_preprocess_image(self, image_name):
