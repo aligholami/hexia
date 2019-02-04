@@ -11,7 +11,7 @@ dataset = 'mscoco'
 
 # preprocess config
 preprocess_batch_size = 64
-image_size = 448  # scale shorter end of image to this size and centre crop
+image_size = 128  # scale shorter end of image to this size and centre crop
 output_size = image_size // 32  # size of the feature maps after processing through a network
 output_features = 2048  # number of feature maps thereof
 central_fraction = 0.875  # only take this much of the centre when scaling and centre cropping
