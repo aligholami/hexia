@@ -2,7 +2,7 @@ import json
 from collections import Counter
 import itertools
 import config
-import data
+import data_loader as data
 import utils
 
 

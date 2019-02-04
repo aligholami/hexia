@@ -1,5 +1,6 @@
-from train_val import VQATrainValidation
+import train_val
 import config
 
 # Create the trainng and validation object
-train_val = VQATrainValidation(config.learning_rate, num_epochs=config.num_epochs)
+train_val = train_val.VQATrainValidation(config.initial_lr, num_epochs=config.epochs)
+train_val.start()

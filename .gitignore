@@ -1,11 +1,2 @@
 /data
-*.tfevents.*
-*.6B.50d.txt
-checkpoint*
-*.ckpt
-/PickleFiles
-/data
-/images*
-*items.txt
-/questions
-/answers
+/models

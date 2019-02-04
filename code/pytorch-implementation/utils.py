@@ -1,10 +1,5 @@
 import os
-import json
-
-import torch
-import torch.nn as nn
 import torchvision.transforms as transforms
-
 import config
 
 
@@ -40,11 +35,17 @@ def batch_accuracy(predicted, true):
     return (agreeing * 0.3).clamp(max=1)
 
 
+def update_learning_rate(optimizer, iteration):
+    lr = config.initial_lr * 0.5 ** (float(iteration) / config.lr_halflife)
+    for param_group in optimizer.param_groups:
+        param_group['lr'] = lr
+
+
 def path_for(train=False, val=False, test=False, question=False, answer=False):
     assert train + val + test == 1
     assert question + answer == 1
     assert not (
-                test and answer), 'loading answers from test split not supported'  # if you want to eval on test, you need to implement loading of a VQA Dataset without given answers yourself
+            test and answer), 'loading answers from test split not supported'  # if you want to eval on test, you need to implement loading of a VQA Dataset without given answers yourself
     if train:
         split = 'train2014'
     elif val:
@@ -52,9 +53,9 @@ def path_for(train=False, val=False, test=False, question=False, answer=False):
     else:
         split = 'test2015'
     if question:
-        fmt = '{0}_{1}_{2}_questions.json'
+        fmt = 'v2_{0}_{1}_{2}_questions.json'
     else:
-        fmt = '{1}_{2}_annotations.json'
+        fmt = 'v2_{1}_{2}_annotations.json'
     s = fmt.format(config.task, config.dataset, split)
     return os.path.join(config.qa_path, s)
 
