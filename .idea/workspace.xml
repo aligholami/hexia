@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6160afd0-0291-4fcc-b059-74faefcb2a9b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/code/pytorch-implementation/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code/pytorch-implementation/train_val.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code/pytorch-implementation/vqa.py" afterDir="false" />
+    <list default="true" id="6160afd0-0291-4fcc-b059-74faefcb2a9b" name="Default Changelist" comment="Update: Added class wrappers">
+      <change afterPath="$PROJECT_DIR$/code/pytorch-implementation/config.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/code/pytorch-implementation/data_loader.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/code/pytorch-implementation/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/pytorch-implementation/train_val.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/pytorch-implementation/train_val.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,13 +25,46 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/train_val.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+            <state relative-caret-position="51">
+              <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/data_loader.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/config.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="8" column="18" lean-forward="true" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/utils.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="502">
+              <caret line="137" column="6" selection-start-line="137" selection-start-column="6" selection-end-line="137" selection-end-column="6" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -141,6 +175,9 @@
         <option value="$PROJECT_DIR$/code/pytorch-implementation/__init__.py" />
         <option value="$PROJECT_DIR$/code/pytorch-implementation/vqa.py" />
         <option value="$PROJECT_DIR$/code/pytorch-implementation/train_val.py" />
+        <option value="$PROJECT_DIR$/code/pytorch-implementation/config.py" />
+        <option value="$PROJECT_DIR$/code/pytorch-implementation/utils.py" />
+        <option value="$PROJECT_DIR$/code/pytorch-implementation/data_loader.py" />
       </list>
     </option>
   </component>
@@ -285,7 +322,7 @@
       <workItem from="1549218701264" duration="30000" />
       <workItem from="1549256311233" duration="1213000" />
       <workItem from="1549272744668" duration="1279000" />
-      <workItem from="1549275416752" duration="5085000" />
+      <workItem from="1549275416752" duration="6216000" />
     </task>
     <task id="LOCAL-00001" summary="Update: added fast generator support">
       <created>1548342130150</created>
@@ -322,17 +359,24 @@
       <option name="project" value="LOCAL" />
       <updated>1549278188099</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Update: Added class wrappers">
+      <created>1549284888378</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1549284888378</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="82180000" />
+    <option name="totallyTimeSpent" value="83311000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22248244" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22248244" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -364,7 +408,8 @@
     <MESSAGE value="Update: Added new acc and auc scores" />
     <MESSAGE value="Update: Added PyTorch based classifier" />
     <MESSAGE value="Update: Added feature extractor pytorch model" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update: Added feature extractor pytorch model" />
+    <MESSAGE value="Update: Added class wrappers" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update: Added class wrappers" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/models/data_items.txt" />
@@ -524,6 +569,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/classifier.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="18" lean-forward="true" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="502">
+          <caret line="137" column="6" selection-start-line="137" selection-start-column="6" selection-end-line="137" selection-end-column="6" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/vqa.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -534,19 +603,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/classifier.py">
+    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/train_val.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
+        <state relative-caret-position="51">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/train_val.py">
+    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/data_loader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+        <state relative-caret-position="170">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
           <folding>
-            <element signature="e#0#12#0" expanded="true" />
+            <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>

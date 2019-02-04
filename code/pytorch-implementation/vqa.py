@@ -1,6 +1,6 @@
 import torch.nn as nn
-from .feature_extractor import FeatureExtractor
-from .classifier import Classifier
+from feature_extractor import FeatureExtractor
+from classifier import Classifier
 
 
 class VQA(nn.Module):
