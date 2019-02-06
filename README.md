@@ -15,3 +15,11 @@ In this baseline model, we will use pre-trained ResNet-18 weights. Note that the
 </center>
 
 #### Results
+
+<center>
+
+| Optimizer        | Loss | Accuracy  |
+| ---------- |:---------:| :-----:|
+|Adam `lr=0.001`| `[RUNNING]` | `[RUNNING]` |
+
+</center>

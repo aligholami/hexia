@@ -7,8 +7,8 @@ from tqdm import tqdm
 import config
 import data
 
-total_iterations = 0
-
+train_iters = 0
+val_iters = 0
 
 def batch_accuracy(predicted, true):
     """ Compute the accuracies for a batch of predictions and answers """
@@ -88,24 +88,26 @@ def run(net, loader, optimizer, tracker, writer, train=False, prefix='', epoch=0
         acc = batch_accuracy(out.data, a.data).cpu()
 
         if train:
-            global total_iterations
-            update_learning_rate(optimizer, total_iterations)
+            global train_iters
+            update_learning_rate(optimizer, train_iters)
 
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
 
-            total_iterations += 1
+            train_iters += 1
         else:
+            global val_iters
             # store information about evaluation of this minibatch
             _, answer = out.data.cpu().max(dim=1)
             answ.append(answer.view(-1))
             accs.append(acc.view(-1))
             idxs.append(idx.view(-1).clone())
+            val_iters += 1
 
         # Write loss and accuracy to TensorboardX
-        writer.add_scalar(prefix + '/loss', loss.data.item(), total_iterations)
-        writer.add_scalar(prefix + '/accuracy', acc.mean(), total_iterations)
+        writer.add_scalar('/loss', loss.data.item(), train_iters)
+        writer.add_scalar('/accuracy', acc.mean(), val_iters)
 
         loss_tracker.append(loss.data.item())
         acc_tracker.append(acc.mean())
