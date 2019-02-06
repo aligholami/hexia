@@ -7,7 +7,7 @@ vocabulary_path = '../../models/qa-vocab/vocab.json'  # path where the used voca
 visualization_dir = '../../visualization/'
 
 # saved to
-preprocessed_path = '../../models/pretrained-cnn-weights/resnet/r18_weights.h5'
+preprocessed_path = '../../models/pretrained-cnn-weights/resnet/r50_weights.h5'
 task = 'OpenEnded'
 dataset = 'mscoco'
 
@@ -15,7 +15,7 @@ dataset = 'mscoco'
 preprocess_batch_size = 64
 image_size = 128  # scale shorter end of image to this size and centre crop
 output_size = image_size // 32  # size of the feature maps after processing through a network
-output_features = 512  # number of feature maps thereof
+output_features = 2048  # number of feature maps thereof
 central_fraction = 0.875  # only take this much of the centre when scaling and centre cropping
 embedding_features = 300
 mid_features = 8192

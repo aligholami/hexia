@@ -8,9 +8,9 @@ In this baseline model, we will use pre-trained ResNet-18 weights. Note that the
 
 <center>
 
-| Model        | Visual Features | Embeddings  | Classifier | Image Size | Visual FM Size | Epochs | Batch Size|
-| :----------: |:---------:| :-----:|:-------:|:------:|:-----:|:----:|:----:|
-|Baseline 1| ResNet-18 | Word2Vec (300) | FC `[8192, 10]` | `128 * 128` | `4 * 4 * 512 ` | `25` | `512`|
+| Model        | Visual Features | Embeddings  | Classifier | Image Size | Visual FM Size | Epochs | Batch Size| Regularization | Attention|
+| :----------: |:---------:| :-----:|:-------:|:------:|:-----:|:----:|:----:|:-----:|:-----:|
+|Baseline 1| ResNet-18 | Word2Vec (300) | FC `[8192, 10]` | `128 * 128` | `4 * 4 * 512 ` | `25` | `512`|`[-]`|`[-]`|
 
 </center>
 
@@ -18,8 +18,31 @@ In this baseline model, we will use pre-trained ResNet-18 weights. Note that the
 
 <center>
 
-| Optimizer        | Loss | Accuracy  |
-| ---------- |:---------:| :-----:|
-|Adam `lr=0.001`| `[RUNNING]` | `[RUNNING]` |
+| Optimizer        | Train Loss | Validation Loss  | Train Accuracy | Validation Accuracy|
+| ---------- |:---------:| :-----:| :------:| :-------: |
+|Adam `lr=0.001`| `[RUNNING]` | `[RUNNING]` | `[RUNNING]` | `[RUNNING]`|
+
+</center>
+
+## VQA OE Baseline 2
+In this baseline model, we will use pre-trained ResNet-50 weights. Note that the weights are extracted from the Caffe model of ResNet-50. A **word2vec** model with 300 embedding features are implemented to extract the question embeddings. Visual features are then concatenated with word embeddings and passed through a classifier with **8192** hidden nodes and classified to 10 answers.
+
+#### Configuration Table
+
+<center>
+
+| Model        | Visual Features | Embeddings  | Classifier | Image Size | Visual FM Size | Epochs | Batch Size| Regularization | Attention |
+| :----------: |:---------:| :-----:|:-------:|:------:|:-----:|:----:|:----:|:------:|:----:|
+|Baseline 1| ResNet-50 | Word2Vec (300) | FC `[8192, 10]` | `128 * 128` | `4 * 4 * 512 ` | `25` | `512`|`[-]`|`[-]`|
+
+</center>
+
+#### Results
+
+<center>
+
+| Optimizer        | Train Loss | Validation Loss  | Train Accuracy | Validation Accuracy|
+| ---------- |:---------:| :-----:| :------:| :-------: |
+|Adam `lr=0.001`| `[RUNNING]` | `[RUNNING]` | `[RUNNING]` | `[RUNNING]`|
 
 </center>
