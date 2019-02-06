@@ -16,6 +16,10 @@ In this baseline model, we will use pre-trained ResNet-18 weights. Note that the
 
 #### Results
 
+| | | |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+|<img width="1604" alt="B1 Accuracy" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b1/accuracy.PNG">  |  <img width="1604" alt="B1 Loss" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b1/loss.PNG">
+
 <center>
 
 | Optimizer        | Train Loss | Validation Loss  | Train Accuracy | Validation Accuracy|
