@@ -8,6 +8,8 @@ from tqdm import tqdm
 import config
 import data
 
+total_iterations = 0
+
 
 def batch_accuracy(predicted, true):
     """ Compute the accuracies for a batch of predictions and answers """

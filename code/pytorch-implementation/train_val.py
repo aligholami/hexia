@@ -1,10 +1,9 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import model
 import config
 import utils as utils
-
+from models import M_Resnet18_Glove_NoAtt_Concat as model
 import warnings
 
 with warnings.catch_warnings():
