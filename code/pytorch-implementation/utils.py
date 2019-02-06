@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-import torch.optim as optim
 from torch.autograd import Variable
 import os
 import torchvision.transforms as transforms
@@ -56,7 +55,7 @@ def prepare_data_loaders():
     return train_loader, val_loader
 
 
-def run(net, loader, optimizer, tracker, train=False, prefix='', epoch=0):
+def run(net, loader, optimizer, tracker, writer, train=False, prefix='', epoch=0):
     """ Run an epoch over the given loader """
     if train:
         net.train()
@@ -103,6 +102,10 @@ def run(net, loader, optimizer, tracker, train=False, prefix='', epoch=0):
             answ.append(answer.view(-1))
             accs.append(acc.view(-1))
             idxs.append(idx.view(-1).clone())
+
+        # Write loss and accuracy to TensorboardX
+        writer.add_scalar(prefix + '/loss', loss.data.item(), total_iterations)
+        writer.add_scalar(prefix + '/accuracy', acc.mean(), total_iterations)
 
         loss_tracker.append(loss.data.item())
         acc_tracker.append(acc.mean())

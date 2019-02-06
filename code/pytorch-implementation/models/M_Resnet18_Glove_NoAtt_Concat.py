@@ -49,10 +49,6 @@ class Net(nn.Module):
         # Concatenate visual features and embeddings
         combined = torch.cat([v, q], dim=1)
 
-        print("Visual features: {}".format(v.size()))
-        print("Question features: {}".format(q.size()))
-        print("Combined features: {}".format(combined.size()))
-
         # Get the answer predictions
         answer = self.classifier(combined)
 

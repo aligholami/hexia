@@ -4,6 +4,8 @@ train_path = '../../data/train/images/'  # directory of training images
 val_path = '../../data/validation/images/'  # directory of validation images
 test_path = '../../data/test/images/'  # directory of test images
 vocabulary_path = '../../models/qa-vocab/vocab.json'  # path where the used vocabularies for question and answers are
+visualization_dir = '../../visualization/'
+
 # saved to
 preprocessed_path = '../../models/pretrained-cnn-weights/resnet/r18_weights.h5'
 task = 'OpenEnded'

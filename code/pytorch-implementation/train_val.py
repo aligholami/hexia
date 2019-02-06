@@ -3,6 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 import config
 import utils as utils
+from tensorboardX import SummaryWriter
 from models import M_Resnet18_Glove_NoAtt_Concat as model
 import warnings
 
@@ -27,9 +28,12 @@ def train_and_validate():
     optimizer = optim.Adam([p for p in net.parameters() if p.requires_grad])
     tracker = utils.Tracker()
     config_as_dict = {k: v for k, v in vars(config).items() if not k.startswith('__')}
+    train_writer = SummaryWriter(config.visualization_dir)
+    val_writer = SummaryWriter(config.visualization_dir)
+
     for i in range(config.num_epochs):
-        _ = utils.run(net, train_loader, optimizer, tracker, train=True, prefix='train', epoch=i)
-        r = utils.run(net, val_loader, optimizer, tracker, train=False, prefix='val', epoch=i)
+        _ = utils.run(net, train_loader, optimizer, tracker, train_writer, train=True, prefix='train', epoch=i)
+        r = utils.run(net, val_loader, optimizer, tracker, val_writer, train=False, prefix='val', epoch=i)
 
         results = {
             'name': 'model_training.pth',
@@ -44,6 +48,7 @@ def train_and_validate():
             'vocab': train_loader.dataset.vocab,
         }
         torch.save(results, "model_training.pth")
+    writer.close()
 
 
 if __name__ == "__main__":
