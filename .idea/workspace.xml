@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6160afd0-0291-4fcc-b059-74faefcb2a9b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/code/pytorch-implementation/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/pytorch-implementation/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/pytorch-implementation/models/M_Resnet18_Glove_NoAtt_Concat.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/pytorch-implementation/models/M_Resnet18_Glove_NoAtt_Concat.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/code/pytorch-implementation/train_val.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/pytorch-implementation/train_val.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/pytorch-implementation/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/pytorch-implementation/utils.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,7 +15,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/config.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="119">
@@ -27,11 +24,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/train_val.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="335">
-              <caret line="35" column="69" selection-start-line="35" selection-start-column="69" selection-end-line="35" selection-end-column="69" />
+            <state relative-caret-position="400">
+              <caret line="54" column="20" selection-start-line="54" selection-start-column="20" selection-end-line="54" selection-end-column="20" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -156,8 +153,8 @@
         <option value="$PROJECT_DIR$/code/pytorch-implementation/prepare_images.py" />
         <option value="$PROJECT_DIR$/code/pytorch-implementation/models/M_Resnet18_Glove_NoAtt_Concat.py" />
         <option value="$PROJECT_DIR$/code/pytorch-implementation/config.py" />
-        <option value="$PROJECT_DIR$/code/pytorch-implementation/train_val.py" />
         <option value="$PROJECT_DIR$/code/pytorch-implementation/utils.py" />
+        <option value="$PROJECT_DIR$/code/pytorch-implementation/train_val.py" />
       </list>
     </option>
   </component>
@@ -206,11 +203,6 @@
               <item name="code" type="462c0819:PsiDirectoryNode" />
               <item name="pytorch-implementation" type="462c0819:PsiDirectoryNode" />
               <item name="resnet" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Visual-Question-Answering-with-Stacked-Attention-Networks" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Visual-Question-Answering-with-Stacked-Attention-Networks" type="462c0819:PsiDirectoryNode" />
-              <item name="visualization" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Visual-Question-Answering-with-Stacked-Attention-Networks" type="b2602c69:ProjectViewProjectNode" />
@@ -356,7 +348,7 @@
       <workItem from="1549364347129" duration="688000" />
       <workItem from="1549383574704" duration="2408000" />
       <workItem from="1549392926591" duration="2330000" />
-      <workItem from="1549441379838" duration="6916000" />
+      <workItem from="1549441379838" duration="7739000" />
     </task>
     <task id="LOCAL-00001" summary="Update: added fast generator support">
       <created>1548342130150</created>
@@ -439,7 +431,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="112142000" />
+    <option name="totallyTimeSpent" value="112965000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
@@ -626,16 +618,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/train_val.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="335">
-          <caret line="35" column="69" selection-start-line="35" selection-start-column="69" selection-end-line="35" selection-end-column="69" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
@@ -650,6 +632,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/train_val.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="54" column="20" selection-start-line="54" selection-start-column="20" selection-end-line="54" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

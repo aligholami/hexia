@@ -28,8 +28,8 @@ def train_and_validate():
     optimizer = optim.Adam([p for p in net.parameters() if p.requires_grad])
     tracker = utils.Tracker()
     config_as_dict = {k: v for k, v in vars(config).items() if not k.startswith('__')}
-    train_writer = SummaryWriter(config.visualization_dir)
-    val_writer = SummaryWriter(config.visualization_dir)
+    train_writer = SummaryWriter(config.visualization_dir + 'train')
+    val_writer = SummaryWriter(config.visualization_dir + 'val')
 
     for i in range(config.num_epochs):
         _ = utils.run(net, train_loader, optimizer, tracker, train_writer, train=True, prefix='train', epoch=i)
@@ -48,7 +48,8 @@ def train_and_validate():
             'vocab': train_loader.dataset.vocab,
         }
         torch.save(results, "model_training.pth")
-    writer.close()
+    train_writer.close()
+    val_writer.close()
 
 
 if __name__ == "__main__":
