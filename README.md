@@ -19,7 +19,7 @@ In this baseline model, we will use pre-trained ResNet-18 weights. Note that the
 <center>
 
 | Optimizer        | Train Loss | Validation Loss  | Train Accuracy | Validation Accuracy|
-|---------- |:---------:| :-----:| :------:| -------: |
+|---------- |:---------:| :-----:| :------:| :-------: |
 |Adam `lr=0.001`| `[0.6022]` | `[1.8572]` | `[0.91]` | `[0.47]`|
 
 </center>
@@ -37,7 +37,7 @@ In this baseline model, we will use pre-trained ResNet-50 weights. Note that the
 
 | Model        | Visual Features | Embeddings  | Classifier | Image Size | Visual FM Size | Epochs | Batch Size| Regularization | Attention |
 | :----------: |:---------:| :-----:|:-------:|:------:|:-----:|:----:|:----:|:------:|:----:|
-|Baseline 1| ResNet-50 | Word2Vec (300) | FC `[8192, 10]` | `128 * 128` | `4 * 4 * 512 ` | `25` | `512`|`[-]`|`[-]`|
+|Baseline 2| ResNet-50 | Word2Vec (300) | FC `[8192, 10]` | `128 * 128` | `4 * 4 * 512 ` | `25` | `512`|`[-]`|`[-]`|
 
 </center>
 
@@ -47,6 +47,6 @@ In this baseline model, we will use pre-trained ResNet-50 weights. Note that the
 
 | Optimizer        | Train Loss | Validation Loss  | Train Accuracy | Validation Accuracy|
 | ---------- |:---------:| :-----:| :------:| :-------: |
-|Adam `lr=0.001`| `[RUNNING]` | `[RUNNING]` | `[RUNNING]` | `[RUNNING]`|
+|Adam `lr=0.001`| `[0.6022]` | `[RUNNING]` | `[RUNNING]` | `[RUNNING]`|
 
 </center>
