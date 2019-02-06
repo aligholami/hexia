@@ -10,7 +10,7 @@ In this baseline model, we will use pre-trained ResNet-18 weights. Note that the
 
 | Model        | Visual Features | Embeddings  | Classifier | Image Size | Visual FM Size | Epochs | Batch Size|
 | :----------: |:---------:| :-----:|:-------:|:------:|:-----:|:----:|:----:|
-|Baseline 1| ResNet-18 | Word2Vec (300) | FC `[8192, 10]` | `128 * 128` | `4 * 4 * 512 ` | `25` | `256`|
+|Baseline 1| ResNet-18 | Word2Vec (300) | FC `[8192, 10]` | `128 * 128` | `4 * 4 * 512 ` | `25` | `512`|
 
 </center>
 
