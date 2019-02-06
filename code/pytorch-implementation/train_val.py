@@ -4,7 +4,7 @@ import torch.optim as optim
 import config
 import utils as utils
 from tensorboardX import SummaryWriter
-from models import M_Resnet18_Glove_NoAtt_Concat as model
+from models import M_Resnet50_Glove_NoAtt_Concat as model
 import warnings
 
 with warnings.catch_warnings():
