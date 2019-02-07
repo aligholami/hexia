@@ -19,7 +19,7 @@ def reload_glove_embeddings():
     word2idx = pickle.load(open(config.gloveids, 'rb'))
     glove = {w: vectors[word2idx[w]] for w in words}
 
-    return vectors, words, word2idx, glove
+    return glove
 
 
 def batch_accuracy(predicted, true):

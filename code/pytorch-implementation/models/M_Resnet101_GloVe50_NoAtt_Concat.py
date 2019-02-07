@@ -1,4 +1,5 @@
 import torch
+import numpy as np
 import torch.nn as nn
 import torch.nn.init as init
 import config
@@ -78,7 +79,15 @@ class TextProcessor(nn.Module):
         if pre_trained:
             # Use pretrained gloves and return a NN based embedding layer
             # Reload vectors, words, ids and GloVe Mappings
-            vectors, words, ids, glove = utils.reload_glove_embeddings()
+
+            glove_words_to_vectors = utils.reload_glove_embeddings()
+
+            # Create desired weight matrix
+            matrix_len = embedding_tokens
+            weights_matrix = np.zeros((matrix_len, embedding_features))
+
+            # Get dataset vocab and read its words
+            # Then refill the weights matrix with either random or GloVe
 
         else:
             # Randomized embedding :))
