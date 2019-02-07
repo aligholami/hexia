@@ -20,7 +20,7 @@ In this baseline model, we will use pre-trained ResNet-18 weights. Note that the
 
 | Optimizer        | Train Loss | Validation Loss  | Train Accuracy | Validation Accuracy|
 |---------- |:---------:| :-----:| :------:| :-------: |
-|Adam `lr=0.001`| `[0.6022]` | `[1.8572]` | `[0.91]` | `[0.47]`|
+|Adam `lr=0.001`| `[0.6022]` | `[1.8572]` | `[0.911]` | `[0.473]`|
 
 </center>
 
@@ -47,6 +47,10 @@ In this baseline model, we will use pre-trained ResNet-50 weights. Note that the
 
 | Optimizer        | Train Loss | Validation Loss  | Train Accuracy | Validation Accuracy|
 | ---------- |:---------:| :-----:| :------:| :-------: |
-|Adam `lr=0.001`| `[0.6022]` | `[RUNNING]` | `[RUNNING]` | `[RUNNING]`|
+|Adam `lr=0.001`| `[0.5895]` | `[1.9466]` | `[0.917]` | `[0.445]`|
 
+
+| | | |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+|<img width="1604" alt="B2 Accuracy" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b2/accuracy.PNG">  |  <img width="1604" alt="B2 Loss" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b2/loss.PNG">
 </center>
