@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6160afd0-0291-4fcc-b059-74faefcb2a9b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/code/pytorch-implementation/models/M_Resnet101_Glove_NoAtt_Concat.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/code/pytorch-implementation/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/pytorch-implementation/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/pytorch-implementation/prepare_images.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/pytorch-implementation/prepare_images.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/pytorch-implementation/train_val.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/pytorch-implementation/train_val.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/pytorch-implementation/prepare_vocab.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/pytorch-implementation/prepare_vocab.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization/train/events.out.tfevents.1549530122.gpu-server1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization/val/events.out.tfevents.1549530122.gpu-server1" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,24 +22,40 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+            <state relative-caret-position="187">
+              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/models/M_Resnet101_Glove_NoAtt_Concat.py">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="7" selection-start-line="7" selection-end-line="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/train_val.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="309">
+              <caret line="23" column="57" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="57" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/train_val.py">
+        <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/prepare_vocab.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="32" lean-forward="true" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
+            <state relative-caret-position="238">
+              <caret line="14" column="19" lean-forward="true" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
               <folding>
-                <element signature="e#0#12#0" expanded="true" />
+                <element signature="e#0#6#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -49,7 +65,7 @@
         <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/resnet/resnet.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="85">
-              <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+              <caret line="8" selection-start-line="8" selection-end-line="8" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -61,7 +77,7 @@
         <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/models/M_Resnet50_Glove_NoAtt_Concat.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="255">
-              <caret line="18" column="28" lean-forward="true" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
+              <caret line="18" column="28" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -73,7 +89,7 @@
         <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/prepare_images.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="221">
-              <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+              <caret line="28" selection-start-line="28" selection-end-line="28" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -84,8 +100,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/models/M_Resnet18_Glove_NoAtt_Concat.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+            <state relative-caret-position="502">
+              <caret line="64" lean-forward="true" selection-start-line="64" selection-end-line="64" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -96,8 +112,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+            <state relative-caret-position="391">
+              <caret line="51" column="28" lean-forward="true" selection-start-line="51" selection-start-column="28" selection-end-line="51" selection-end-column="28" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/data.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -143,6 +171,7 @@
       <find>config</find>
       <find>output_size</find>
       <find>train_iters</find>
+      <find>vocabulary_path</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -172,11 +201,12 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/code/pytorch-implementation/model.py" />
         <option value="$PROJECT_DIR$/code/pytorch-implementation/experiments/M_Resnet18_Glove_NoAtt_Concat.py" />
-        <option value="$PROJECT_DIR$/code/pytorch-implementation/models/M_Resnet18_Glove_NoAtt_Concat.py" />
         <option value="$PROJECT_DIR$/code/pytorch-implementation/utils.py" />
-        <option value="$PROJECT_DIR$/code/pytorch-implementation/config.py" />
         <option value="$PROJECT_DIR$/code/pytorch-implementation/train_val.py" />
         <option value="$PROJECT_DIR$/code/pytorch-implementation/prepare_images.py" />
+        <option value="$PROJECT_DIR$/code/pytorch-implementation/models/M_Resnet18_Glove_NoAtt_Concat.py" />
+        <option value="$PROJECT_DIR$/code/pytorch-implementation/config.py" />
+        <option value="$PROJECT_DIR$/code/pytorch-implementation/prepare_vocab.py" />
       </list>
     </option>
   </component>
@@ -194,7 +224,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -229,12 +258,30 @@
             </path>
             <path>
               <item name="Visual-Question-Answering-with-Stacked-Attention-Networks" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Visual-Question-Answering-with-Stacked-Attention-Networks" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Visual-Question-Answering-with-Stacked-Attention-Networks" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Visual-Question-Answering-with-Stacked-Attention-Networks" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+              <item name="glove-embeddings" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Visual-Question-Answering-with-Stacked-Attention-Networks" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Visual-Question-Answering-with-Stacked-Attention-Networks" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+              <item name="qa-vocab" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Visual-Question-Answering-with-Stacked-Attention-Networks" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -374,6 +421,7 @@
       <workItem from="1549441379838" duration="9612000" />
       <workItem from="1549452323037" duration="2120000" />
       <workItem from="1549527907171" duration="865000" />
+      <workItem from="1549549351796" duration="4324000" />
     </task>
     <task id="LOCAL-00001" summary="Update: added fast generator support">
       <created>1548342130150</created>
@@ -463,13 +511,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="117823000" />
+    <option name="totallyTimeSpent" value="122147000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3052303" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21155347" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -511,16 +559,6 @@
     <MESSAGE value="Fix: Tensors automatic dimensions inference" />
     <MESSAGE value="Update: added train-val iters results on the same plot" />
     <option name="LAST_COMMIT_MESSAGE" value="Update: added train-val iters results on the same plot" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/code/pytorch-implementation/train_val.py</url>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/models/data_items.txt" />
@@ -587,16 +625,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/main.py" />
-    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="15" column="8" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/models/exp-1/config.py" />
     <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/models/M_Show_Ask_Attend_Answer.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -608,18 +636,46 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/prepare_vocab.py">
+    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/resnet.py" />
+    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/models/M_Resnet152_Glove_NoAtt_Concat.py" />
+    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/resnet/resnet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="13" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="13" />
+        <state relative-caret-position="85">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/resnet.py" />
     <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/models/M_Resnet50_Glove_NoAtt_Concat.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
-          <caret line="18" column="28" lean-forward="true" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
+          <caret line="18" column="28" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/qa-vocab/vocab.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret column="311473" selection-start-column="311473" selection-end-column="311473" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/models/M_Resnet101_Glove_NoAtt_Concat.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/train_val.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="23" column="57" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="57" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
@@ -628,8 +684,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+        <state relative-caret-position="391">
+          <caret line="51" column="28" lean-forward="true" selection-start-line="51" selection-start-column="28" selection-end-line="51" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
@@ -638,40 +704,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/models/M_Resnet18_Glove_NoAtt_Concat.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+        <state relative-caret-position="502">
+          <caret line="64" lean-forward="true" selection-start-line="64" selection-end-line="64" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/models/M_Resnet152_Glove_NoAtt_Concat.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/models/M_Resnet101_Glove_NoAtt_Concat.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/resnet/resnet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -679,19 +715,26 @@
     <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/prepare_images.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
-          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+          <caret line="28" selection-start-line="28" selection-end-line="28" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/train_val.py">
+    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="32" lean-forward="true" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
+        <state relative-caret-position="187">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/pytorch-implementation/prepare_vocab.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="19" lean-forward="true" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
           <folding>
-            <element signature="e#0#12#0" expanded="true" />
+            <element signature="e#0#6#0" expanded="true" />
           </folding>
         </state>
       </provider>

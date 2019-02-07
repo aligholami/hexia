@@ -5,6 +5,10 @@ val_path = '../../data/validation/images/'  # directory of validation images
 test_path = '../../data/test/images/'  # directory of test images
 vocabulary_path = '../../models/qa-vocab/vocab.json'  # path where the used vocabularies for question and answers are
 visualization_dir = '../../visualization/'
+glove_embeddings = '../../models/glove-embeddings/glove.6B.50d.txt'
+glove_processed_vectors = '../../models/glove-embeddings/glove.6B.50d.dat'
+glove_words = '../../models/glove-embeddings/glove.6B.50_words.pkl'
+glove_ids = '../../models/glove-embeddings/glove.6B.50_idx.pkl'
 
 # saved to
 preprocessed_path = '../../models/pretrained-cnn-weights/resnet/r101_weights.h5'
