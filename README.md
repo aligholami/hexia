@@ -37,7 +37,7 @@ In this baseline model, we will use pre-trained ResNet-50 weights. Note that the
 
 | Model        | Visual Features | Embeddings  | Classifier | Image Size | Visual FM Size | Epochs | Batch Size| Regularization | Attention |
 | :----------: |:---------:| :-----:|:-------:|:------:|:-----:|:----:|:----:|:------:|:----:|
-|Baseline 2| ResNet-50 | Word2Vec (300) | FC `[8192, 10]` | `128 * 128` | `4 * 4 * 512 ` | `25` | `512`|`[-]`|`[-]`|
+|Baseline 2| ResNet-50 | Word2Vec (300) | FC `[8192, 10]` | `128 * 128` | `4 * 4 * 2048 ` | `25` | `512`|`[-]`|`[-]`|
 
 </center>
 
@@ -53,4 +53,32 @@ In this baseline model, we will use pre-trained ResNet-50 weights. Note that the
 | | | |
 |:-------------------------:|:-------------------------:|:-------------------------:|
 |<img width="1604" alt="B2 Accuracy" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b2/accuracy.PNG">  |  <img width="1604" alt="B2 Loss" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b2/loss.PNG">
+</center>
+
+
+## VQA OE Baseline 3
+In this baseline model, we will use pre-trained ResNet-101 weights. Note that the weights are extracted from the Caffe model of ResNet-101. A **word2vec** model with 300 embedding features are implemented to extract the question embeddings. Visual features are then concatenated with word embeddings and passed through a classifier with **8192** hidden nodes and classified to 10 answers.
+
+#### Configuration Table
+
+<center>
+
+| Model        | Visual Features | Embeddings  | Classifier | Image Size | Visual FM Size | Epochs | Batch Size| Regularization | Attention |
+| :----------: |:---------:| :-----:|:-------:|:------:|:-----:|:----:|:----:|:------:|:----:|
+|Baseline 3| ResNet-101 | Word2Vec (300) | FC `[8192, 10]` | `128 * 128` | `4 * 4 * 2048 ` | `25` | `512`|`[-]`|`[-]`|
+
+</center>
+
+#### Results
+
+<center>
+
+| Optimizer        | Train Loss | Validation Loss  | Train Accuracy | Validation Accuracy|
+| ---------- |:---------:| :-----:| :------:| :-------: |
+|Adam `lr=0.001`| `[0.594]` | `[1.930]` | `[0.915]` | `[0.456]`|
+
+
+| | | |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+|<img width="1604" alt="B3 Accuracy" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b3/accuracy.PNG">  |  <img width="1604" alt="B3 Loss" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b3/loss.PNG">
 </center>

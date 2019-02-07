@@ -7,7 +7,7 @@ vocabulary_path = '../../models/qa-vocab/vocab.json'  # path where the used voca
 visualization_dir = '../../visualization/'
 
 # saved to
-preprocessed_path = '../../models/pretrained-cnn-weights/resnet/r50_weights.h5'
+preprocessed_path = '../../models/pretrained-cnn-weights/resnet/r101_weights.h5'
 task = 'OpenEnded'
 dataset = 'mscoco'
 

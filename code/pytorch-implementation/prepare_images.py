@@ -13,7 +13,7 @@ import utils
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
-        self.model = caffe_resnet.resnet50  (pretrained=True)
+        self.model = caffe_resnet.resnet101(pretrained=True)
 
         def save_output(module, input, output):
             self.buffer = output
