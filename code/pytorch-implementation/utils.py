@@ -3,12 +3,24 @@ import torch.nn as nn
 from torch.autograd import Variable
 import os
 import torchvision.transforms as transforms
+import bcolz
+import pickle
 from tqdm import tqdm
 import config
 import data
 
 train_iters = 0
 val_iters = 0
+
+
+def reload_glove_embeddings():
+    vectors = bcolz.open(config.glove_processed_vectors)[:]
+    words = pickle.load(open(config.glove_words, 'rb'))
+    word2idx = pickle.load(open(config.gloveids, 'rb'))
+    glove = {w: vectors[word2idx[w]] for w in words}
+
+    return vectors, words, word2idx, glove
+
 
 def batch_accuracy(predicted, true):
     """ Compute the accuracies for a batch of predictions and answers """
@@ -111,8 +123,6 @@ def run(net, loader, optimizer, tracker, writer, train=False, prefix='', epoch=0
             # Write loss and accuracy to TensorboardX
             writer.add_scalar('/loss', loss.data.item(), val_iters)
             writer.add_scalar('/accuracy', acc.mean(), val_iters)
-
-
 
         loss_tracker.append(loss.data.item())
         acc_tracker.append(acc.mean())
