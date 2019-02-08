@@ -107,6 +107,10 @@ class TextProcessor(nn.Module):
 
                 i += 1
 
+            num_embeddings, embedding_dim = weights_matrix.size()
+            embeddings = nn.Embedding(num_embeddings=num_embeddings, embedding_dim=embedding_dim)
+            embeddings.load_state_dict({'weight': weights_matrix})
+
         else:
             # Randomized embedding :))
             embeddings = nn.Embedding(embedding_tokens, embedding_features, padding_idx=0)
