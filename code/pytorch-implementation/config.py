@@ -21,7 +21,7 @@ image_size = 128  # scale shorter end of image to this size and centre crop
 output_size = image_size // 32  # size of the feature maps after processing through a network
 output_features = 2048  # number of feature maps thereof
 central_fraction = 0.875  # only take this much of the centre when scaling and centre cropping
-embedding_features = 300
+embedding_features = 50
 mid_features = 8192
 
 # training config

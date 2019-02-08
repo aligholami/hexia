@@ -100,17 +100,10 @@ class TextProcessor(nn.Module):
 
                 i += 1
 
-            for word, idx in a_to_index.items():
-                try:
-                    weights_matrix[i] = glove_words_to_vectors[word]
-                except KeyError:
-                    weights_matrix[i] = np.random.normal(scale=0.6, size=(embedding_features,))
-
-                i += 1
-
-            num_embeddings, embedding_dim = weights_matrix.size()
+            num_embeddings, embedding_dim = weights_matrix.shape
+            print("Type of matrix: ", type(weights_matrix))
             embeddings = nn.Embedding(num_embeddings=num_embeddings, embedding_dim=embedding_dim)
-            embeddings.load_state_dict({'weight': weights_matrix})
+            embeddings.load_state_dict({'weight': torch.from_numpy(weights_matrix)})
 
         else:
             # Randomized embedding :))

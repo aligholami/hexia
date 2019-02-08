@@ -40,7 +40,7 @@ def reload_glove_embeddings():
     """
     vectors = bcolz.open(config.glove_processed_vectors)[:]
     words = pickle.load(open(config.glove_words, 'rb'))
-    word2idx = pickle.load(open(config.gloveids, 'rb'))
+    word2idx = pickle.load(open(config.glove_ids, 'rb'))
     glove = {w: vectors[word2idx[w]] for w in words}
 
     return glove
