@@ -55,6 +55,7 @@ class Net(nn.Module):
 
         return answer
 
+
 class Classifier(nn.Sequential):
     def __init__(self, in_features, mid_features, out_features):
         super(Classifier, self).__init__()
@@ -95,7 +96,7 @@ class TextProcessor(nn.Module):
                 try:
                     weights_matrix[i] = glove_words_to_vectors[word]
                 except KeyError:
-                    weights_matrix[i] = np.random.normal(scale=0.6, size=(embedding_features, ))
+                    weights_matrix[i] = np.random.normal(scale=0.6, size=(embedding_features,))
 
                 i += 1
 
@@ -103,7 +104,7 @@ class TextProcessor(nn.Module):
                 try:
                     weights_matrix[i] = glove_words_to_vectors[word]
                 except KeyError:
-                    weights_matrix[i] = np.random.normal(scale=0.6, size=(embedding_features, ))
+                    weights_matrix[i] = np.random.normal(scale=0.6, size=(embedding_features,))
 
                 i += 1
 

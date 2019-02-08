@@ -5,7 +5,7 @@ import json
 from collections import Counter
 import itertools
 import config
-import data_loader as data
+import data
 import utils
 
 
@@ -18,7 +18,7 @@ def prepare_glove_embeddings(dims=50):
     # Get glove weights and vocab
     with open(config.glove_embeddings, 'rb') as gfile:
         for line in gfile:
-            line = line.decode().split()
+            line = line.decode('utf-8').split()
             word = line[0]
             g_words.append(word)
             g_word2idx[word] = g_idx
