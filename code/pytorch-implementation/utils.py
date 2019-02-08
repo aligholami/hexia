@@ -5,6 +5,7 @@ import os
 import torchvision.transforms as transforms
 import bcolz
 import pickle
+import json
 from tqdm import tqdm
 import config
 import data
@@ -13,7 +14,30 @@ train_iters = 0
 val_iters = 0
 
 
+def reload_dataset_vocab():
+    """
+    Reloads VQA V2 dataset vocabulary into memory to be used by models (Text Processor).
+    :return: A dictionary of mappings from words to ids for both questions and answers.
+    """
+
+    with open(config.vocabulary_path, 'r') as fd:
+        vocab_json = json.load(fd)
+
+    # Skip integrity test
+
+    # vocab
+    vocab = vocab_json
+    token_to_index = vocab['question']
+    answer_to_index = vocab['answer']
+
+    return token_to_index, answer_to_index
+
+
 def reload_glove_embeddings():
+    """
+    Reload the GloVe embeddings after running the prepare_vocab.py file. This will be used in the model.
+    :return: A dictionary of mappings from words to vectors
+    """
     vectors = bcolz.open(config.glove_processed_vectors)[:]
     words = pickle.load(open(config.glove_words, 'rb'))
     word2idx = pickle.load(open(config.gloveids, 'rb'))

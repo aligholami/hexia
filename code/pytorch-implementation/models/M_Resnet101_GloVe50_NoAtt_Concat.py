@@ -88,6 +88,24 @@ class TextProcessor(nn.Module):
 
             # Get dataset vocab and read its words
             # Then refill the weights matrix with either random or GloVe
+            q_to_index, a_to_index = utils.reload_dataset_vocab()
+
+            i = 0
+            for word, idx in q_to_index.items():
+                try:
+                    weights_matrix[i] = glove_words_to_vectors[word]
+                except KeyError:
+                    weights_matrix[i] = np.random.normal(scale=0.6, size=(embedding_features, ))
+
+                i += 1
+
+            for word, idx in a_to_index.items():
+                try:
+                    weights_matrix[i] = glove_words_to_vectors[word]
+                except KeyError:
+                    weights_matrix[i] = np.random.normal(scale=0.6, size=(embedding_features, ))
+
+                i += 1
 
         else:
             # Randomized embedding :))
