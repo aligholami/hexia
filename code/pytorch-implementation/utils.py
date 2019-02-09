@@ -106,8 +106,8 @@ def save_for_vqa_evaluation(anws, ids, epoch):
     evaluation_list = []
     for i, id in enumerate(ids):
         evaluation_list.append({
-            "answer": "{}".format(idx2word.get(anws[i]))
-            "question_id": "{}".format(id)
+            "answer": "{}".format(idx2word.get(anws[i].item())),
+            "question_id": "{}".format(id.item())
         })
     
     pth = config.eval_results_path
@@ -179,12 +179,12 @@ def run(net, loader, optimizer, tracker, writer, train=False, prefix='', epoch=0
         tq.set_postfix(loss=fmt(loss_tracker.mean.value), acc=fmt(acc_tracker.mean.value))
 
     if not train:
-        # Save results for vqa evaluation
-        save_for_vqa_evaluation(answ, idxs, epoch)
-
         answ = list(torch.cat(answ, dim=0))
         accs = list(torch.cat(accs, dim=0))
         idxs = list(torch.cat(idxs, dim=0))
+
+        # Save results for vqa evaluation
+        save_for_vqa_evaluation(answ, idxs, epoch)
 
         return answ, accs, idxs
 
