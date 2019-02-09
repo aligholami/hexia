@@ -96,10 +96,7 @@ def save_for_vqa_evaluation(anws, ids, epoch):
     # Load vocab json to obtain inverse list
     idx2word = {}
 
-    pth = config.vocabulary_path.strip('.json')
-    pth += str(epoch)
-    pth += '.json'
-    with open(pth) as vocab_json:
+    with open(config.vocabulary_path) as vocab_json:
         word2idx = json.load(vocab_json)
         a_word2idx = word2idx['answer']
 
@@ -113,7 +110,10 @@ def save_for_vqa_evaluation(anws, ids, epoch):
             "question_id": "{}".format(id)
         })
     
-    with open(config.eval_results_path, 'w') as eFile:
+    pth = config.eval_results_path
+    pth += 'ep_' + str(epoch)
+    pth += '.json'
+    with open(pth, 'w') as eFile:
         json.dump(evaluation_list, eFile)
 
 def run(net, loader, optimizer, tracker, writer, train=False, prefix='', epoch=0):
