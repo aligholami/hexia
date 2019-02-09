@@ -91,6 +91,31 @@ def prepare_data_loaders():
     return train_loader, val_loader
 
 
+def save_for_vqa_evaluation(anws, ids, epoch):
+    
+    # Load vocab json to obtain inverse list
+    idx2word = {}
+
+    pth = config.vocabulary_path.strip('.json')
+    pth += str(epoch)
+    pth += '.json'
+    with open(pth) as vocab_json:
+        word2idx = json.load(vocab_json)
+        a_word2idx = word2idx['answer']
+
+        for word, id in a_word2idx.items():
+            idx2word[id] = word
+
+    evaluation_list = []
+    for i, id in enumerate(ids):
+        evaluation_list.append({
+            "answer": "{}".format(idx2word.get(anws[i]))
+            "question_id": "{}".format(id)
+        })
+    
+    with open(config.eval_results_path, 'w') as eFile:
+        json.dump(evaluation_list, eFile)
+
 def run(net, loader, optimizer, tracker, writer, train=False, prefix='', epoch=0):
     """ Run an epoch over the given loader """
     if train:
@@ -154,9 +179,13 @@ def run(net, loader, optimizer, tracker, writer, train=False, prefix='', epoch=0
         tq.set_postfix(loss=fmt(loss_tracker.mean.value), acc=fmt(acc_tracker.mean.value))
 
     if not train:
+        # Save results for vqa evaluation
+        save_for_vqa_evaluation(answ, idxs, epoch)
+
         answ = list(torch.cat(answ, dim=0))
         accs = list(torch.cat(accs, dim=0))
         idxs = list(torch.cat(idxs, dim=0))
+
         return answ, accs, idxs
 
 
