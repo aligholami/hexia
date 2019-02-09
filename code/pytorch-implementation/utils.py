@@ -111,7 +111,6 @@ def save_for_vqa_evaluation(anws, ids, epoch):
         })
     
     pth = config.eval_results_path
-    pth += 'ep_' + str(epoch)
     pth += '.json'
     with open(pth, 'w') as eFile:
         json.dump(evaluation_list, eFile)
