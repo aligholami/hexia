@@ -1,5 +1,6 @@
 import torch
 import torch.utils.data as data
+import numpy as np
 import os
 import os.path
 import h5py
@@ -69,6 +70,8 @@ class VQA(data.Dataset):
 
         # q and a
         self.questions = list(prepare_questions(questions_json))
+        self.question_ids = list(prepare_question_ids(questions_json))
+        self.question_ids = torch.from_numpy(np.array(self.question_ids, dtype='int32'))
         self.answers = list(prepare_answers(answers_json))
         self.questions = [self._encode_question(q) for q in self.questions]
         self.answers = [self._encode_answers(a) for a in self.answers]
@@ -77,7 +80,7 @@ class VQA(data.Dataset):
         self.image_features_path = image_features_path
         self.coco_id_to_index = self._create_coco_id_to_index()
         self.coco_ids = [q['image_id'] for q in questions_json['questions']]
-
+        
         # only use questions that have at least one answer?
         self.answerable_only = answerable_only
         if self.answerable_only:
@@ -194,13 +197,14 @@ class VQA(data.Dataset):
             item = self.answerable[item]
 
         q, q_length = self.questions[item]
+        qid = self.question_ids[item]
         a = self.answers[item]
         image_id = self.coco_ids[item]
         v = self._load_image(image_id)
         # since batches are re-ordered for PackedSequence's, the original question order is lost
         # we return `item` so that the order of (v, q, a) triples can be restored if desired
         # without shuffling in the dataloader, these will be in the order that they appear in the q and a json's.
-        return v, q, a, item, q_length
+        return qid, v, q, a, item, q_length
 
     def __len__(self):
         if self.answerable_only:
@@ -231,6 +235,13 @@ def prepare_questions(questions_json):
         question = question.lower()[:-1]
         yield question.split(' ')
 
+def prepare_question_ids(questions_json):
+    """
+    Prepares question ids for a given question json in the usual VQA format.
+    """
+    question_ids = [q['question_id'] for q in questions_json['questions']]
+    for q_id in question_ids:
+        yield q_id
 
 def prepare_answers(answers_json):
     """

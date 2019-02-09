@@ -91,7 +91,7 @@ def prepare_data_loaders():
     return train_loader, val_loader
 
 
-def save_for_vqa_evaluation(anws, ids, epoch):
+def save_for_vqa_evaluation(anws, ids, qids, epoch):
     
     # Load vocab json to obtain inverse list
     idx2word = {}
@@ -107,7 +107,7 @@ def save_for_vqa_evaluation(anws, ids, epoch):
     for i, id in enumerate(ids):
         evaluation_list.append({
             "answer": "{}".format(idx2word.get(anws[i].item())),
-            "question_id": "{}".format(id.item())
+            "question_id": qids[i].item()
         })
     
     pth = config.eval_results_path
@@ -126,13 +126,14 @@ def run(net, loader, optimizer, tracker, writer, train=False, prefix='', epoch=0
         answ = []
         idxs = []
         accs = []
+        qids = []
 
     tq = tqdm(loader, desc='{} E{:03d}'.format(prefix, epoch), ncols=0)
     loss_tracker = tracker.track('{}_loss'.format(prefix), tracker_class(**tracker_params))
     acc_tracker = tracker.track('{}_acc'.format(prefix), tracker_class(**tracker_params))
 
     log_softmax = nn.LogSoftmax().cuda()
-    for v, q, a, idx, q_len in tq:
+    for qid, v, q, a, idx, q_len in tq:
         var_params = {
             'volatile': not train,
             'requires_grad': False,
@@ -164,6 +165,7 @@ def run(net, loader, optimizer, tracker, writer, train=False, prefix='', epoch=0
             global val_iters
             # store information about evaluation of this minibatch
             _, answer = out.data.cpu().max(dim=1)
+            qids.append(qid.view(-1).clone())
             answ.append(answer.view(-1))
             accs.append(acc.view(-1))
             idxs.append(idx.view(-1).clone())
@@ -181,9 +183,10 @@ def run(net, loader, optimizer, tracker, writer, train=False, prefix='', epoch=0
         answ = list(torch.cat(answ, dim=0))
         accs = list(torch.cat(accs, dim=0))
         idxs = list(torch.cat(idxs, dim=0))
+        qids = list(torch.cat(qids, dim=0))
 
         # Save results for vqa evaluation
-        save_for_vqa_evaluation(answ, idxs, epoch)
+        save_for_vqa_evaluation(answ, idxs, qids, epoch)
 
         return answ, accs, idxs
 
