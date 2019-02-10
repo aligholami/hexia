@@ -4,7 +4,7 @@ import torch.optim as optim
 import config
 import utils as utils
 from tensorboardX import SummaryWriter
-from models import M_Resnet101_GloVe50_NoAtt_Concat as model
+from models import M_Show_Ask_Attend_Answer as model
 import warnings
 
 with warnings.catch_warnings():
@@ -24,7 +24,7 @@ def train_and_validate():
     train_loader, val_loader = utils.prepare_data_loaders()
 
     # Build the model
-    net = nn.DataParallel(model.Net(train_loader.dataset.num_tokens, False)).cuda()
+    net = nn.DataParallel(model.Net(train_loader.dataset.num_tokens)).cuda()
     optimizer = optim.Adam([p for p in net.parameters() if p.requires_grad])
     tracker = utils.Tracker()
     config_as_dict = {k: v for k, v in vars(config).items() if not k.startswith('__')}

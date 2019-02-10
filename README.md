@@ -130,3 +130,35 @@ Here is the evauluation results on the **val2014** split.
 |:-------------------------:|:-------------------------:|:-------------------------:|
 |<img width="1604" alt="B4 Accuracy" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b4/accuracy.png">  |  <img width="1604" alt="B4 Loss" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b4/loss.png">
 </center>
+
+
+## VQA OE Baseline 5
+In this baseline model, a re-implementation of the paper [Show, Ask, Attend and Answer](https://arxiv.org/abs/1704.03162) is evaluated on the validation split.
+
+#### Configuration Table
+
+<center>
+
+| Model        | Visual Features | Embeddings  | Classifier | Image Size | Visual FM Size | Epochs | Batch Size| Regularization | Attention |
+| :----------: |:---------:| :-----:|:-------:|:------:|:-----:|:----:|:----:|:------:|:----:|
+|Baseline 5| `[TODO]` | `[TODO]` | `[TODO]` | `[TODO]` | `[TODO]` | `45` | `[TODO]` |`[TODO]` |`[TODO]`|
+
+</center>
+
+#### Results
+
+<center>
+
+##### Official Evaluation
+
+Here is the evauluation results on the **val2014** split.
+
+| Model        | All | Yes/No  | Number | Other |
+| ---------- |:---------:| :-----:| :------:| :-------: |
+|Baseline 5 (Show, Ask, Attend and Answer) | `[Training]` | `[Training]` | `[Training]` | `[Training]`|
+
+
+| | | |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+|<img width="1604" alt="B5 Accuracy" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b5/accuracy.png">  |  <img width="1604" alt="B5 Loss" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b5/loss.png">
+</center>
