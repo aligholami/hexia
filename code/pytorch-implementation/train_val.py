@@ -24,7 +24,7 @@ def train_and_validate():
     train_loader, val_loader = utils.prepare_data_loaders()
 
     # Build the model
-    net = nn.DataParallel(model.Net(train_loader.dataset.num_tokens, True)).cuda()
+    net = nn.DataParallel(model.Net(train_loader.dataset.num_tokens, False)).cuda()
     optimizer = optim.Adam([p for p in net.parameters() if p.requires_grad])
     tracker = utils.Tracker()
     config_as_dict = {k: v for k, v in vars(config).items() if not k.startswith('__')}

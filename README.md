@@ -100,12 +100,15 @@ In this baseline model, we will use pre-trained ResNet-101 weights. Note that th
 
 <center>
 
+##### Unofficial Evaluation
+
 | Optimizer        | Train Loss | Validation Loss  | Train Accuracy | Validation Accuracy|
 | ---------- |:---------:| :-----:| :------:| :-------: |
 |Adam `lr=0.001`| `[0.736]` | `[2.006]` | `[0.865]` | `[0.434]`|
 
 
 ##### Official Evaluation
+
 Here is the evauluation results on the **val2014** split.
 
 | Model        | All | Yes/No  | Number | Other |
