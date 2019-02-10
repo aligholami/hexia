@@ -13,7 +13,6 @@ import data
 train_iters = 0
 val_iters = 0
 
-
 def reload_dataset_vocab():
     """
     Reloads VQA V2 dataset vocabulary into memory to be used by models (Text Processor).
@@ -111,6 +110,7 @@ def save_for_vqa_evaluation(anws, ids, qids, epoch):
         })
     
     pth = config.eval_results_path
+    pth += '_' + str(epoch)
     pth += '.json'
     with open(pth, 'w') as eFile:
         json.dump(evaluation_list, eFile)

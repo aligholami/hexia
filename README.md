@@ -82,3 +82,38 @@ In this baseline model, we will use pre-trained ResNet-101 weights. Note that th
 |:-------------------------:|:-------------------------:|:-------------------------:|
 |<img width="1604" alt="B3 Accuracy" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b3/accuracy.PNG">  |  <img width="1604" alt="B3 Loss" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b3/loss.PNG">
 </center>
+
+## VQA OE Baseline 4
+In this baseline model, we will use pre-trained ResNet-101 weights. Note that the weights are extracted from the Caffe model of ResNet-101. A **GloVe** model with 50 embedding features are implemented to extract the question embeddings. Visual features are then concatenated with word embeddings and passed through a classifier with **8192** hidden nodes and classified to 10 answers.
+
+#### Configuration Table
+
+<center>
+
+| Model        | Visual Features | Embeddings  | Classifier | Image Size | Visual FM Size | Epochs | Batch Size| Regularization | Attention |
+| :----------: |:---------:| :-----:|:-------:|:------:|:-----:|:----:|:----:|:------:|:----:|
+|Baseline 4| ResNet-101 | GloVe (50) | FC `[8192, 10]` | `128 * 128` | `4 * 4 * 2048 ` | `25` | `512`|`[-]`|`[-]`|
+
+</center>
+
+#### Results
+
+<center>
+
+| Optimizer        | Train Loss | Validation Loss  | Train Accuracy | Validation Accuracy|
+| ---------- |:---------:| :-----:| :------:| :-------: |
+|Adam `lr=0.001`| `[0.736]` | `[2.006]` | `[0.865]` | `[0.434]`|
+
+
+##### Official Evaluation
+Here is the evauluation results on the **val2014** split.
+
+| Model        | All | Yes/No  | Number | Other |
+| ---------- |:---------:| :-----:| :------:| :-------: |
+|Baseline 4| `[0.434]` | `[0.671]` | `[0.294]` | `[0.290]`|
+
+
+| | | |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+|<img width="1604" alt="B4 Accuracy" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b4/accuracy.png">  |  <img width="1604" alt="B4 Loss" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b4/loss.png">
+</center>
