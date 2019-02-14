@@ -14,12 +14,12 @@ class VQAOptions:
         self.images_features_path = args.images_features_path
         self.images_preprocess_batch_size = args.images_preprocess_batch_size
         self.qa_vocab_path = args.qa_vocab_path
-        self.word2vec_processed_embeddings = args.word2vec_processed_embeddings
-        self.word2vec_words_only = args.word2vec_words_only
-        self.word2vec_ids_only = args.word2vec_ids_only
+        self.word2vec_processed_embeddings = args.word2vec_processed_embeddings_path
+        self.word2vec_words_only = args.word2vec_words_only_path
+        self.word2vec_ids_only = args.word2vec_ids_only_path
 
         # evaluation and visualization paths
-        self.ready_to_eval_results_path = args.ready_to_eval_results_path
+        self.model_outputs_path = args.model_outputs_path
 
         # core parameters
         self.vqa_task = args.vqa_task
