@@ -4,7 +4,7 @@ import torch.optim as optim
 import config
 import utils as utils
 from tensorboardX import SummaryWriter
-from models import M_Show_Ask_Attend_Answer as model
+from models import M_ResNet101_randw2v_NoAtt_RNN as model
 import warnings
 
 with warnings.catch_warnings():
