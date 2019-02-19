@@ -161,7 +161,7 @@ Here is the evauluation results on the **val2014** split.
 
 | Model        | All | Yes/No  | Number | Other |
 | ---------- |:---------:| :-----:| :------:| :-------: |
-|Baseline 5| `[TRAINING]` | `[TRAINING]` | `[TRAINING]` | `[TRAINING]`|
+|Baseline 5| `[0.443]` | `[0.675]` | `[0.300]` | `[0.303]`|
 
 
 | | | |
