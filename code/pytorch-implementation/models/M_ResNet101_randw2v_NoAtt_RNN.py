@@ -15,7 +15,7 @@ class Net(nn.Module):
         embedding_features = config.embedding_features
 
         self.classifier = Classifier(
-            in_features=vision_features + embedding_features,
+            in_features=vision_features + config.rnn_hidden_size,
             mid_features=config.mid_features,
             out_features=config.max_answers,
         )
@@ -38,6 +38,9 @@ class Net(nn.Module):
 
         # Flatten visual features
         v = v.view(v.size(0), -1)
+
+        # Get the mean of question embeddings along axis 1
+        q = torch.mean(q, dim=1)
 
         # Flatten question features
         q = q.view(q.size(0), -1)
@@ -85,7 +88,7 @@ class TextProcessor(nn.Module):
         # re-pad sequence 
         padded = pad_packed_sequence(output, batch_first=True)[0]
 
-        # re-order memory allocations
+        # re-order
         padded = padded.contiguous()
 
         return padded
