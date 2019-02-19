@@ -133,7 +133,7 @@ def run(net, loader, optimizer, tracker, writer, train=False, prefix='', epoch=0
     acc_tracker = tracker.track('{}_acc'.format(prefix), tracker_class(**tracker_params))
 
     log_softmax = nn.LogSoftmax().cuda()
-    for qid, v, q, a, idx, q_len in tq:
+    for qid, v, q, a, idx, q_lens in tq:
         var_params = {
             'volatile': not train,
             'requires_grad': False,
@@ -141,9 +141,11 @@ def run(net, loader, optimizer, tracker, writer, train=False, prefix='', epoch=0
         v = Variable(v.cuda(async=True), **var_params)
         q = Variable(q.cuda(async=True), **var_params)
         a = Variable(a.cuda(async=True), **var_params)
-        q_len = Variable(q_len.cuda(async=True), **var_params)
 
-        out = net(v, q, q_len)
+        # used for sequence padding and packing
+        q_lens = Variable(q_lens.cuda(async=True), **var_params)
+
+        out = net(v, q, q_lens)
         nll = -log_softmax(out)
         loss = (nll * a / 10).sum(dim=1).mean()
         acc = batch_accuracy(out.data, a.data).cpu()
