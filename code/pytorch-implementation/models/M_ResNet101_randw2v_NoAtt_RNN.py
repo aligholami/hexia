@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.init as init
-from torch.nn.utils.rnn import pack_padded_sequence
+from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 import config
 
 
@@ -34,7 +34,7 @@ class Net(nn.Module):
 
     def forward(self, v, q, q_lens):
 
-        q = self.text(q, list(q_len.data))
+        q = self.text(q, list(q_lens.data))
 
         # Flatten visual features
         v = v.view(v.size(0), -1)
@@ -80,9 +80,12 @@ class TextProcessor(nn.Module):
         tanhed = self.tanh(embedded)
 
         # pack sequence
-        padded = pack_padded_sequence(tanhed, q_lens)
+        packed = pack_padded_sequence(tanhed, q_lens, batch_first=True)
 
         # apply rnn
-        output, hn = self.recurrent_layer(padded)
+        output, hn = self.recurrent_layer(packed)
+
+        # re-pad sequence 
+        padded = pad_packed_sequence(output, batch_first=True)
 
         return output
