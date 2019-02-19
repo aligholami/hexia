@@ -39,9 +39,6 @@ class Net(nn.Module):
         # Flatten visual features
         v = v.view(v.size(0), -1)
 
-        # Get the mean of question embeddings along axis 1
-        q = torch.mean(q, dim=1)
-
         # Flatten question features
         q = q.view(q.size(0), -1)
 
@@ -86,6 +83,9 @@ class TextProcessor(nn.Module):
         output, hn = self.recurrent_layer(packed)
 
         # re-pad sequence 
-        padded = pad_packed_sequence(output, batch_first=True)
+        padded = pad_packed_sequence(output, batch_first=True)[0]
 
-        return output
+        # re-order memory allocations
+        padded = padded.contiguous()
+
+        return padded
