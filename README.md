@@ -142,14 +142,14 @@ Here is the evauluation results on the **val2014** split.
 </center>
 
 ## VQA OE Baseline 5
-In this baseline model, we will use pre-trained ResNet-101 weights. Note that the weights are extracted from the Caffe model of ResNet-101. A randomly initialized set of embedding features (300) are fed through a 150 hidden-unit RNN with Tanh activation layers. The outputs of RNN are are then concatenated with visual featyres and passed through a classifier with **8192** hidden nodes and classified to 10 answers.
+In this baseline model, we will use pre-trained ResNet-101 weights. Note that the weights are extracted from the Caffe model of ResNet-101. A randomly initialized set of embedding features (300) are fed through a 150 hidden-unit LSTM with Tanh activation layers. The outputs of RNN are are then concatenated with visual featyres and passed through a classifier with **8192** hidden nodes and classified to 10 answers.
 #### Configuration Table
 
 <center>
 
 | Model        | Visual Features | Embeddings  | Classifier | Image Size | Visual FM Size | Epochs | Batch Size| Regularization | Attention |
 | :----------: |:---------:| :-----:|:-------:|:------:|:-----:|:----:|:----:|:------:|:----:|
-|Baseline 5| ResNet-101 | Word2Vec (300) + **RNN-150** | FC `[8192, 10]` | `128 * 128` | `4 * 4 * 2048 ` | `25` | `512`|`[-]`|`[-]`|
+|Baseline 5| ResNet-101 | Word2Vec (300) + **LSTM-150** | FC `[8192, 10]` | `128 * 128` | `4 * 4 * 2048 ` | `25` | `512`|`[-]`|`[-]`|
 
 </center>
 
@@ -163,15 +163,14 @@ Here is the evauluation results on the **val2014** split.
 
 | Model        | All | Yes/No  | Number | Other |
 | ---------- |:---------:| :-----:| :------:| :-------: |
-|Baseline 5| `[0.443]` | `[0.675]` | `[0.300]` | `[0.303]`|
-
+|Baseline 6| `[0.452]` | `[0.672]` | `[0.313]` | `[0.320]`|
 
 | | | |
 |:-------------------------:|:-------------------------:|:-------------------------:|
-|<img width="1604" alt="B5 Accuracy" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b5/accuracy.png">  |  <img width="1604" alt="B5 Loss" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b5/loss.png">
+|<img width="1604" alt="B6 Accuracy" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b6/accuracy.png">  |  <img width="1604" alt="B6 Loss" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b6/loss.png">
 </center>
 
-## VQA OE Baseline 6
+## VQA OE Baseline 7
 In this baseline model, a re-implementation of the paper [Show, Ask, Attend and Answer](https://arxiv.org/abs/1704.03162) is evaluated on the validation split.
 
 #### Configuration Table
@@ -180,7 +179,7 @@ In this baseline model, a re-implementation of the paper [Show, Ask, Attend and 
 
 | Model        | Visual Features | Embeddings  | Classifier | Image Size | Visual FM Size | Epochs | Batch Size| Regularization | Attention |
 | :----------: |:---------:| :-----:|:-------:|:------:|:-----:|:----:|:----:|:------:|:----:|
-|Baseline 6| `[TODO]` | `[TODO]` | `[TODO]` | `[TODO]` | `[TODO]` | `45` | `[TODO]` |`[TODO]` |`[TODO]`|
+|Baseline 7| `[TODO]` | `[TODO]` | `[TODO]` | `[TODO]` | `[TODO]` | `45` | `[TODO]` |`[TODO]` |`[TODO]`|
 
 </center>
 
@@ -194,10 +193,10 @@ Here is the evauluation results on the **val2014** split.
 
 | Model        | All | Yes/No  | Number | Other |
 | ---------- |:---------:| :-----:| :------:| :-------: |
-|Baseline 6 (Show, Ask, Attend and Answer) | `[0.515]` | `[0.393]` | `[0.338]` | `[0.736]`|
+|Baseline 7 (Show, Ask, Attend and Answer) | `[0.515]` | `[0.393]` | `[0.338]` | `[0.736]`|
 
 
 | | | |
 |:-------------------------:|:-------------------------:|:-------------------------:|
-|<img width="1604" alt="B6 Accuracy" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b6/accuracy.png">  |  <img width="1604" alt="B6 Loss" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b6/loss.png">
+|<img width="1604" alt="B6 Accuracy" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b7/accuracy.png">  |  <img width="1604" alt="B7 Loss" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b7/loss.png">
 </center>
