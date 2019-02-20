@@ -8,7 +8,8 @@ The goal of this repository is to implement and compare different novel architec
 |Baseline 3 (ResNet101, BOW300, Concat)| `[0.431]` | `[0.676]` | `[0.286]` | `[0.283]`|
 |Baseline 4 (ResNet101, GloVe50, Concat)| `[0.434]` | `[0.671]` | `[0.294]` | `[0.290]`|
 |Baseline 5 (ResNet101, BOW300, RNN, Concat)| `[0.443]` | `[0.675]` | `[0.300]` | `[0.303]`|
-|Baseline 6 (Show, Ask, Attend and Answer) | `[0.515]` | `[0.736]` | `[0.338]` | `[0.393]`|
+|Baseline 6 (ResNet101, BOW300, LSTM, Concat)| `[0.452]` | `[0.672]` | `[0.313]` | `[0.320]`|
+|Baseline 7 (Show, Ask, Attend and Answer) | `[0.515]` | `[0.736]` | `[0.338]` | `[0.393]`|
 
 ## VQA OE Baseline 1
 In this baseline model, we will use pre-trained ResNet-18 weights. Note that the weights are extracted from the Caffe model of ResNet-18. A **word2vec** model with 300 embedding features are implemented to extract the question embeddings. Visual features are then concatenated with word embeddings and passed through a classifier with **8192** hidden nodes and classified to 10 answers.
