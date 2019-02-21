@@ -227,5 +227,5 @@ Here is the evauluation results on the **val2014** split.
 
 | | | |
 |:-------------------------:|:-------------------------:|:-------------------------:|
-|<img width="1604" alt="B6 Accuracy" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b7/accuracy.png">  |  <img width="1604" alt="B7 Loss" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b7/loss.png">
+|<img width="1604" alt="B6 Accuracy" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b7/accuracy.PNG">  |  <img width="1604" alt="B7 Loss" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b7/loss.PNG">
 </center>
