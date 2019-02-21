@@ -1,4 +1,4 @@
-# Visual Question Answering based on Stacked Attention Networks
+# A Comprehensive API for Visual Question Answering
 The goal of this repository is to implement and compare different novel architectures of Visual Question Answering. Initially, several strong baselines are implemented for the **OpenEnded** visual question answering task based on the **MS COCO 2014** dataset. The implementation is mainly in **PyTorch**. 
 
 ## Results Summary Board
