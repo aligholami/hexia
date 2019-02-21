@@ -142,14 +142,43 @@ Here is the evauluation results on the **val2014** split.
 </center>
 
 ## VQA OE Baseline 5
-In this baseline model, we will use pre-trained ResNet-101 weights. Note that the weights are extracted from the Caffe model of ResNet-101. A randomly initialized set of embedding features (300) are fed through a 150 hidden-unit LSTM with Tanh activation layers. The outputs of RNN are are then concatenated with visual featyres and passed through a classifier with **8192** hidden nodes and classified to 10 answers.
+In this baseline model, we will use pre-trained ResNet-101 weights. Note that the weights are extracted from the Caffe model of ResNet-101. A randomly initialized set of embedding features (300) are fed through a 150 hidden-unit RNN with Tanh activation layers. The outputs of RNN are are then concatenated with visual featyres and passed through a classifier with **8192** hidden nodes and classified to 10 answers.
 #### Configuration Table
 
 <center>
 
 | Model        | Visual Features | Embeddings  | Classifier | Image Size | Visual FM Size | Epochs | Batch Size| Regularization | Attention |
 | :----------: |:---------:| :-----:|:-------:|:------:|:-----:|:----:|:----:|:------:|:----:|
-|Baseline 5| ResNet-101 | Word2Vec (300) + **LSTM-150** | FC `[8192, 10]` | `128 * 128` | `4 * 4 * 2048 ` | `25` | `512`|`[-]`|`[-]`|
+|Baseline 5| ResNet-101 | Word2Vec (300) + **RNN-150** | FC `[8192, 10]` | `128 * 128` | `4 * 4 * 2048 ` | `25` | `512`|`[-]`|`[-]`|
+
+</center>
+
+#### Results
+
+<center>
+
+##### Official Evaluation
+
+Here is the evauluation results on the **val2014** split.
+
+| Model        | All | Yes/No  | Number | Other |
+| ---------- |:---------:| :-----:| :------:| :-------: |
+|Baseline 5| `[0.443]` | `[0.675]` | `[0.300]` | `[0.303]`|
+
+| | | |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+|<img width="1604" alt="B5 Accuracy" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b5/accuracy.png">  |  <img width="1604" alt="B5 Loss" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b5/loss.png">
+</center>
+
+## VQA OE Baseline 6
+In this baseline model, we will use pre-trained ResNet-101 weights. Note that the weights are extracted from the Caffe model of ResNet-101. A randomly initialized set of embedding features (300) are fed through a 150 hidden-unit LSTM with Tanh activation layers. The outputs of LSTM are are then concatenated with visual featyres and passed through a classifier with **8192** hidden nodes and classified to 10 answers.
+#### Configuration Table
+
+<center>
+
+| Model        | Visual Features | Embeddings  | Classifier | Image Size | Visual FM Size | Epochs | Batch Size| Regularization | Attention |
+| :----------: |:---------:| :-----:|:-------:|:------:|:-----:|:----:|:----:|:------:|:----:|
+|Baseline 6| ResNet-101 | Word2Vec (300) + **LSTM-150** | FC `[8192, 10]` | `128 * 128` | `4 * 4 * 2048 ` | `25` | `512`|`[-]`|`[-]`|
 
 </center>
 
@@ -198,5 +227,5 @@ Here is the evauluation results on the **val2014** split.
 
 | | | |
 |:-------------------------:|:-------------------------:|:-------------------------:|
-|<img width="1604" alt="B7 Accuracy" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b7/accuracy.PNG">  |  <img width="1604" alt="B7 Loss" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b7/loss.PNG">
+|<img width="1604" alt="B6 Accuracy" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b7/accuracy.png">  |  <img width="1604" alt="B7 Loss" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b7/loss.png">
 </center>
