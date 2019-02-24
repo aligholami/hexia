@@ -172,6 +172,7 @@ def run(net, loader, optimizer, tracker, writer, train=False, prefix='', epoch=0
             accs.append(acc.view(-1))
             idxs.append(idx.view(-1).clone())
             val_iters += 1
+            
             # Write loss and accuracy to TensorboardX
             writer.add_scalar('/loss', loss.data.item(), val_iters)
             writer.add_scalar('/accuracy', acc.mean(), val_iters)
