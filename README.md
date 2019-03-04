@@ -171,6 +171,9 @@ Here is the evauluation results on the **val2014** split.
 </center>
 
 ## VQA OE Baseline 6
+
+![Baseline 6 Model][https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b6/model.jpg]
+
 In this baseline model, we will use pre-trained ResNet-101 weights. Note that the weights are extracted from the Caffe model of ResNet-101. A randomly initialized set of embedding features (300) are fed through a 150 hidden-unit LSTM with Tanh activation layers. The outputs of LSTM are are then concatenated with visual featyres and passed through a classifier with **8192** hidden nodes and classified to 10 answers.
 #### Configuration Table
 
