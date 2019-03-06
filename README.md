@@ -203,7 +203,9 @@ Here is the evauluation results on the **val2014** split.
 </center>
 
 ## VQA OE Baseline 7
-In this baseline model, a re-implementation of the paper [Show, Ask, Attend and Answer](https://arxiv.org/abs/1704.03162) is evaluated on the validation split.
+![Baseline 7 Model](https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b7/model.jpg)
+
+In this baseline model, we will use pre-trained ResNet-101 weights. Note that the weights are extracted from the Caffe model of ResNet-101. A randomly initialized set of embedding features (300) are fed through a 150 hidden-unit LSTM with Tanh activation layers. The outputs of the LSTM are then passed through a linear transformation layer and then added to the rows of the image regions matrix. The resulting vector is the attention distribution over image regions. A weighted summation of the attention probabilities and image regions are then computed to form the attended feature matrix. This matrix is then added to question vector again and passed through a multi-layer perceptron to learn a distribution of possible answers given attended image and the question embedding vector. The outputs of LSTM are are then concatenated with visual featyres and passed through a classifier with **8192** hidden nodes and classified to 10 answers.
 
 #### Configuration Table
 
@@ -225,10 +227,42 @@ Here is the evauluation results on the **val2014** split.
 
 | Model        | All | Yes/No  | Number | Other |
 | ---------- |:---------:| :-----:| :------:| :-------: |
-|Baseline 7 (Show, Ask, Attend and Answer) | `[0.515]` | `[0.393]` | `[0.338]` | `[0.736]`|
+|Baseline 7 (Show, Ask, Attend and Answer) | `[TBA]` | `[TBA]` | `[TBA]` | `[TBA]`|
 
 
 | | | |
 |:-------------------------:|:-------------------------:|:-------------------------:|
-|<img width="1604" alt="B6 Accuracy" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b7/accuracy.PNG">  |  <img width="1604" alt="B7 Loss" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b7/loss.PNG">
+|<img width="1604" alt="B7 Accuracy" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b7/accuracy.PNG">  |  <img width="1604" alt="B7 Loss" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b7/loss.PNG">
+</center>
+
+
+## VQA OE Baseline 8
+In this baseline model, a re-implementation of the paper [Show, Ask, Attend and Answer](https://arxiv.org/abs/1704.03162) is evaluated on the validation split.
+
+#### Configuration Table
+
+<center>
+
+| Model        | Visual Features | Embeddings  | Classifier | Image Size | Visual FM Size | Epochs | Batch Size| Regularization | Attention |
+| :----------: |:---------:| :-----:|:-------:|:------:|:-----:|:----:|:----:|:------:|:----:|
+|Baseline 8| `[TODO]` | `[TODO]` | `[TODO]` | `[TODO]` | `[TODO]` | `45` | `[TODO]` |`[TODO]` |`[TODO]`|
+
+</center>
+
+#### Results
+
+<center>
+
+##### Official Evaluation
+
+Here is the evauluation results on the **val2014** split.
+
+| Model        | All | Yes/No  | Number | Other |
+| ---------- |:---------:| :-----:| :------:| :-------: |
+|Baseline 8 (Show, Ask, Attend and Answer) | `[0.515]` | `[0.393]` | `[0.338]` | `[0.736]`|
+
+
+| | | |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+|<img width="1604" alt="B8 Accuracy" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b8/accuracy.PNG">  |  <img width="1604" alt="B8 Loss" src="https://github.com/aligholami/Visual-Question-Answering-with-Stacked-Attention-Networks/raw/master/results/b8/loss.PNG">
 </center>
