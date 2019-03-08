@@ -81,12 +81,12 @@ class TextProcessor(nn.Module):
 
         # pack sequence
         packed = pack_padded_sequence(tanhed, q_lens, batch_first=True)
-
+    
         # apply rnn
         output, (hn, cn) = self.recurrent_layer(packed)
 
         # re-pad sequence 
-        padded = pad_packed_sequence(cn, batch_first=True)[0]
+        padded = pad_packed_sequence(output, batch_first=True)[0]
 
         # re-order
         padded = padded.contiguous()
