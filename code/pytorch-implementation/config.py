@@ -35,3 +35,4 @@ max_answers = 3000
 
 # model config
 rnn_hidden_size = 300
+lstm_hidden_size = 300
