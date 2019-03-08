@@ -36,3 +36,10 @@ max_answers = 3000
 # model config
 rnn_hidden_size = 300
 lstm_hidden_size = 300
+
+# attention config
+h_a_q_size = 100
+h_a_i_rows = 32
+h_a_i_cols = 32
+num_attention_regions = 4
+

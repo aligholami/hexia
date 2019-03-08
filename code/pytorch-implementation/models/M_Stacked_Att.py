@@ -99,9 +99,15 @@ class AttentionMechanism(nn.Module):
     def __init__(self):
         super(AttentionMechanism, self).__init__()      # register attention class
 
-        self.image_linear_transform = nn.Linear(in_features= , out_features=, bias=True)
-        self.quetion_linear_transform = nn.Linear(in_features=, out_features = bias=True)
-        self.merged_linear_transform = nn.Linear(in_features=, out_features, bias=True)
+        self.image_linear_transform = nn.Linear(in_features=config., out_features=, bias=True)
+        self.quetion_linear_transform = nn.Linear(
+            in_features=config.lstm_hidden_size,
+            out_features=config.h_a_q_size,
+            bias=True)
+        self.merged_linear_transform = nn.Linear(
+            in_features=config.h_a_q_size + config.h_a_i_cols * config.h_a_i_rows,
+            out_features=config.num_attention_regions,
+            bias=True)
 
     def forward(v_q, v_i):
         
