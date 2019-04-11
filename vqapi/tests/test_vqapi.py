@@ -1,6 +1,6 @@
 import unittest
 from vqapi.runtime.train_val import TrainValidation
-
+from vqapi.preprocessing.vision import Vision
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -9,7 +9,7 @@ from vqapi.backend.utilities import utils
 from tensorboardX import SummaryWriter
 from models import M_ResNet101_randw2v_NoAtt_LSTM as model
 
-class TrainValidationTest(unittest.TestCase):
+class VQAPITest(unittest.TestCase):
 
     def __init__(self):
         pass
@@ -52,6 +52,25 @@ class TrainValidationTest(unittest.TestCase):
 
         train_writer.close()
         val_writer.close()
+
+    def test_visual_preprocessing(self):
+        """ Performs a visual preprocessing test """
+
+        visual_preprocessor = Vision(
+            transforms_to_apply=['none'],
+            cnn_to_use='resnet-18',
+            path_to_save=config.preprocessed_path,
+            path_to_train_images=config.train_path,
+            path_to_val_images=config.val_path,
+            batch_size=config.preprocess_batch_size,
+            image_size=config.image_size,
+            keep_central_fraction=config.central_fraction,
+            num_threads_to_use=8
+        )
+
+        visual_preprocessor.initiate_visual_preprocessing()
+    
+
 
 
 

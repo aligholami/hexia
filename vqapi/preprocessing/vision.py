@@ -28,7 +28,7 @@ class Vision:
             self.model(x)
             return self.buffer
 
-    def __init__(self, transforms_to_apply, cnn_to_use, path_to_save, batch_size, image_size, keep_central_fraction, num_threads_to_use):
+    def __init__(self, transforms_to_apply, cnn_to_use, path_to_save, path_to_train_images, path_to_val_images, batch_size, image_size, keep_central_fraction, num_threads_to_use):
         self.transforms_to_apply = transforms_to_apply
         self.cnn_to_use = cnn_to_use
         self.path_to_save = path_to_save
@@ -36,6 +36,8 @@ class Vision:
         self.image_size = image_size
         self.keep_central_fraction = keep_central_fraction
         self.num_threads_to_use = num_threads_to_use
+        self.path_to_train_images = path_to_train_images
+        self.path_to_val_images = path_to_val_images
 
     def create_data_loader(self, *paths):
         """ Create a united PyTorch COCO data loader for every given path in the arguments"""
@@ -65,7 +67,7 @@ class Vision:
         net = Net().cuda()
         net.eval()
 
-        loader, features_shape = self.create_data_loader()
+        loader, features_shape = self.create_data_loader(self.path_to_train_images, self.path_to_val_images)
 
         with h5py.File(self.path_to_save, libver='latest') as fd:
             features = fd.create_dataset('features', shape=features_shape, dtype='float16')
