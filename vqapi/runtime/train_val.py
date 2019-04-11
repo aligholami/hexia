@@ -13,7 +13,6 @@ with warnings.catch_warnings():
 # Device configuration
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-
 def train_and_validate():
     """
     Start training on the vqa model.

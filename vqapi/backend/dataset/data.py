@@ -7,8 +7,8 @@ import h5py
 import json
 import re
 from PIL import Image
-import config
-import utils
+from vqapi import config
+from vqapi.backend.utilities import utils
 
 
 def get_loader(train=False, val=False, test=False):
