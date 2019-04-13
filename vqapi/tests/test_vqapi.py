@@ -7,6 +7,7 @@ import torch.optim as optim
 import config
 from vqapi.backend.utilities import utils
 from tensorboardX import SummaryWriter
+from vqapi.backend.cnn.resnet import resnet as caffe_resnet
 from models import M_ResNet101_randw2v_NoAtt_LSTM as model
 
 class VQAPITest(unittest.TestCase):
@@ -56,9 +57,28 @@ class VQAPITest(unittest.TestCase):
     def test_visual_preprocessing(self):
         """ Performs a visual preprocessing test """
 
+        # Create a custom CNN class
+        class ResNetCNN(nn.Module):
+
+            def __init__(self):
+                super(ResNetCNN, self).__init__()
+                self.model = caffe_resnet.resnet101(pretrained=True)
+                
+                def save_output(module, input, output):
+                    self.buffer = output
+
+            self.model.layer4.register_forward_hook(save_output)
+
+        def forward(self, x):
+            self.model(x)
+            return self.buffer
+
+        # Create an instance of custom CNN
+        myCNN = ResNetCNN().cuda()
+
         visual_preprocessor = Vision(
             transforms_to_apply=['none'],
-            cnn_to_use='resnet-18',
+            cnn_to_use=myCNN,
             path_to_save=config.preprocessed_path,
             path_to_train_images=config.train_path,
             path_to_val_images=config.val_path,

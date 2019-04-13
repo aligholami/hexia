@@ -64,7 +64,7 @@ class Vision:
     def initiate_visual_preprocessing(self):
         """ Extract feature maps and save them to drive (to path_to_save)"""
 
-        net = Net().cuda()
+        net = self.cnn_to_use
         net.eval()
 
         loader, features_shape = self.create_data_loader(self.path_to_train_images, self.path_to_val_images)
