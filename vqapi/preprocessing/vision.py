@@ -4,7 +4,6 @@ import torch.backends.cudnn as cudnn
 from torch.autograd import Variable
 import h5py
 from tqdm import tqdm
-from resnet import resnet as caffe_resnet
 from vqapi import config
 from vqapi.backend.dataset import data
 from vqapi.backend.utilities import utils
@@ -38,7 +37,7 @@ class Vision:
         )
 
         features_shape = (
-            len(loader.dataset),
+            len(data_loader.dataset),
             config.output_features,
             config.output_size,
             config.output_size
