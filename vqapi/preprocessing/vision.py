@@ -13,21 +13,6 @@ class Vision:
 
     cudnn.benchmark = True
 
-    class Net(nn.Module):
-        
-        def __init__(self):
-            super(Net, self).__init__()
-            self.model = caffe_resnet.resnet101(pretrained=True)
-
-            def save_output(module, input, output):
-                self.buffer = output
-
-            self.model.layer4.register_forward_hook(save_output)
-
-        def forward(self, x):
-            self.model(x)
-            return self.buffer
-
     def __init__(self, transforms_to_apply, cnn_to_use, path_to_save, path_to_train_images, path_to_val_images, batch_size, image_size, keep_central_fraction, num_threads_to_use):
         self.transforms_to_apply = transforms_to_apply
         self.cnn_to_use = cnn_to_use
