@@ -87,7 +87,6 @@ class Language:
         # Save GloVe words and dicts
         pickle.dump(g_words, open(save_words_to, 'wb'))
         pickle.dump(g_word2idx, open(save_ids_to, 'wb'))
-
         
 
 
