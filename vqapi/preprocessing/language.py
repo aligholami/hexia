@@ -61,7 +61,7 @@ class Language:
         with open(self.save_vocab_to, 'w') as fd:
             json.dump(vocabs, fd)
 
-    def extract_glove_embeddings(self, dims=50, path_to_pretrained_embeddings, save_vectors_to, save_words_to, save_ids_to):
+    def extract_glove_embeddings(self, dims, path_to_pretrained_embeddings, save_vectors_to, save_words_to, save_ids_to):
         """
             Extract glove embeddings and save them to the proper directory.
         """

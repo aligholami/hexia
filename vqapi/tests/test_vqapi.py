@@ -103,6 +103,7 @@ class VQAPITest(unittest.TestCase):
         language_preprocessor.initiate_vocab_extraction()
 
         language_preprocessor.extract_glove_embeddings(
+            dims=50,
             path_to_pretrained_embeddings=config.glove_embeddings,
             save_vectors_to=config.glove_processed_vectors,
             save_words_to=config.glove_words,
