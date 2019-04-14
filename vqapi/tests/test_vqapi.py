@@ -52,7 +52,9 @@ class VQAPITest(unittest.TestCase):
     #     val_writer.close()
 
     def test_visual_preprocessing(self):
-        """ Performs a visual preprocessing test """
+        """
+            Performs a visual preprocessing test.
+        """
 
         # Create a custom CNN class
         class ResNetCNN(nn.Module):
@@ -87,7 +89,11 @@ class VQAPITest(unittest.TestCase):
 
         visual_preprocessor.initiate_visual_preprocessing()
     
-
+    def test_language_preprocessing(self):
+        """
+            Performs a textual preprocessing test.
+        """
+        
 
 if __name__ == "__main__":
     unittest.main()
