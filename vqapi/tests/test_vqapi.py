@@ -1,6 +1,7 @@
 import unittest
 # from vqapi.runtime.train_val import TrainValidation
 from vqapi.preprocessing.vision import Vision
+from vqapi.preprocessing.language import Language
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -94,6 +95,19 @@ class VQAPITest(unittest.TestCase):
             Performs a textual preprocessing test.
         """
         
+        language_preprocessor = Language(
+            max_answers=config.max_answers,
+            save_vocab_to=config.vocabulary_path
+        )
+
+        language_preprocessor.initiate_vocab_extraction()
+
+        language_preprocessor.extract_glove_embeddings(
+            path_to_pretrained_embeddings=config.glove_embeddings,
+            save_vectors_to=config.glove_processed_vectors,
+            save_words_to=config.glove_words,
+            save_ids_to=config.glove_ids
+        )
 
 if __name__ == "__main__":
     unittest.main()
