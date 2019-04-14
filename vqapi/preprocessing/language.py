@@ -14,7 +14,7 @@ class Language:
         self.save_vocab_to = save_vocab_to
 
     def extract_vocab(self, iterable, top_k=None, start=0):
-        """ 
+        """
             Turns an iterable of list of tokens into a vocabulary.
             These tokens could be single answers or word tokens in questions.
         """
@@ -87,7 +87,3 @@ class Language:
         # Save GloVe words and dicts
         pickle.dump(g_words, open(save_words_to, 'wb'))
         pickle.dump(g_word2idx, open(save_ids_to, 'wb'))
-        
-
-
-    

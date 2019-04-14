@@ -82,11 +82,11 @@ class TextProcessor(nn.Module):
 
         # pack sequence
         packed = pack_padded_sequence(tanhed, q_lens, batch_first=True)
-    
+
         # apply rnn
         output, (hn, cn) = self.recurrent_layer(packed)
 
-        # re-pad sequence 
+        # re-pad sequence
         padded = pad_packed_sequence(output, batch_first=True)[0]
 
         # re-order
@@ -110,7 +110,6 @@ class AttentionMechanism(nn.Module):
             bias=True)
 
     def forward(v_q, v_i):
-        
         # divide v_i into regions
 
         # apply linear transformations in the question and the image 
@@ -129,12 +128,3 @@ class AttentionMechanism(nn.Module):
         # multiply each score with corresponding image region
 
         # merge attended images with question vector and return this vector
-
-        
-
-
-
-
-        
-
-

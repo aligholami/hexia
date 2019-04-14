@@ -26,7 +26,7 @@ class VQAPITest(unittest.TestCase):
             def __init__(self):
                 super(ResNetCNN, self).__init__()
                 self.model = caffe_resnet.resnet101(pretrained=True)
-                
+
                 def save_output(module, input, output):
                     self.buffer = output
 
@@ -52,12 +52,12 @@ class VQAPITest(unittest.TestCase):
         )
 
         visual_preprocessor.initiate_visual_preprocessing()
-    
+
     def test_language_preprocessing(self):
         """
             Performs a textual preprocessing test.
         """
-        
+
         language_preprocessor = Language(
             max_answers=config.max_answers,
             save_vocab_to=config.vocabulary_path
@@ -73,12 +73,12 @@ class VQAPITest(unittest.TestCase):
             save_ids_to=config.glove_ids
         )
 
-    
+
     def test_train_validation(self):
         """
             Perform a train/validation test.
         """
-        
+
         # Prepare dataset
         train_loader, val_loader = utils.prepare_data_loaders()
 
@@ -90,7 +90,7 @@ class VQAPITest(unittest.TestCase):
         config_as_dict = {k: v for k, v in vars(config).items() if not k.startswith('__')}
         train_writer = SummaryWriter(config.visualization_dir + 'train')
         val_writer = SummaryWriter(config.visualization_dir + 'val')
-        
+
         # Separate objects for train and validation
         vqa_trainer = TrainValidation(net, train_loader, optimizer, tracker, train_writer, train=True, prefix='train')
         vqa_validator = TrainValidation(net, val_loader, optimizer, tracker, val_writer, train=False, prefix='val')

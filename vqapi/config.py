@@ -9,7 +9,7 @@ glove_embeddings = '../../VQA/models/glove-embeddings/glove.6B.50d.txt'
 glove_processed_vectors = './prep/glove-embeddings/glove.6B.50d.dat'
 glove_words = './prep/glove-embeddings/glove.6B.50_words.pkl'
 glove_ids = './prep/glove-embeddings/glove.6B.50_idx.pkl'
-eval_results_path = '../../eval-results/OpenEnded_mscoco_val2014_org_results'
+eval_results_path = './prep/eval-results/OpenEnded_mscoco_val2014_org_results'
 
 # saved to
 preprocessed_path = './prep/pretrained-cnn-weights/resnet/r101_weights.h5'

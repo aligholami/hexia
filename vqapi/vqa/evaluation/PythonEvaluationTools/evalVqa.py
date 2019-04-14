@@ -15,18 +15,18 @@ import os
 # set up file names and paths
 versionType ='v2_' # this should be '' when using VQA v2.0 dataset
 taskType    ='OpenEnded' # 'OpenEnded' only for v2.0. 'OpenEnded' or 'MultipleChoice' for v1.0
-dataType    ='mscoco'  # 'mscoco' only for v1.0. 'mscoco' for real and 'abstract_v002' for abstract for v1.0. 
+dataType    ='mscoco'  # 'mscoco' only for v1.0. 'mscoco' for real and 'abstract_v002' for abstract for v1.0.
 dataSubType ='val2014'
 annFile     ='%s/qa/%s%s_%s_annotations.json'%(dataDir, versionType, dataType, dataSubType)
 quesFile    ='%s/qa/%s%s_%s_%s_questions.json'%(dataDir, versionType, taskType, dataType, dataSubType)
 imgDir      ='%s/images/%s/%s/' %(dataDir, dataType, dataSubType)
 resultType  ='org'
-fileTypes   = ['results', 'accuracy', 'evalQA', 'evalQuesType', 'evalAnsType'] 
+fileTypes   = ['results', 'accuracy', 'evalQA', 'evalQuesType', 'evalAnsType']
 
-# An example result json file has been provided in './Results' folder.  
+# An example result json file has been provided in './Results' folder.
 
 [resFile, accuracyFile, evalQAFile, evalQuesTypeFile, evalAnsTypeFile] = ['%s/%s%s_%s_%s_%s_%s.json'%(resultsDir, versionType, taskType, dataType, dataSubType, \
-resultType, fileType) for fileType in fileTypes]  
+resultType, fileType) for fileType in fileTypes]
 
 # create vqa object and vqaRes object
 vqa = VQA(annFile, quesFile)
@@ -40,7 +40,7 @@ vqaEval = VQAEval(vqa, vqaRes, n=2)   #n is precision of accuracy (number of pla
 If you have a list of question ids on which you would like to evaluate your results, pass it as a list to below function
 By default it uses all the question ids in annotation file
 """
-vqaEval.evaluate() 
+vqaEval.evaluate()
 
 # print accuracies
 print "\n"

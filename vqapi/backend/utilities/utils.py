@@ -91,7 +91,7 @@ def prepare_data_loaders():
 
 
 def save_for_vqa_evaluation(anws, ids, qids, epoch):
-    
+
     # Load vocab json to obtain inverse list
     idx2word = {}
 
@@ -108,7 +108,7 @@ def save_for_vqa_evaluation(anws, ids, qids, epoch):
             "answer": "{}".format(idx2word.get(anws[i].item())),
             "question_id": qids[i].item()
         })
-    
+
     pth = config.eval_results_path
     pth += '_' + str(epoch)
     pth += '.json'
@@ -172,7 +172,7 @@ def run(net, loader, optimizer, tracker, writer, train=False, prefix='', epoch=0
             accs.append(acc.view(-1))
             idxs.append(idx.view(-1).clone())
             val_iters += 1
-            
+
             # Write loss and accuracy to TensorboardX
             writer.add_scalar('/loss', loss.data.item(), val_iters)
             writer.add_scalar('/accuracy', acc.mean(), val_iters)

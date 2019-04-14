@@ -85,7 +85,7 @@ class TextProcessor(nn.Module):
         # apply rnn
         output, hn = self.recurrent_layer(packed)
 
-        # re-pad sequence 
+        # re-pad sequence
         padded = pad_packed_sequence(output, batch_first=True)[0]
 
         # re-order

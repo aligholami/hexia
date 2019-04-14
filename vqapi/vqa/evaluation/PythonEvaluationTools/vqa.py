@@ -141,7 +141,7 @@ class VQA:
 			print "Question: %s" %(self.qqa[quesId]['question'])
 			for ans in ann['answers']:
 				print "Answer %d: %s" %(ans['answer_id'], ans['answer'])
-		
+
 	def loadRes(self, resFile, quesFile):
 		"""
 		Load result file and return a result object.

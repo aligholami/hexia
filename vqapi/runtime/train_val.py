@@ -27,7 +27,7 @@ class TrainValidation:
         self.epochs_passed = 0
         self.train_iterations = 0
         self.val_iterations = 0
-    
+
     def run_single_epoch(self):
         """ Run the given model settings for one epoch """
 
@@ -85,7 +85,7 @@ class TrainValidation:
                 accs.append(acc.view(-1))
                 idxs.append(idx.view(-1).clone())
                 self.val_iterations += 1
-                
+
                 # Write loss and accuracy to TensorboardX
                 self.writer.add_scalar('/loss', loss.data.item(), self.val_iterations)
                 self.writer.add_scalar('/accuracy', acc.mean(), self.val_iterations)
@@ -103,5 +103,5 @@ class TrainValidation:
 
             # Save results for vqa evaluation
             utils.save_for_vqa_evaluation(answ, idxs, qids, self.epochs_passed)
-            
-            return answ, accs, idxs 
+
+            return answ, accs, idxs

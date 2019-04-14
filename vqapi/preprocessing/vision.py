@@ -42,7 +42,7 @@ class Vision:
             config.output_size,
             config.output_size
         )
-        
+
         return data_loader, features_shape
 
     def initiate_visual_preprocessing(self):

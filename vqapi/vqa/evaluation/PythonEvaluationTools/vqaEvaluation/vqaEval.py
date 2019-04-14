@@ -56,7 +56,7 @@ class VQAEval:
 							 'an',
 							 'the'
 							]
- 
+
 
 		self.periodStrip  = re.compile("(?!<=\d)(\.)(?!\d)")
 		self.commaStrip   = re.compile("(\d)(\,)(\d)")
@@ -64,7 +64,7 @@ class VQAEval:
 							 '(', ')', '=', '+', '\\', '_', '-',
 							 '>', '<', '@', '`', ',', '?', '!']
 
-	
+
 	def evaluate(self, quesIds=None):
 		if quesIds == None:
 			quesIds = [quesId for quesId in self.params['question_id']]
@@ -73,7 +73,7 @@ class VQAEval:
 		for quesId in quesIds:
 			gts[quesId] = self.vqa.qa[quesId]
 			res[quesId] = self.vqaRes.qa[quesId]
-		
+
 		# =================================================
 		# Compute accuracy
 		# =================================================
@@ -118,19 +118,19 @@ class VQAEval:
 
 		self.setAccuracy(accQA, accQuesType, accAnsType)
 		print "Done computing accuracy"
-	
+
 	def processPunctuation(self, inText):
 		outText = inText
 		for p in self.punct:
 			if (p + ' ' in inText or ' ' + p in inText) or (re.search(self.commaStrip, inText) != None):
 				outText = outText.replace(p, '')
 			else:
-				outText = outText.replace(p, ' ')	
+				outText = outText.replace(p, ' ')
 		outText = self.periodStrip.sub("",
 									  outText,
 									  re.UNICODE)
 		return outText
-	
+
 	def processDigitArticle(self, inText):
 		outText = []
 		tempText = inText.lower().split()
@@ -150,7 +150,7 @@ class VQAEval:
 		self.accuracy['overall']         = round(100*float(sum(accQA))/len(accQA), self.n)
 		self.accuracy['perQuestionType'] = {quesType: round(100*float(sum(accQuesType[quesType]))/len(accQuesType[quesType]), self.n) for quesType in accQuesType}
 		self.accuracy['perAnswerType']   = {ansType:  round(100*float(sum(accAnsType[ansType]))/len(accAnsType[ansType]), self.n) for ansType in accAnsType}
-			
+
 	def setEvalQA(self, quesId, acc):
 		self.evalQA[quesId] = round(100*acc, self.n)
 
@@ -158,7 +158,7 @@ class VQAEval:
 		if quesType not in self.evalQuesType:
 			self.evalQuesType[quesType] = {}
 		self.evalQuesType[quesType][quesId] = round(100*acc, self.n)
-	
+
 	def setEvalAnsType(self, quesId, ansType, acc):
 		if ansType not in self.evalAnsType:
 			self.evalAnsType[ansType] = {}
