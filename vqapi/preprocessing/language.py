@@ -39,7 +39,7 @@ class Language:
             Extract vocabs and save them to the proper directory.
         """
         questions = utils.path_for(train=True, question=True)
-        answers = utils.path_for(train=True, question=True)
+        answers = utils.path_for(train=True, answer=True)
 
         with open(questions, 'r') as fd:
             questions = json.load(fd)
