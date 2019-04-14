@@ -34,6 +34,9 @@ class Language:
         return vocab
 
     def initiate_vocab_extraction(self):
+        """
+            Extract vocabs and save them to the proper directory.
+        """
         questions = utils.path_for(train=True, question=True)
         answers = utils.path_for(train=True, question=True)
 
@@ -57,6 +60,9 @@ class Language:
             json.dump(vocabs, fd)
 
     def extract_glove_embeddings(self, path_to_pretrained_embeddings, save_vectors_to, save_words_to, save_ids_to):
+        """
+            Extract glove embeddings and save them to the proper directory.
+        """
         g_words = []
         g_idx = 0
         g_word2idx = {}
