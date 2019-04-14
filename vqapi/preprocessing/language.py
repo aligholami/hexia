@@ -1,5 +1,6 @@
 import itertools
 import json
+import bcolz
 from collections import Counter
 from vqapi.backend.utilities import utils
 from vqapi.backend.dataset import data
@@ -54,6 +55,30 @@ class Language:
 
         with open(self.save_vocab_to, 'w') as fd:
             json.dump(vocabs, fd)
+
+    def extract_glove_embeddings(self, path_to_pretrained_embeddings, save_vectors_to, save_words_to, save_ids_to):
+        g_words = []
+        g_idx = 0
+        g_word2idx = {}
+        g_vectors = bcolz.carray(np.array(1), rootdir=save_vectors_to, mode='w')
+
+        # Get glove weights and vocab
+        with open(path_to_pretrained_embeddings, 'rb') as gfile:
+            for line in gfile:
+                line = line.decode('utf-8').split()
+                word = line[0]
+                g_words.append(word)
+                g_word2idx[word] = g_idx
+                g_idx += 1
+                wvec = np.array(line[1:]).astype(np.float)
+                g_vectors.append(wvec)
+
+        g_vectors = bcolz.carray(g_vectors[1:].reshape((400000, dims)), rootdir=save_vectors_to, mode='w')
+        g_vectors.flush()
+
+        # Save GloVe words and dicts
+        pickle.dump(g_words, open(save_words_to, 'wb'))
+        pickle.dump(g_word2idx, open(save_ids_to, 'wb'))
 
         
 
