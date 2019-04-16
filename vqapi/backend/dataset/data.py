@@ -18,7 +18,7 @@ class DataLoadUtils:
         self.batch_size = batch_size
         self.num_worker_threads = num_worker_threads
 
-    def get_loader(train=False, val=False, test=False):
+    def get_loader(self, train=False, val=False, test=False):
         """
         Create a VQA Data loader based on the principles provided by DataLoader Class.
         :param train: Whether the training is going on.

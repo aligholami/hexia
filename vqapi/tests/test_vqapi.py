@@ -17,43 +17,43 @@ from vqapi.vqa.models.joint import M_ResNet101_randw2v_NoAtt_LSTM as model
 
 class VQAPITest(unittest.TestCase):
 
-    def test_visual_preprocessing(self):
-        """
-            Performs a visual preprocessing test.
-        """
+    # def test_visual_preprocessing(self):
+    #     """
+    #         Performs a visual preprocessing test.
+    #     """
 
-        # Create a custom CNN class
-        class ResNetCNN(nn.Module):
+    #     # Create a custom CNN class
+    #     class ResNetCNN(nn.Module):
 
-            def __init__(self):
-                super(ResNetCNN, self).__init__()
-                self.model = caffe_resnet.resnet101(pretrained=True)
+    #         def __init__(self):
+    #             super(ResNetCNN, self).__init__()
+    #             self.model = caffe_resnet.resnet101(pretrained=True)
 
-                def save_output(module, input, output):
-                    self.buffer = output
+    #             def save_output(module, input, output):
+    #                 self.buffer = output
 
-                self.model.layer4.register_forward_hook(save_output)
+    #             self.model.layer4.register_forward_hook(save_output)
 
-            def forward(self, x):
-                self.model(x)
-                return self.buffer
+    #         def forward(self, x):
+    #             self.model(x)
+    #             return self.buffer
 
-        # Create an instance of custom CNN
-        myCNN = ResNetCNN().cuda()
+    #     # Create an instance of custom CNN
+    #     myCNN = ResNetCNN().cuda()
 
-        visual_preprocessor = Vision(
-            transforms_to_apply=['none'],
-            cnn_to_use=myCNN,
-            path_to_save=config.preprocessed_path,
-            path_to_train_images=config.train_path,
-            path_to_val_images=config.val_path,
-            batch_size=config.preprocess_batch_size,
-            image_size=config.image_size,
-            keep_central_fraction=config.central_fraction,
-            num_threads_to_use=8
-        )
+    #     visual_preprocessor = Vision(
+    #         transforms_to_apply=['none'],
+    #         cnn_to_use=myCNN,
+    #         path_to_save=config.preprocessed_path,
+    #         path_to_train_images=config.train_path,
+    #         path_to_val_images=config.val_path,
+    #         batch_size=config.preprocess_batch_size,
+    #         image_size=config.image_size,
+    #         keep_central_fraction=config.central_fraction,
+    #         num_threads_to_use=8
+    #     )
 
-        visual_preprocessor.initiate_visual_preprocessing()
+    #     visual_preprocessor.initiate_visual_preprocessing()
 
     def test_language_preprocessing(self):
         """
