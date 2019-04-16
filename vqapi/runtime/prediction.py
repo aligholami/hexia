@@ -13,3 +13,8 @@ class VQAPrediction:
         self.loaded_model = self.raw_model
         self.loaded_model.load_state_dict(torch.load(self.path_to_saved_vqa_model))
         self.loaded_model.eval()
+
+    def predict(self, list_of_iql_pairs):
+
+        for idx, i, q, q_len in enumerate(list_of_iq_pairs):
+            answer = self.loaded_model(i, q, q_len)
