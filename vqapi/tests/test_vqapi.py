@@ -4,6 +4,7 @@ from vqapi.runtime.train_val import TrainValidation
 from vqapi.preprocessing.vision import Vision
 from vqapi.preprocessing.language import Language
 from vqapi.backend.monitoring.tracker import Tracker
+from vqapi.vqa.evaluation.evaluator import VQAEvaluator
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -133,10 +134,21 @@ class VQAPITest(unittest.TestCase):
             }
 
             torch.save(checkpoint, config.latest_vqa_results_path)
-            
+
         train_writer.close()
         val_writer.close()
 
+    def test_vqa_evaluation(self):
+        """
+            Tests official VQA evaluation.
+        """
+
+        v_evaluator = VQAEvaluator(
+            data_directory=config.data_directory,
+            best_model_results_directory=config.best_vqa_answers_to_eval
+        )
+
+        v_evaluator.evaluate_best_vqa_model()
 
 if __name__ == "__main__":
     unittest.main()

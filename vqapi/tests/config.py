@@ -10,7 +10,7 @@ glove_processed_vectors = '../../models/glove-embeddings/glove.6B.50d.dat'
 glove_words = '../../models/glove-embeddings/glove.6B.50_words.pkl'
 glove_ids = '../../models/glove-embeddings/glove.6B.50_idx.pkl'
 best_vqa_answers_to_eval = '../../eval-results/OpenEnded_mscoco_val2014_org_results.json'
-
+data_directory = '../../VQA/data'
 # saved to
 preprocessed_path = './prep/pretrained-cnn-weights/resnet/r101_weights.h5'
 task = 'OpenEnded'
