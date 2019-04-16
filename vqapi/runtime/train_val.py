@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import config
+from tqdm import tqdm
 from vqapi.backend.utilities import utils
 from tensorboardX import SummaryWriter
 import warnings
