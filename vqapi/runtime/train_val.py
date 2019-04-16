@@ -4,7 +4,6 @@ import torch.optim as optim
 import config
 from vqapi.backend.utilities import utils
 from tensorboardX import SummaryWriter
-from models import M_ResNet101_randw2v_NoAtt_LSTM as model
 import warnings
 
 with warnings.catch_warnings():

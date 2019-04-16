@@ -6,7 +6,7 @@ import os.path
 import h5py
 import json
 import re
-from PIL import Images
+from PIL import Image
 from vqapi import config
 from vqapi.backend.utilities import utils
 
