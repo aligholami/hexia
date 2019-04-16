@@ -80,7 +80,7 @@ class VQAPITest(unittest.TestCase):
         """
 
         # Prepare dataset
-        train_loader, val_loader = utils.prepare_data_loaders()
+        train_loader, val_loader = utils.prepare_data_loaders(path_to_feature_maps=config.preprocessed_path, batch_size=config.batch_size, num_workers=config.data_workers)
 
         # Select the model
         # Build the model

@@ -6,46 +6,53 @@ import os.path
 import h5py
 import json
 import re
-from PIL import Image
+from PIL import Images
 from vqapi import config
 from vqapi.backend.utilities import utils
 
 
-def get_loader(train=False, val=False, test=False):
-    """
-    Create a VQA Data loader based on the principles provided by DataLoader Class.
-    :param train: Whether the training is going on.
-    :param val: Whether the validation is going on.
-    :param test: Whether the test is going on.
-    :return: A dataloader that can be iterated upon for the desired split.
-    """
-    assert train + val + test == 1, 'need to set exactly one of {train, val, test} to True'
-    split = VQA(
-        utils.path_for(train=train, val=val, test=test, question=True),
-        utils.path_for(train=train, val=val, test=test, answer=True),
-        config.preprocessed_path,
-        answerable_only=train,
-    )
-    loader = torch.utils.data.DataLoader(
-        split,
-        batch_size=config.batch_size,
-        shuffle=train,  # only shuffle the data in training
-        pin_memory=True,
-        num_workers=config.data_workers,
-        collate_fn=collate_fn,
-    )
-    return loader
+class DataLoadUtils:
+
+    def __init__(self, path_to_feature_maps, batch_size, num_worker_threads):
+        self.path_to_feature_maps = path_to_feature_maps
+        self.batch_size = batch_size
+        self.num_worker_threads = num_worker_threads
+
+    def get_loader(train=False, val=False, test=False):
+        """
+        Create a VQA Data loader based on the principles provided by DataLoader Class.
+        :param train: Whether the training is going on.
+        :param val: Whether the validation is going on.
+        :param test: Whether the test is going on.
+        :return: A dataloader that can be iterated upon for the desired split.
+        """
+        assert train + val + test == 1, 'need to set exactly one of {train, val, test} to True'
+        split = VQA(
+            utils.path_for(train=train, val=val, test=test, question=True),
+            utils.path_for(train=train, val=val, test=test, answer=True),
+            self.path_to_feature_maps,
+            answerable_only=train,
+        )
+        loader = torch.utils.data.DataLoader(
+            split,
+            batch_size=self.batch_size,
+            shuffle=train,  # only shuffle the data in training
+            pin_memory=True,
+            num_workers=self.num_worker_threads,
+            collate_fn=self.collate_fn,
+        )
+        return loader
 
 
-def collate_fn(batch):
-    """
-    Sort question length in descending order to use for packed sequences.
-    :param batch: Batch of questions.
-    :return: Sorted batch of questions.
-    """
-    batch.sort(key=lambda x: x[-1], reverse=True)
+    def collate_fn(self, batch):
+        """
+        Sort question length in descending order to use for packed sequences.
+        :param batch: Batch of questions.
+        :return: Sorted batch of questions.
+        """
+        batch.sort(key=lambda x: x[-1], reverse=True)
 
-    return data.dataloader.default_collate(batch)
+        return data.dataloader.default_collate(batch)
 
 
 class VQA(data.Dataset):

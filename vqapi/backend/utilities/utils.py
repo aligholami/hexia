@@ -8,7 +8,7 @@ import pickle
 import json
 from tqdm import tqdm
 from vqapi import config
-from vqapi.backend.dataset import data
+from vqapi.backend.dataset.data import DataLoadUtils
 
 train_iters = 0
 val_iters = 0
@@ -83,9 +83,12 @@ def update_learning_rate(optimizer, iteration):
         param_group['lr'] = lr
 
 
-def prepare_data_loaders():
-    train_loader = data.get_loader(train=True)
-    val_loader = data.get_loader(val=True)
+def prepare_data_loaders(path_to_feature_maps, batch_size, num_workers):
+
+    data_utils = DataLoadUtils(path_to_feature_maps=path_to_feature_maps, batch_size=batch_size, num_worker_threads=num_workers)
+
+    train_loader = data_utils.get_loader(train=True)
+    val_loader = data_utils.get_loader(val=True)
 
     return train_loader, val_loader
 
