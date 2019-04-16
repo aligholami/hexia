@@ -4,7 +4,7 @@ from vqapi.runtime.train_val import TrainValidation
 from vqapi.preprocessing.vision import Vision
 from vqapi.preprocessing.language import Language
 from vqapi.backend.monitoring.tracker import Tracker
-from vqapi.vqa.evaluation.evaluator import VQAEvaluator
+# from vqapi.vqa.evaluation.evaluator import VQAEvaluator
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -13,7 +13,7 @@ from vqapi.backend.utilities import utils
 from vqapi.vqa.models.joint import M_ResNet101_randw2v_NoAtt_LSTM as model
 from tensorboardX import SummaryWriter
 from vqapi.backend.cnn.resnet import resnet as caffe_resnet
-from models import M_ResNet101_randw2v_NoAtt_LSTM as model
+from vqapi.vqa.models.joint import M_ResNet101_randw2v_NoAtt_LSTM as model
 
 class VQAPITest(unittest.TestCase):
 
@@ -138,17 +138,17 @@ class VQAPITest(unittest.TestCase):
         train_writer.close()
         val_writer.close()
 
-    def test_vqa_evaluation(self):
-        """
-            Tests official VQA evaluation.
-        """
+    # def test_vqa_evaluation(self):
+    #     """
+    #         Tests official VQA evaluation.
+    #     """
 
-        v_evaluator = VQAEvaluator(
-            data_directory=config.data_directory,
-            best_model_results_directory=config.best_vqa_answers_to_eval
-        )
+    #     v_evaluator = VQAEvaluator(
+    #         data_directory=config.data_directory,
+    #         best_model_results_directory=config.best_vqa_answers_to_eval
+    #     )
 
-        v_evaluator.evaluate_best_vqa_model()
+    #     v_evaluator.evaluate_best_vqa_model()
 
 if __name__ == "__main__":
     unittest.main()
