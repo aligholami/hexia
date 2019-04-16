@@ -55,25 +55,25 @@ class VQAPITest(unittest.TestCase):
 
     #     visual_preprocessor.initiate_visual_preprocessing()
 
-    def test_language_preprocessing(self):
-        """
-            Performs a textual preprocessing test.
-        """
+    # def test_language_preprocessing(self):
+    #     """
+    #         Performs a textual preprocessing test.
+    #     """
 
-        language_preprocessor = Language(
-            max_answers=config.max_answers,
-            save_vocab_to=config.vocabulary_path
-        )
+    #     language_preprocessor = Language(
+    #         max_answers=config.max_answers,
+    #         save_vocab_to=config.vocabulary_path
+    #     )
 
-        language_preprocessor.initiate_vocab_extraction()
+    #     language_preprocessor.initiate_vocab_extraction()
 
-        language_preprocessor.extract_glove_embeddings(
-            dims=50,
-            path_to_pretrained_embeddings=config.glove_embeddings,
-            save_vectors_to=config.glove_processed_vectors,
-            save_words_to=config.glove_words,
-            save_ids_to=config.glove_ids
-        )
+    #     language_preprocessor.extract_glove_embeddings(
+    #         dims=50,
+    #         path_to_pretrained_embeddings=config.glove_embeddings,
+    #         save_vectors_to=config.glove_processed_vectors,
+    #         save_words_to=config.glove_words,
+    #         save_ids_to=config.glove_ids
+    #     )
 
 
     def test_train_validation(self):
