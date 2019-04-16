@@ -9,7 +9,7 @@ glove_embeddings = '../../models/glove-embeddings/glove.6B.50d.txt'
 glove_processed_vectors = '../../models/glove-embeddings/glove.6B.50d.dat'
 glove_words = '../../models/glove-embeddings/glove.6B.50_words.pkl'
 glove_ids = '../../models/glove-embeddings/glove.6B.50_idx.pkl'
-eval_results_path = '../../eval-results/OpenEnded_mscoco_val2014_org_results'
+best_vqa_answers_to_eval = '../../eval-results/OpenEnded_mscoco_val2014_org_results.json'
 
 # saved to
 preprocessed_path = './prep/pretrained-cnn-weights/resnet/r101_weights.h5'
@@ -32,7 +32,8 @@ initial_lr = 1e-3  # default Adam lr
 lr_halflife = 50000  # in iterations
 data_workers = 8
 max_answers = 3000
-save_vqa_model_weights_to = './prep/saved-models/myVqaModel.pth'
+best_vqa_weights_path = './prep/saved-models/bestVqaModel.pth'
+latest_vqa_results_path = './prep/saved-models/latestVqaModel.pth'
 
 # model config
 rnn_hidden_size = 300

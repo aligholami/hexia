@@ -93,7 +93,7 @@ def prepare_data_loaders(path_to_feature_maps, batch_size, num_workers):
     return train_loader, val_loader
 
 
-def save_for_vqa_evaluation(anws, ids, qids, epoch):
+def save_for_vqa_evaluation(anws, ids, qids):
 
     # Load vocab json to obtain inverse list
     idx2word = {}
@@ -113,8 +113,7 @@ def save_for_vqa_evaluation(anws, ids, qids, epoch):
         })
 
     pth = config.eval_results_path
-    pth += '_' + str(epoch)
-    pth += '.json'
+
     with open(pth, 'w') as eFile:
         json.dump(evaluation_list, eFile)
 

@@ -62,7 +62,7 @@ class TrainValidation:
             out = self.model(v, q, q_lens)
             nll = -log_softmax(out)
             loss = (nll * a / 10).sum(dim=1).mean()
-            acc = batch_accuracy(out.data, a.data).cpu()
+            acc = utils.batch_accuracy(out.data, a.data).cpu()
 
             if self.train:
                 update_learning_rate(self.optimizer, self.train_iterations)
@@ -104,4 +104,14 @@ class TrainValidation:
             # Save results for vqa evaluation
             utils.save_for_vqa_evaluation(answ, idxs, qids, self.epochs_passed)
 
-            return answ, accs, idxs
+            # return answers, idxs, question ids, epoch and epoch accuracy and epoch loss
+            epoch_results = {
+                'epoch': self.epochs_passed,
+                'answ': answ,
+                'ids': idxs,
+                'qids': qids,
+                'epoch_accuracy': acc_tracker.mean.value,
+                'epoch_loss': loss_tracker.mean.value
+            }
+
+            return epoch_results

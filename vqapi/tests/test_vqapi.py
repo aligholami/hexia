@@ -1,5 +1,6 @@
 import unittest
-# from vqapi.runtime.train_val import TrainValidation
+import os
+from vqapi.runtime.train_val import TrainValidation
 from vqapi.preprocessing.vision import Vision
 from vqapi.preprocessing.language import Language
 from vqapi.backend.monitoring.tracker import Tracker
@@ -96,23 +97,43 @@ class VQAPITest(unittest.TestCase):
         vqa_validator = TrainValidation(net, val_loader, optimizer, tracker, val_writer, train=False, prefix='val')
 
         for epoch in range(config.num_epochs):
+
+            # Random initial parameters
+            best_loss = 10
+            best_accuracy = 10
+
             _ = vqa_trainer.run_single_epoch()
             r = vqa_validator.run_single_epoch()
 
-            results = {
-                'name': 'model_training.pth',
-                'tracker': tracker.to_dict(),
-                'config': config_as_dict,
-                'weights': net.state_dict(),
-                'eval': {
-                    'answers': r[0],
-                    'accuracies': r[1],
-                    'idx': r[2],
-                },
-                'vocab': train_loader.dataset.vocab,
-            }
-            torch.save(results, config.save_vqa_model_weights_to)
+            # Select the best model for weight saving and evaluation
 
+            if (r['epoch_accuracy'] > best_accuracy) and (r['epoch_loss'] < best_loss):
+
+                # Update best accuracy and loss
+                best_accuracy = r['epoch_accuracy']
+                best_loss = r['epoch_loss']
+
+                # Clear path from previus saved models and pre-evaluation files
+                os.remove(config.best_vqa_weights_path)
+                os.remove(config.best_vqa_answers_to_eval)
+
+                # Save the new model weights
+                weights = net.state_dict()
+                torch.save(weights, config.best_vqa_weights_path)
+
+                # Save answ, idxs and qids for later evaluation
+                utils.save_for_vqa_evaluation(r['answ'], r['ids'], r['qids'])
+
+            checkpoint = {
+                'epoch': r['epoch'],
+                'model_state_dict': net.state_dict(),
+                'opt_state_dict': optimizer.state_dict(),
+                'tracker': tracker.to_dict(),
+                'vocab': train_loader.dataset.vocab
+            }
+
+            torch.save(checkpoint, config.latest_vqa_results_path)
+            
         train_writer.close()
         val_writer.close()
 
