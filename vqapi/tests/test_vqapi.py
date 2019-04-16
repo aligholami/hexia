@@ -111,7 +111,7 @@ class VQAPITest(unittest.TestCase):
                 },
                 'vocab': train_loader.dataset.vocab,
             }
-            torch.save(results, "model_training.pth")
+            torch.save(results, config.save_vqa_model_weights_to)
 
         train_writer.close()
         val_writer.close()
