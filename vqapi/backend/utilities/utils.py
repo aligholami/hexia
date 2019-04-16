@@ -7,7 +7,6 @@ import bcolz
 import pickle
 import json
 from tqdm import tqdm
-from vqapi import config
 from vqapi.backend.dataset.data import DataLoadUtils
 
 train_iters = 0
@@ -19,13 +18,13 @@ class VQAUtils:
         pass
 
     @staticmethod
-    def reload_dataset_vocab():
+    def reload_dataset_vocab(vocab_path):
         """
         Reloads VQA V2 dataset vocabulary into memory to be used by models (Text Processor).
         :return: A dictionary of mappings from words to ids for both questions and answers.
         """
 
-        with open(config.vocabulary_path, 'r') as fd:
+        with open(vocab_path, 'r') as fd:
             vocab_json = json.load(fd)
 
         # Skip integrity test
@@ -38,14 +37,14 @@ class VQAUtils:
         return token_to_index, answer_to_index
 
     @staticmethod
-    def reload_glove_embeddings():
+    def reload_glove_embeddings(glove_vectors, glove_words, glove_ids):
         """
         Reload the GloVe embeddings after running the prepare_vocab.py file. This will be used in the model.
         :return: A dictionary of mappings from words to vectors
         """
-        vectors = bcolz.open(config.glove_processed_vectors)[:]
-        words = pickle.load(open(config.glove_words, 'rb'))
-        word2idx = pickle.load(open(config.glove_ids, 'rb'))
+        vectors = bcolz.open(glove_vectors)[:]
+        words = pickle.load(open(glove_words, 'rb'))
+        word2idx = pickle.load(open(glove_ids, 'rb'))
         glove = {w: vectors[word2idx[w]] for w in words}
 
         return glove
@@ -83,8 +82,8 @@ class VQAUtils:
         return (agreeing * 0.3).clamp(max=1)
 
     @staticmethod
-    def update_learning_rate(optimizer, iteration):
-        lr = config.initial_lr * 0.5 ** (float(iteration) / config.lr_halflife)
+    def update_learning_rate(optimizer, iteration, initial_lr, lr_halflife):
+        lr = initial_lr * 0.5 ** (float(iteration) / lr_halflife)
         for param_group in optimizer.param_groups:
             param_group['lr'] = lr
 
@@ -99,12 +98,12 @@ class VQAUtils:
         return train_loader, val_loader
 
     @staticmethod
-    def save_for_vqa_evaluation(anws, ids, qids):
+    def save_for_vqa_evaluation(anws, ids, qids, vocabulary_path, eval_results_path):
 
         # Load vocab json to obtain inverse list
         idx2word = {}
 
-        with open(config.vocabulary_path) as vocab_json:
+        with open(vocabulary_path) as vocab_json:
             word2idx = json.load(vocab_json)
             a_word2idx = word2idx['answer']
 
@@ -118,13 +117,13 @@ class VQAUtils:
                 "question_id": qids[i].item()
             })
 
-        pth = config.eval_results_path
+        pth = eval_results_path
 
         with open(pth, 'w') as eFile:
             json.dump(evaluation_list, eFile)
 
     @staticmethod
-    def path_for(train=False, val=False, test=False, question=False, answer=False):
+    def path_for(train=False, val=False, test=False, question=False, answer=False, task, dataset, qa_path):
         assert train + val + test == 1
         assert question + answer == 1
         assert not (
@@ -139,8 +138,8 @@ class VQAUtils:
             fmt = 'v2_{0}_{1}_{2}_questions.json'
         else:
             fmt = 'v2_{1}_{2}_annotations.json'
-        s = fmt.format(config.task, config.dataset, split)
-        return os.path.join(config.qa_path, s)
+        s = fmt.format(task, dataset, split)
+        return os.path.join(qa_path, s)
 
     @staticmethod
     def get_transform(target_size, central_fraction=1.0):
