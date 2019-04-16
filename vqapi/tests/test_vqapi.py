@@ -11,9 +11,9 @@ import torch.optim as optim
 from vqapi.tests import config
 from vqapi.backend.utilities import utils
 from vqapi.vqa.models.joint import M_ResNet101_randw2v_NoAtt_LSTM as model
-# from tensorboardX import SummaryWriter
+from tensorboardX import SummaryWriter
 from vqapi.backend.cnn.resnet import resnet as caffe_resnet
-# from models import M_ResNet101_randw2v_NoAtt_LSTM as model
+from models import M_ResNet101_randw2v_NoAtt_LSTM as model
 
 class VQAPITest(unittest.TestCase):
 
