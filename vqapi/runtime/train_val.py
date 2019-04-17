@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from torch.autograd import Variable
 import config
 from tqdm import tqdm
 from vqapi.backend.utilities import utils
@@ -65,7 +66,7 @@ class TrainValidation:
             acc = utils.batch_accuracy(out.data, a.data).cpu()
 
             if self.train:
-                update_learning_rate(self.optimizer, self.train_iterations)
+                utils.update_learning_rate(self.optimizer, self.train_iterations)
 
                 optimizer.zero_grad()
                 loss.backward()
