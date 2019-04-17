@@ -24,6 +24,7 @@ class TrainValidation:
         self.optimizer = optimizer
         self.tracker = tracker
         self.train = train
+        self.writer = writer
         self.prefix = prefix
         self.epochs_passed = 0
         self.train_iterations = 0
@@ -68,9 +69,9 @@ class TrainValidation:
             if self.train:
                 utils.update_learning_rate(self.optimizer, self.train_iterations)
 
-                optimizer.zero_grad()
+                self.optimizer.zero_grad()
                 loss.backward()
-                optimizer.step()
+                self.optimizer.step()
 
                 self.train_iterations += 1
 
@@ -103,7 +104,7 @@ class TrainValidation:
             qids = list(torch.cat(qids, dim=0))
 
             # Save results for vqa evaluation
-            utils.save_for_vqa_evaluation(answ, idxs, qids, self.epochs_passed)
+            utils.save_for_vqa_evaluation(answ, idxs, qids)
 
             # return answers, idxs, question ids, epoch and epoch accuracy and epoch loss
             epoch_results = {
