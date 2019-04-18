@@ -108,8 +108,8 @@ class TrainValidation:
                 'answ': answ,
                 'ids': idxs,
                 'qids': qids,
-                'epoch_accuracy': acc_tracker.mean.value,
-                'epoch_loss': loss_tracker.mean.value
+                'epoch_accuracy': acc_tracker.mean.value.item(),
+                'epoch_loss': loss_tracker.mean.value.item()
             }
 
             return epoch_results
