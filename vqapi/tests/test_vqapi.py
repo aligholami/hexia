@@ -101,7 +101,7 @@ class VQAPITest(unittest.TestCase):
 
             # Random initial parameters
             best_loss = 10
-            best_accuracy = 10
+            best_accuracy = 0.1
 
             _ = vqa_trainer.run_single_epoch()
             r = vqa_validator.run_single_epoch()
