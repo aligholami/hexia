@@ -5,7 +5,6 @@ from torch.autograd import Variable
 import config
 from tqdm import tqdm
 from vqapi.backend.utilities import utils
-from tensorboardX import SummaryWriter
 import warnings
 
 with warnings.catch_warnings():
@@ -102,9 +101,6 @@ class TrainValidation:
             accs = list(torch.cat(accs, dim=0))
             idxs = list(torch.cat(idxs, dim=0))
             qids = list(torch.cat(qids, dim=0))
-
-            # Save results for vqa evaluation
-            utils.save_for_vqa_evaluation(answ, idxs, qids)
 
             # return answers, idxs, question ids, epoch and epoch accuracy and epoch loss
             epoch_results = {

@@ -109,7 +109,7 @@ def save_for_vqa_evaluation(anws, ids, qids):
             "question_id": qids[i].item()
         })
 
-    pth = config.eval_results_path
+    pth = config.best_vqa_answers_to_eval
 
     with open(pth, 'w') as eFile:
         json.dump(evaluation_list, eFile)
