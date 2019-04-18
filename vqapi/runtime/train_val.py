@@ -112,4 +112,7 @@ class TrainValidation:
                 'epoch_loss': loss_tracker.mean.value
             }
 
+            # Update number of passed epochs
+            self.epochs_passed += 1
+
             return epoch_results

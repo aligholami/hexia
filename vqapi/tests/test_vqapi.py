@@ -100,28 +100,31 @@ class VQAPITest(unittest.TestCase):
         for epoch in range(config.num_epochs):
 
             # Random initial parameters
-            best_loss = 10
+            best_loss = 10.0
             best_accuracy = 0.1
 
             _ = vqa_trainer.run_single_epoch()
             r = vqa_validator.run_single_epoch()
 
-            if (r['epoch_accuracy'] > best_accuracy) and (r['epoch_loss'] < best_loss):
+            # if (r['epoch_accuracy'] > best_accuracy) and (r['epoch_loss'] < best_loss):
 
-                # Update best accuracy and loss
-                best_accuracy = r['epoch_accuracy']
-                best_loss = r['epoch_loss']
+            # Update best accuracy and loss
+            best_accuracy = r['epoch_accuracy']
+            best_loss = r['epoch_loss']
 
-                # Clear path from previus saved models and pre-evaluation files
+            # Clear path from previus saved models and pre-evaluation files
+            try:
                 os.remove(config.best_vqa_weights_path)
                 os.remove(config.best_vqa_answers_to_eval)
+            except FileNotFoundError as fe:
+                pass
 
-                # Save the new model weights
-                weights = net.state_dict()
-                torch.save(weights, config.best_vqa_weights_path)
+            # Save the new model weights
+            weights = net.state_dict()
+            torch.save(weights, config.best_vqa_weights_path)
 
-                # Save answ, idxs and qids for later evaluation
-                utils.save_for_vqa_evaluation(r['answ'], r['ids'], r['qids'])
+            # Save answ, idxs and qids for later evaluation
+            utils.save_for_vqa_evaluation(r['answ'], r['ids'], r['qids'])
 
             checkpoint = {
                 'epoch': r['epoch'],
