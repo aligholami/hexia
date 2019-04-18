@@ -106,8 +106,6 @@ class VQAPITest(unittest.TestCase):
             _ = vqa_trainer.run_single_epoch()
             r = vqa_validator.run_single_epoch()
 
-            # Select the best model for weight saving and evaluation
-
             if (r['epoch_accuracy'] > best_accuracy) and (r['epoch_loss'] < best_loss):
 
                 # Update best accuracy and loss
