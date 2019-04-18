@@ -106,25 +106,30 @@ class VQAPITest(unittest.TestCase):
             _ = vqa_trainer.run_single_epoch()
             r = vqa_validator.run_single_epoch()
 
-            # if (r['epoch_accuracy'] > best_accuracy) and (r['epoch_loss'] < best_loss):
+            print("Best Loss: ", best_loss)
+            print("Best Accuracy: ", best_accuracy)
+            print("Epoch Loss: ", r['epoch_loss'])
+            print("Epoch Accuracy: ", r['epoch_accuracy'])
 
-            # Update best accuracy and loss
-            best_accuracy = r['epoch_accuracy']
-            best_loss = r['epoch_loss']
+            if r['epoch_accuracy'] > best_accuracy and r['epoch_loss'] < best_loss:
 
-            # Clear path from previus saved models and pre-evaluation files
-            try:
-                os.remove(config.best_vqa_weights_path)
-                os.remove(config.best_vqa_answers_to_eval)
-            except FileNotFoundError as fe:
-                pass
+                # Update best accuracy and loss
+                best_accuracy = r['epoch_accuracy']
+                best_loss = r['epoch_loss']
 
-            # Save the new model weights
-            weights = net.state_dict()
-            torch.save(weights, config.best_vqa_weights_path)
+                # Clear path from previus saved models and pre-evaluation files
+                try:
+                    os.remove(config.best_vqa_weights_path)
+                    os.remove(config.best_vqa_answers_to_eval)
+                except FileNotFoundError as fe:
+                    pass
 
-            # Save answ, idxs and qids for later evaluation
-            utils.save_for_vqa_evaluation(r['answ'], r['ids'], r['qids'])
+                # Save the new model weights
+                weights = net.state_dict()
+                torch.save(weights, config.best_vqa_weights_path)
+
+                # Save answ, idxs and qids for later evaluation
+                utils.save_for_vqa_evaluation(r['answ'], r['ids'], r['qids'])
 
             checkpoint = {
                 'epoch': r['epoch'],
