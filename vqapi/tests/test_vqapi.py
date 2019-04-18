@@ -96,13 +96,11 @@ class VQAPITest(unittest.TestCase):
         # Separate objects for train and validation
         vqa_trainer = TrainValidation(net, train_loader, optimizer, tracker, train_writer, train=True, prefix='train')
         vqa_validator = TrainValidation(net, val_loader, optimizer, tracker, val_writer, train=False, prefix='val')
-
+       
+        best_loss = 10.0
+        best_accuracy = 0.1
         for epoch in range(config.num_epochs):
-
-            # Random initial parameters
-            best_loss = 10.0
-            best_accuracy = 0.1
-
+            
             _ = vqa_trainer.run_single_epoch()
             r = vqa_validator.run_single_epoch()
 
