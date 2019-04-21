@@ -94,13 +94,13 @@ class VQAPITest(unittest.TestCase):
         val_writer = SummaryWriter(config.visualization_dir + 'val')
 
         # Separate objects for train and validation
-        vqa_trainer = TrainValidation(net, train_loader, optimizer, tracker, train_writer, train=True, prefix='train')
-        vqa_validator = TrainValidation(net, val_loader, optimizer, tracker, val_writer, train=False, prefix='val')
-       
+        vqa_trainer = TrainValidation(net, train_loader, optimizer, tracker, train_writer, train=True, prefix='train', config.latest_vqa_results_path)
+        vqa_validator = TrainValidation(net, val_loader, optimizer, tracker, val_writer, train=False, prefix='val', config.latest_vqa_results_path)
+
         best_loss = 10.0
         best_accuracy = 0.1
         for epoch in range(config.num_epochs):
-            
+
             _ = vqa_trainer.run_single_epoch()
             r = vqa_validator.run_single_epoch()
 
@@ -132,9 +132,15 @@ class VQAPITest(unittest.TestCase):
             checkpoint = {
                 'epoch': r['epoch'],
                 'model_state_dict': net.state_dict(),
-                'opt_state_dict': optimizer.state_dict(),
-                'tracker': tracker.to_dict(),
-                'vocab': train_loader.dataset.vocab
+                'optimizer_state_dict': optimizer.state_dict(),
+                'tracker': tracker,
+                'vocab': train_loader.dataset.vocab,
+                'train_iters': r['train_iters'],
+                'val_iters': r['val_iters'],
+                'prefix': self.prefix,
+                'train': r['train'],
+                'writer': r['writer'],
+                'loader': r['loader']
             }
 
             torch.save(checkpoint, config.latest_vqa_results_path)

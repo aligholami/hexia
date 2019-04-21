@@ -15,7 +15,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 class TrainValidation:
 
-    def __init__(self, model, loader, optimizer, tracker, writer, train, prefix):
+    def __init__(self, model, loader, optimizer, tracker, writer, train, prefix, latest_vqa_results_path):
         """ Initialize the train and validation over the given model and optimizer """
 
         self.model = model
@@ -28,9 +28,15 @@ class TrainValidation:
         self.epochs_passed = 0
         self.train_iterations = 0
         self.val_iterations = 0
+        self.latest_vqa_results_path = latest_vqa_results_path
+        self.resume_possbile = True
 
     def run_single_epoch(self):
         """ Run the given model settings for one epoch """
+
+        # check if we are eligible to perform a training resume
+        if self.resume_possbile:
+            self.auto_resume()
 
         if self.train:
             self.model.train()
@@ -109,10 +115,48 @@ class TrainValidation:
                 'ids': idxs,
                 'qids': qids,
                 'epoch_accuracy': acc_tracker.mean.value.item(),
-                'epoch_loss': loss_tracker.mean.value
+                'epoch_loss': loss_tracker.mean.value,
+                'train_iters': self.train_iterations,
+                'val_iters': self.val_iterations,
+                'prefix': self.prefix,
+                'train': self.train,
+                'tracker': self.tracker,
+                'writer': self.writer,
+                'loader': self.loader
             }
 
             # Update number of passed epochs
             self.epochs_passed += 1
 
             return epoch_results
+
+    def auto_resume(self):
+
+            if not self.latest_vqa_results_path:
+                print("No resuming file specified.")
+            else:
+                print("Looking for resuming file at {}".format(self.latest_vqa_results_path))
+                try:
+                    checkpoint = torch.load(self.latest_vqa_results_path)
+
+                    # Load current state of the model
+                    try:
+                        self.epochs_passed = checkpoint['epoch']
+                        self.model.load_state_dict(checkpoint['model_state_dict'])
+                        self.optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+                        self.train_iterations = checkpoint['train_iters']
+                        self.val_iterations = checkpoint['val_iters']
+                        self.prefix = checkpoint['prefix']
+                        self.tracker = checkpoint['tracker']
+                        self.writer = checkpoint['writer']
+                        self.train = checkpoint['train']
+                        self.loader = checkpoint['loader']
+
+                    except KeyError as ke:
+                        print("Incorrect key used in saving the state dictionary.")
+
+                except FileNotFoundError as fe:
+                    # Cannot resume the file
+                    self.resume_possbile = False
+
+
