@@ -128,13 +128,13 @@ class VQAPITest(unittest.TestCase):
                 'epoch': r['epoch'],
                 'model_state_dict': net.state_dict(),
                 'optimizer_state_dict': optimizer.state_dict(),
-                'tracker': tracker,
+                'tracker': tracker.to_dict(),
                 'vocab': train_loader.dataset.vocab,
                 'train_iters': r['train_iters'],
                 'val_iters': r['val_iters'],
                 'prefix': r['prefix'],
                 'train': r['train'],
-                'writer': r['writer'],
+                # 'writer': r['writer'],
                 'loader': r['loader']
             }
 

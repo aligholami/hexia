@@ -5,6 +5,7 @@ from torch.autograd import Variable
 import config
 from tqdm import tqdm
 from vqapi.backend.utilities import utils
+from vqapi.backend.dataset.data import DataLoadUtils
 import warnings
 
 with warnings.catch_warnings():
@@ -147,8 +148,8 @@ class TrainValidation:
                         self.train_iterations = checkpoint['train_iters']
                         self.val_iterations = checkpoint['val_iters']
                         self.prefix = checkpoint['prefix']
-                        self.tracker = checkpoint['tracker']
-                        self.writer = checkpoint['writer']
+                        # self.tracker = checkpoint['tracker']
+                        # self.writer = checkpoint['writer']
                         self.train = checkpoint['train']
                         self.loader = checkpoint['loader']
 
