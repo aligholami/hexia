@@ -94,8 +94,8 @@ class VQAPITest(unittest.TestCase):
         val_writer = SummaryWriter(config.visualization_dir + 'val')
 
         # Separate objects for train and validation (enables auto-resume on valid path settings)
-        vqa_trainer = TrainValidation(net, train_loader, optimizer, tracker, train_writer, train=True, prefix='train', config.latest_vqa_results_path)
-        vqa_validator = TrainValidation(net, val_loader, optimizer, tracker, val_writer, train=False, prefix='val', config.latest_vqa_results_path)
+        vqa_trainer = TrainValidation(net, train_loader, optimizer, tracker, train_writer, train=True, prefix='train', latest_vqa_results_path=config.latest_vqa_results_path)
+        vqa_validator = TrainValidation(net, val_loader, optimizer, tracker, val_writer, train=False, prefix='val', latest_vqa_results_path=config.latest_vqa_results_path)
 
         best_loss = 10.0
         best_accuracy = 0.1
@@ -103,7 +103,7 @@ class VQAPITest(unittest.TestCase):
 
             _ = vqa_trainer.run_single_epoch()
             r = vqa_validator.run_single_epoch()
-            
+
             if r['epoch_accuracy'] > best_accuracy and r['epoch_loss'] < best_loss:
 
                 # Update best accuracy and loss

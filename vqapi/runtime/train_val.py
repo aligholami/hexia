@@ -152,6 +152,8 @@ class TrainValidation:
                         self.train = checkpoint['train']
                         self.loader = checkpoint['loader']
 
+                        print("Train/Val resumed...")
+
                     except KeyError as ke:
                         print("Incorrect key used in saving the state dictionary.")
 
