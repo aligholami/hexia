@@ -132,7 +132,7 @@ class VQAPITest(unittest.TestCase):
                 'vocab': train_loader.dataset.vocab,
                 'train_iters': r['train_iters'],
                 'val_iters': r['val_iters'],
-                'prefix': self.prefix,
+                'prefix': r['prefix'],
                 'train': r['train'],
                 'writer': r['writer'],
                 'loader': r['loader']
