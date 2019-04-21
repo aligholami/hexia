@@ -8,7 +8,6 @@ import json
 import re
 from PIL import Image
 from vqapi import config
-from vqapi.backend.utilities import utils
 
 
 class DataLoadUtils:
@@ -28,8 +27,8 @@ class DataLoadUtils:
         """
         assert train + val + test == 1, 'need to set exactly one of {train, val, test} to True'
         split = VQA(
-            utils.path_for(train=train, val=val, test=test, question=True),
-            utils.path_for(train=train, val=val, test=test, answer=True),
+            self.path_for(train=train, val=val, test=test, question=True),
+            self.path_for(train=train, val=val, test=test, answer=True),
             self.path_to_feature_maps,
             answerable_only=train,
         )
@@ -43,6 +42,25 @@ class DataLoadUtils:
         )
         return loader
 
+    def path_for(self, train=False, val=False, test=False, question=False, answer=False):
+
+        assert train + val + test == 1
+        assert question + answer == 1
+        assert not (
+                test and answer), 'loading answers from test split not supported'  # if you want to eval on test, you need to implement loading of a VQA Dataset without given answers yourself
+        if train:
+            split = 'train2014'
+        elif val:
+            split = 'val2014'
+        else:
+            split = 'test2015'
+        if question:
+            fmt = 'v2_{0}_{1}_{2}_questions.json'
+        else:
+            fmt = 'v2_{1}_{2}_annotations.json'
+        s = fmt.format(config.task, config.dataset, split)
+
+        return os.path.join(config.qa_path, s)
 
     def collate_fn(self, batch):
         """
