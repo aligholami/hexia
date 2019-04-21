@@ -155,10 +155,10 @@ class TrainValidation:
 
                         print("Train/Val resumed...")
 
-                    except KeyError as ke:
+                    except:
                         print("Incorrect key used in saving the state dictionary.")
 
-                except FileNotFoundError as fe:
+                except:
                     # Cannot resume the file
                     self.resume_possbile = False
 
