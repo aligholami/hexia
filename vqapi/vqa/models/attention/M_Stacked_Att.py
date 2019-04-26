@@ -102,6 +102,12 @@ class AttentionMechanism(nn.Module):
         super(AttentionMechanism, self).__init__()      # register attention class
 
         self.l1_v_i = nn.Linear(config.output_features, config.lstm_hidden_size, bias=True)
+        self.l1_tanh = nn.Tanh()
+        self.l2_v_i = nn.Linear(config.lstm_hidden_size, config.lstm_hidden_size)
+        self.l2_v_q = nn.Linear(config.lstm_hidden_size, config.lstm_hidden_size, bias=True)
+        self.l2_tanh = nn.Tanh()
+        self.l3_h_a = nn.Linear(1, config.lstm_hidden_size, bias=True)
+        self.l3_softmax = nn.Softmax(dim=1)
 
     def forward(v_i, v_q):
 
@@ -109,4 +115,17 @@ class AttentionMechanism(nn.Module):
         v_i = v_i.view(v_i.size(0), v_i.size(1), -1)
 
         # apply a linear transformation on v_i to make its rows the same size as q_lens
-        v_i = self.l1_v_i(v_i)
+        v_i = self.l1_tanh(self.l1_v_i(v_i))
+
+        v_i_t = self.l2_v_i(v_i)
+        v_q_t = self.l2_v_q(v_q)
+        h_a = self.l2_tanh(v_i_t.add(v_q_t[:, None]))
+        p_i = self.l3_softmax(h_a)
+
+        # multiply distribution to the image regions features
+        v_i_hat = torch.mul(p_i, v_i)
+
+
+
+
+
