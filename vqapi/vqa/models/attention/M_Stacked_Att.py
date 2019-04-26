@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.init as init
 import torch.nn.functional as F
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence, pad_sequence
-import config
+from vqapi.tests import config
 
 
 class Net(nn.Module):
@@ -101,32 +101,12 @@ class AttentionMechanism(nn.Module):
     def __init__(self):
         super(AttentionMechanism, self).__init__()      # register attention class
 
-        self.image_linear_transform = nn.Linear(in_features=config., out_features=, bias=True)
-        self.quetion_linear_transform = nn.Linear(
-            in_features=config.lstm_hidden_size,
-            out_features=config.h_a_q_size,
-            bias=True)
-        self.merged_linear_transform = nn.Linear(
-            in_features=config.h_a_q_size + config.h_a_i_cols * config.h_a_i_rows,
-            out_features=config.num_attention_regions,
-            bias=True)
+        self.l1_v_i = nn.Linear(config.output_features, config.lstm_hidden_size, bias=True)
 
-    def forward(v_q, v_i):
-        # divide v_i into regions
+    def forward(v_i, v_q):
 
-        # apply linear transformations in the question and the image 
-        h_q = self.quetion_linear_transform(v_q)
-        h_i = self.image_linear_transform(v_i)
+        # convert image feature map to image regions feature matrix
+        v_i = v_i.view(v_i.size(0), v_i.size(1), -1)
 
-        # merge two vectors by adding columns of h_i to h_q
-        h_merged = something
-
-        # apply linear transformation on h_merged
-        attention_map = self.merged_linear_transform(h_merged)
-
-        # apply softmax to get attention distribution on image regions
-        attention_distributions = F.softmax(attention_map, dim=1)
-
-        # multiply each score with corresponding image region
-
-        # merge attended images with question vector and return this vector
+        # apply a linear transformation on v_i to make its rows the same size as q_lens
+        v_i = self.l1_v_i(v_i)
