@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.init as init
-from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
+from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence, pad_sequence
 import config
 
 
@@ -79,8 +79,11 @@ class TextProcessor(nn.Module):
         # apply non-linearity
         tanhed = self.tanh(embedded)
 
+        # pad sequence
+        padded = pad_sequence(tanhed, batch_first=True)
+
         # pack sequence
-        packed = pack_padded_sequence(tanhed, q_lens, batch_first=True)
+        packed = pack_padded_sequence(padded, q_lens, batch_first=True)
 
         # apply rnn
         output, hn = self.recurrent_layer(packed)
