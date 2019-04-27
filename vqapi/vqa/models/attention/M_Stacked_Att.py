@@ -45,20 +45,11 @@ class Net(nn.Module):
         # Flatten visual features
         attented_v = attented_v.view(attented_v.size(0), -1)
 
-        # Get the mean of question embeddings along axis 1
-        q = torch.mean(q, dim=1)
-
-        # Flatten question features
-        q = q.view(q.size(0), -1)
-
         # Normalzie visual features
         attented_v = attented_v / (attented_v.norm(p=2, dim=1, keepdim=True).expand_as(attented_v) + 1e-8)
 
-        # Concatenate visual features and embeddings
-        combined = torch.cat([attented_v, q], dim=1)
-
         # Get the answer predictions
-        answer = self.classifier(combined)
+        answer = self.classifier(attented_v)
 
         return answer
 
@@ -114,7 +105,7 @@ class AttentionMechanism(nn.Module):
         self.l3_h_a = nn.Linear(1, config.lstm_hidden_size, bias=True)
         self.l3_softmax = nn.Softmax(dim=1)
 
-    def forward(v_i, v_q):
+    def forward(self, v_i, v_q):
 
         # convert image feature map to image regions feature matrix
         v_i = v_i.view(v_i.size(0), v_i.size(1), -1)
@@ -132,7 +123,6 @@ class AttentionMechanism(nn.Module):
 
         # v_i_hat is a matrix of size (batch_size, config.lstm_hidden_size, config.output_size^2)
         v_i_hat = torch.sum(v_i_hat, dim=1)
-
 
         attented_v = v_i_hat + v_q
 
