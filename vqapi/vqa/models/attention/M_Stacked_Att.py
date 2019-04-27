@@ -27,6 +27,8 @@ class Net(nn.Module):
             lstm_hidden_size=config.lstm_hidden_size
         )
 
+        self.attention_pass = AttentionMechanism()
+
         for m in self.modules():
             if isinstance(m, nn.Linear) or isinstance(m, nn.Conv2d):
                 init.xavier_uniform(m.weight)
@@ -37,8 +39,11 @@ class Net(nn.Module):
 
         q = self.text(q, list(q_lens.data))
 
+        # perform attention
+        attented_v = self.attention_pass(v, q)
+
         # Flatten visual features
-        v = v.view(v.size(0), -1)
+        attented_v = attented_v.view(attented_v.size(0), -1)
 
         # Get the mean of question embeddings along axis 1
         q = torch.mean(q, dim=1)
@@ -47,10 +52,10 @@ class Net(nn.Module):
         q = q.view(q.size(0), -1)
 
         # Normalzie visual features
-        v = v / (v.norm(p=2, dim=1, keepdim=True).expand_as(v) + 1e-8)
+        attented_v = attented_v / (attented_v.norm(p=2, dim=1, keepdim=True).expand_as(attented_v) + 1e-8)
 
         # Concatenate visual features and embeddings
-        combined = torch.cat([v, q], dim=1)
+        combined = torch.cat([attented_v, q], dim=1)
 
         # Get the answer predictions
         answer = self.classifier(combined)
@@ -124,6 +129,15 @@ class AttentionMechanism(nn.Module):
 
         # multiply distribution to the image regions features
         v_i_hat = torch.mul(p_i, v_i)
+
+        # v_i_hat is a matrix of size (batch_size, config.lstm_hidden_size, config.output_size^2)
+        v_i_hat = torch.sum(v_i_hat, dim=1)
+
+
+        attented_v = v_i_hat + v_q
+
+        return attended_v
+
 
 
 
