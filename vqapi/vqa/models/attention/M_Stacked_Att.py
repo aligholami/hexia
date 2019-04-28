@@ -110,12 +110,16 @@ class AttentionMechanism(nn.Module):
         # convert image feature map to image regions feature matrix
         v_i = v_i.view(v_i.size(0), v_i.size(1), -1)
 
+        # swap feature map dimensions with attention regions dimension
+        v_i = v_i.permute(0, 2, 1)
+
         # apply a linear transformation on v_i to make its rows the same size as q_lens
         v_i = self.l1_tanh(self.l1_v_i(v_i))
 
         v_i_t = self.l2_v_i(v_i)
         v_q_t = self.l2_v_q(v_q)
-        h_a = self.l2_tanh(v_i_t.add(v_q_t[:, None]))
+
+        h_a = self.l2_tanh(v_i_t.add(v_q_t[:, None, :]))
         p_i = self.l3_softmax(h_a)
 
         # multiply distribution to the image regions features
