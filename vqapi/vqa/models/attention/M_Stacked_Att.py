@@ -117,6 +117,10 @@ class AttentionMechanism(nn.Module):
         v_i = self.l1_tanh(self.l1_v_i(v_i))
 
         v_i_t = self.l2_v_i(v_i)
+
+        # find mean of the question
+        v_q = torch.mean(v_q, dim=1)
+        v_q = torch.squeeze(v_q)    # remove dim with number 1
         v_q_t = self.l2_v_q(v_q)
 
         h_a = self.l2_tanh(v_i_t.add(v_q_t[:, None, :]))
@@ -130,7 +134,7 @@ class AttentionMechanism(nn.Module):
 
         attented_v = v_i_hat + v_q
 
-        return attended_v
+        return attented_v
 
 
 
