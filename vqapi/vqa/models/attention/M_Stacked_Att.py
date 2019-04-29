@@ -16,7 +16,7 @@ class Net(nn.Module):
         embedding_features = config.embedding_features
 
         self.classifier = Classifier(
-            in_features=vision_features + config.lstm_hidden_size,
+            in_features=config.lstm_hidden_size,
             mid_features=config.mid_features,
             out_features=config.max_answers,
         )
@@ -116,25 +116,32 @@ class AttentionMechanism(nn.Module):
         # apply a linear transformation on v_i to make its rows the same size as q_lens
         v_i = self.l1_tanh(self.l1_v_i(v_i))
 
-        v_i_t = self.l2_v_i(v_i)
-
         # find mean of the question
         v_q = torch.mean(v_q, dim=1)
         v_q = torch.squeeze(v_q)    # remove dim with number 1
-        v_q_t = self.l2_v_q(v_q)
 
-        h_a = self.l2_tanh(v_i_t.add(v_q_t[:, None, :]))
-        p_i = self.l3_softmax(h_a)
+        u = v_q
+        q = v_q
+        v_i_t = F.linear(v_i, (config.output_features, config.output_features), bias=True)
+        num_attention_layers = 2
+        
+        for i in range(num_attention_layers):
+            v_i_t = F.tanh(v_i_t)
+            v_i_t = F.linear(v_i_t, (config.lstm_hidden_size, config.lstm_hidden_size))
+            v_q_t = F.linear(u, (config.lstm_hidden_size, config.lstm_hidden_size), bias=True)
 
-        # multiply distribution to the image regions features
-        v_i_hat = torch.mul(p_i, v_i)
+            h_a = F.tanh(v_i_t.add(v_q_t[:, None, :]))
+            p_i = F.softmax(h_a)
 
-        # v_i_hat is a matrix of size (batch_size, config.lstm_hidden_size, config.output_size^2)
-        v_i_hat = torch.sum(v_i_hat, dim=1)
+            # multiply distribution to the image regions features
+            v_i_hat = torch.mul(p_i, v_i)
 
-        attented_v = v_i_hat + v_q
+            # v_i_hat is a matrix of size (batch_size, config.lstm_hidden_size, config.output_size^2)
+            v_i_hat = torch.sum(v_i_hat, dim=1)
 
-        return attented_v
+            u = u + v_i_hat
+
+        return u
 
 
 
