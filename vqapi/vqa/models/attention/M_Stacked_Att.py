@@ -122,13 +122,13 @@ class AttentionMechanism(nn.Module):
 
         u = v_q
         q = v_q
-        v_i_t = F.linear(v_i, (config.output_features, config.output_features), bias=True)
+        v_i_t = F.linear(v_i, config.output_features, config.output_features, bias=True)
         num_attention_layers = 2
         
         for i in range(num_attention_layers):
             v_i_t = F.tanh(v_i_t)
-            v_i_t = F.linear(v_i_t, (config.lstm_hidden_size, config.lstm_hidden_size))
-            v_q_t = F.linear(u, (config.lstm_hidden_size, config.lstm_hidden_size), bias=True)
+            v_i_t = F.linear(v_i_t, config.lstm_hidden_size, config.lstm_hidden_size)
+            v_q_t = F.linear(u, config.lstm_hidden_size, config.lstm_hidden_size, bias=True)
 
             h_a = F.tanh(v_i_t.add(v_q_t[:, None, :]))
             p_i = F.softmax(h_a)
