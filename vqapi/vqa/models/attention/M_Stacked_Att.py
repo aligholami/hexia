@@ -122,13 +122,34 @@ class AttentionMechanism(nn.Module):
 
         u = v_q
         q = v_q
-        v_i_t = F.linear(v_i, config.output_features, config.output_features, bias=True)
+
+        init_params = {
+            'vit_weights': nn.Parameter(torch.zeros([config.output_features, config.output_features])),
+            'vit_biases': nn.Parameter(torch.ones([config.output_features]))
+        }
+
+        # initalize init params
+        torch.nn.init.xavier_uniform(init_params['vit_weights'])
+
+        v_i_t = F.linear(v_i, init_params['vit_weights'], init_params['vit_biases'])
+
         num_attention_layers = 2
-        
         for i in range(num_attention_layers):
+
+            # Define new weights
+            params = {
+                'v_i_weights': nn.Parameter(torch.zeros([config.lstm_hidden_size, config.lstm_hidden_size])),
+                'u_weights': nn.Parameter(torch.zeros([config.lstm_hidden_size, config.lstm_hidden_size])),
+                'u_biases': nn.Parameter(torch.ones([config.lstm_hidden_size]))
+            }
+
+            # Xaiver initialize the weights
+            torch.nn.init.xavier_uniform(params['v_i_weights'])
+            torch.nn.init.xavier_uniform(params['u_weights'])
+
             v_i_t = F.tanh(v_i_t)
-            v_i_t = F.linear(v_i_t, config.lstm_hidden_size, config.lstm_hidden_size)
-            v_q_t = F.linear(u, config.lstm_hidden_size, config.lstm_hidden_size, bias=True)
+            v_i_t = F.linear(v_i_t, params['v_i_weights'])
+            v_q_t = F.linear(u, params['u_weights'], params['u_biases'])
 
             h_a = F.tanh(v_i_t.add(v_q_t[:, None, :]))
             p_i = F.softmax(h_a)
