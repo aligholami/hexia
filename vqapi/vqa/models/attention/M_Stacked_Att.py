@@ -123,16 +123,6 @@ class AttentionMechanism(nn.Module):
         u = v_q
         q = v_q
 
-        init_params = {
-            'vit_weights': nn.Parameter(torch.zeros([config.output_features, config.output_features]).cuda()),
-            'vit_biases': nn.Parameter(torch.ones([config.output_features]).cuda())
-        }
-
-        # initalize init params
-        torch.nn.init.xavier_uniform(init_params['vit_weights'])
-
-        v_i_t = F.linear(v_i, init_params['vit_weights'], init_params['vit_biases'])
-
         num_attention_layers = 2
         for i in range(num_attention_layers):
 
@@ -147,7 +137,7 @@ class AttentionMechanism(nn.Module):
             torch.nn.init.xavier_uniform(params['v_i_weights'])
             torch.nn.init.xavier_uniform(params['u_weights'])
 
-            v_i_t = F.tanh(v_i_t)
+            v_i_t = v_i
             v_i_t = F.linear(v_i_t, params['v_i_weights'])
             v_q_t = F.linear(u, params['u_weights'], params['u_biases'])
 
