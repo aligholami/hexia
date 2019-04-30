@@ -124,8 +124,8 @@ class AttentionMechanism(nn.Module):
         q = v_q
 
         init_params = {
-            'vit_weights': nn.Parameter(torch.zeros([config.output_features, config.output_features])),
-            'vit_biases': nn.Parameter(torch.ones([config.output_features]))
+            'vit_weights': nn.Parameter(torch.zeros([config.output_features, config.output_features]).cuda()),
+            'vit_biases': nn.Parameter(torch.ones([config.output_features]).cuda())
         }
 
         # initalize init params
@@ -138,9 +138,9 @@ class AttentionMechanism(nn.Module):
 
             # Define new weights
             params = {
-                'v_i_weights': nn.Parameter(torch.zeros([config.lstm_hidden_size, config.lstm_hidden_size])),
-                'u_weights': nn.Parameter(torch.zeros([config.lstm_hidden_size, config.lstm_hidden_size])),
-                'u_biases': nn.Parameter(torch.ones([config.lstm_hidden_size]))
+                'v_i_weights': nn.Parameter(torch.zeros([config.lstm_hidden_size, config.lstm_hidden_size]).cuda()),
+                'u_weights': nn.Parameter(torch.zeros([config.lstm_hidden_size, config.lstm_hidden_size]).cuda()),
+                'u_biases': nn.Parameter(torch.ones([config.lstm_hidden_size]).cuda())
             }
 
             # Xaiver initialize the weights
