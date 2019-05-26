@@ -163,5 +163,17 @@ torch.save(checkpoint, config.latest_vqa_results_path)
 
 In this code, variable **r** contains crucial information about the last training and validation step, writer, tracker and optimizable model parameters status.
 
+``
+Note: If you would like to use your custom VQA model, you may import it as a replacement of this line:
+``
+```
+from dust.vqa.models.joint import M_Resnet18_randw2v_NoAtt_Concat as model
+```
+`` your model should inherit the nn.Module and its overrided forward function should look like this:``
+```
+def forward(self, v, q, q_len):
+    # your vqa logic to compute an answer
+    return answer
+```
 ### Contribution
 Please feel free to contribute to the project. You may send a pull-request or drop me an email to talk more. ([hexpheus@gmail.com](hexpheus@gmail.com))
