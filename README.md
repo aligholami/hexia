@@ -83,4 +83,4 @@ language_preprocessor.extract_glove_embeddings(
 The above code will tokenize the VQA dataset and saves extracted GloVe vectors to **save_vectors_to**.
 If you want to use random Word2Vec embeddings, simply remove the call to **extract_glove_embeddings**; the framework will automatically switch to randomly initialized Word2Vec embeddings.
 ### Contribution
-Please feel free to contribute to the project. You may send a pull-request or drop me an email to talk more ([hexpheus@gmail.com](hexpheus@gmail.com))
+Please feel free to contribute to the project. You may send a pull-request or drop me an email to talk more. ([hexpheus@gmail.com](hexpheus@gmail.com))
