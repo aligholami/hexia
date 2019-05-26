@@ -13,8 +13,15 @@ This is **Dust**. A **PyTorch** based framework for building visual question ans
 
 #### Install
 
+
 #### Quick Examples
+
+```
+
+
+
+```
 
 
 ### Contribution
-
+Please feel free to contribute to the project. You may send a pull-request or drop me an email to talk more ([hexpheus@gmail.com](hexpheus@gmail.com))
