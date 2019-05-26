@@ -4,8 +4,8 @@ import json
 import pickle
 import bcolz
 from collections import Counter
-from vqapi.backend.utilities import utils
-from vqapi.backend.dataset import data
+from dust.backend.utilities import utils
+from dust.backend.dataset import data
 
 class Language:
 

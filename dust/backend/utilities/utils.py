@@ -7,8 +7,8 @@ import bcolz
 import pickle
 import json
 from tqdm import tqdm
-from vqapi.tests import config
-from vqapi.backend.dataset.data import DataLoadUtils
+from dust.tests import config
+from dust.backend.dataset.data import DataLoadUtils
 
 def reload_dataset_vocab():
     """

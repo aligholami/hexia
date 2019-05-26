@@ -7,7 +7,7 @@ import h5py
 import json
 import re
 from PIL import Image
-from vqapi import config
+from dust import config
 
 
 class DataLoadUtils:

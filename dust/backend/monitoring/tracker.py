@@ -1,5 +1,3 @@
-from vqapi.backend.dataset import data
-
 class Tracker:
     """ Keep track of results over time, while having access to monitors to display information about them. """
 

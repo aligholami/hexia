@@ -1,19 +1,19 @@
 import unittest
 import os
-from vqapi.runtime.train_val import TrainValidation
-from vqapi.preprocessing.vision import Vision
-from vqapi.preprocessing.language import Language
-from vqapi.backend.monitoring.tracker import Tracker
-# from vqapi.vqa.evaluation.evaluator import VQAEvaluator
+from dust.runtime.train_val import TrainValidation
+from dust.preprocessing.vision import Vision
+from dust.preprocessing.language import Language
+from dust.backend.monitoring.tracker import Tracker
+# from dust.vqa.evaluation.evaluator import VQAEvaluator
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from vqapi.tests import config
-from vqapi.backend.utilities import utils
-from vqapi.vqa.models.joint import M_ResNet101_randw2v_NoAtt_LSTM as model
+from dust.tests import config
+from dust.backend.utilities import utils
+from dust.vqa.models.joint import M_ResNet101_randw2v_NoAtt_LSTM as model
 from tensorboardX import SummaryWriter
-from vqapi.backend.cnn.resnet import resnet as caffe_resnet
-from vqapi.vqa.models.joint import M_ResNet101_randw2v_NoAtt_LSTM as model
+from dust.backend.cnn.resnet import resnet as caffe_resnet
+from dust.vqa.models.joint import M_ResNet101_randw2v_NoAtt_LSTM as model
 
 class VQAPITest(unittest.TestCase):
 

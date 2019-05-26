@@ -4,8 +4,8 @@ import torch.optim as optim
 from torch.autograd import Variable
 import config
 from tqdm import tqdm
-from vqapi.backend.utilities import utils
-from vqapi.backend.dataset.data import DataLoadUtils
+from dust.backend.utilities import utils
+from dust.backend.dataset.data import DataLoadUtils
 import warnings
 
 with warnings.catch_warnings():

@@ -1,6 +1,6 @@
 import sys
-from vqapi.vqa.evaluation.PythonEvaluationTools.vqa import VQA
-from vqapi.vqa.evaluation.PythonEvaluationTools.vqaEvaluation.vqaEval import VQAEval
+from dust.vqa.evaluation.PythonEvaluationTools.vqa import VQA
+from dust.vqa.evaluation.PythonEvaluationTools.vqaEvaluation.vqaEval import VQAEval
 import matplotlib.pyplot as plt
 import skimage.io as io
 import json
