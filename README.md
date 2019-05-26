@@ -1,6 +1,6 @@
 ## Dust
 ### Introduction
-This is **Dust**. A **PyTorch** based framework for building visual question answering models. Dust provides high-level API to seamlessly integrate your VQA models with pre-defined data, image preprocessing and natural language proprocessing pipelines.
+This is **Dust**. A **PyTorch** based framework for building visual question answering models. Dust provides a mid-level API for seamless integration of your VQA models with pre-defined data, image preprocessing and natural language proprocessing pipelines.
 
 #### Features
 *   Image preprocessing
@@ -11,7 +11,7 @@ This is **Dust**. A **PyTorch** based framework for building visual question ans
 *   Extendable Built-in Model Warehouse
 
 
-#### Install
+#### Installation
 
 
 #### Quick Examples
