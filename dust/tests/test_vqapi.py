@@ -89,7 +89,7 @@ class VQAPITest(unittest.TestCase):
         net = nn.DataParallel(model.Net(train_loader.dataset.num_tokens)).cuda()
         optimizer = optim.Adam([p for p in net.parameters() if p.requires_grad])
         tracker = Tracker()
-        config_as_dict = {k: v for k, v in vars(config).items() if not k.startswith('__')}
+        # config_as_dict = {k: v for k, v in vars(config).items() if not k.startswith('__')}
         train_writer = SummaryWriter(config.visualization_dir + 'train')
         val_writer = SummaryWriter(config.visualization_dir + 'val')
 
