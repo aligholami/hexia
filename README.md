@@ -175,5 +175,20 @@ def forward(self, v, q, q_len):
     # your vqa logic to compute an answer
     return answer
 ```
+
+* Evaluting the trained model (based on official evaluation class):
+
+```
+# Import the evaluation module
+from dust.vqa.evaluation.evaluator import VQAEvaluator
+
+v_evaluator = VQAEvaluator(
+    data_directory=config.data_directory,
+    best_model_results_directory=config.best_vqa_answers_to_eval)
+
+v_evaluator.evaluate_best_vqa_model()
+```
+Parameter **data_directory** specifies the directory of data (make sure its according to the official format), and **best_model_results_directory** is the path to the generated JSON file as the answers to the best model.
+
 ### Contribution
 Please feel free to contribute to the project. You may send a pull-request or drop me an email to talk more. ([hexpheus@gmail.com](hexpheus@gmail.com))
