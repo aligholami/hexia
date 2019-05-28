@@ -1,8 +1,8 @@
 # paths
-qa_path = '../../VQA/data/qa'  # directory containing the question and annotation jsons
-train_path = '../../VQA/data/images/mscoco/train2014/'  # directory of training images
-val_path = '../../VQA/data/images/mscoco/val2014/'  # directory of validation images
-test_path = '../../VQA/data/test/images/'  # directory of test images
+qa_path = '../../../VQA/data/qa'  # directory containing the question and annotation jsons
+train_path = '../../../VQA/data/images/mscoco/train2014/'  # directory of training images
+val_path = '../../../VQA/data/images/mscoco/val2014/'  # directory of validation images
+test_path = '../../../VQA/data/test/images/'  # directory of test images
 vocabulary_path = './prep/qa-vocab/vocab.json'  # path where the used vocabularies for question and answers are
 visualization_dir = './prep/visualization/'
 glove_embeddings = './prep/glove-embeddings/glove.6B.50d.txt'
@@ -10,7 +10,7 @@ glove_processed_vectors = './prep/glove-embeddings/glove.6B.50d.dat'
 glove_words = './prep/glove-embeddings/glove.6B.50_words.pkl'
 glove_ids = './prep/glove-embeddings/glove.6B.50_idx.pkl'
 best_vqa_answers_to_eval = './prep/eval-results/OpenEnded_mscoco_val2014_org_results.json'
-data_directory = '../../VQA/data'
+data_directory = '../../../VQA/data'
 # saved to
 preprocessed_path = './prep/pretrained-cnn-weights/resnet/r101_weights.h5'
 task = 'OpenEnded'

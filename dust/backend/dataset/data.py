@@ -7,7 +7,7 @@ import h5py
 import json
 import re
 from PIL import Image
-from dust import config
+from dust.tests import config
 
 
 class DataLoadUtils:

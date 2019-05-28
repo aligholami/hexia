@@ -2,10 +2,11 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.autograd import Variable
-import config
+from dust.tests import config
 from tqdm import tqdm
 from dust.backend.utilities import utils
 from dust.backend.dataset.data import DataLoadUtils
+from tensorboardX import SummaryWriter
 import warnings
 
 with warnings.catch_warnings():
@@ -148,11 +149,13 @@ class TrainValidation:
                         self.train_iterations = checkpoint['train_iters']
                         self.val_iterations = checkpoint['val_iters']
                         self.prefix = checkpoint['prefix']
-                        # self.tracker = checkpoint['tracker']
-                        # self.writer = checkpoint['writer']
+                        self.tracker = checkpoint['tracker']
                         self.train = checkpoint['train']
                         self.loader = checkpoint['loader']
 
+                        # Re-define a writer to continue writing the train/validation/other instances status
+                        self.writer = SummaryWriter(config.visualization_dir, self.prefix)
+                        
                         print("Train/Val resumed...")
 
                     except:

@@ -4,7 +4,7 @@ import torch.backends.cudnn as cudnn
 from torch.autograd import Variable
 import h5py
 from tqdm import tqdm
-from dust import config
+from dust.tests import config
 from dust.backend.dataset import data
 from dust.backend.utilities import utils
 
