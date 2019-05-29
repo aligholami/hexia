@@ -111,7 +111,7 @@ val_writer = SummaryWriter(config.visualization_dir + 'val')
 # Separate objects for train and validation (enables auto-resume on valid path settings)
 vqa_trainer = TrainValidation(net, train_loader, optimizer, tracker, train_writer, train=True, prefix='train',
                               latest_vqa_results_path=config.latest_vqa_results_path)
-vqa_validator = TrainValidation(net, val_loader, optimizer, tracker, val_writer, train=False, prefix='val')
+vqa_validator = TrainValidation(net, val_loader, optimizer, tracker, val_writer, train=False, prefix='val', latest_vqa_results_path=None)
 
 best_loss = 10.0
 best_accuracy = 0.1
