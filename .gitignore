@@ -1,3 +1,16 @@
 /data
 /models
 *.pyc
+/prep
+*.blp
+*.txt
+*.xml
+*.pth
+*.json
+*.h5
+*.gpu-server*
+*.pkl
+*.dat
+*meta
+*.iml
+*.idea
