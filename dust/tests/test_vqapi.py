@@ -114,7 +114,7 @@ class VQAPITest(unittest.TestCase):
                 try:
                     os.remove(config.best_vqa_weights_path)
                     os.remove(config.best_vqa_answers_to_eval)
-                except IOError as ie:
+                except:
                     pass
 
                 # Save the new model weights
@@ -128,13 +128,11 @@ class VQAPITest(unittest.TestCase):
                 'epoch': r['epoch'],
                 'model_state_dict': net.state_dict(),
                 'optimizer_state_dict': optimizer.state_dict(),
-                'tracker': tracker.to_dict(),
                 'vocab': train_loader.dataset.vocab,
                 'train_iters': r['train_iters'],
                 'val_iters': r['val_iters'],
                 'prefix': r['prefix'],
                 'train': r['train'],
-                # 'writer': r['writer'],
                 'loader': r['loader']
             }
 
@@ -143,17 +141,17 @@ class VQAPITest(unittest.TestCase):
         train_writer.close()
         val_writer.close()
 
-    def test_vqa_evaluation(self):
-        """
-            Tests official VQA evaluation.
-        """
-
-        v_evaluator = VQAEvaluator(
-            data_directory=config.data_directory,
-            best_model_results_directory=config.best_vqa_answers_to_eval
-        )
-
-        v_evaluator.evaluate_best_vqa_model()
+    # def test_vqa_evaluation(self):
+    #     """
+    #         Tests official VQA evaluation.
+    #     """
+    #
+    #     v_evaluator = VQAEvaluator(
+    #         data_directory=config.data_directory,
+    #         best_model_results_directory=config.best_vqa_answers_to_eval
+    #     )
+    #
+    #     v_evaluator.evaluate_best_vqa_model()
 
 if __name__ == "__main__":
     unittest.main()
