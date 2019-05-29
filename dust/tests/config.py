@@ -26,7 +26,7 @@ embedding_features = 50
 mid_features = 8192
 
 # training config
-num_epochs = 25
+num_epochs = 50
 batch_size = 512
 initial_lr = 1e-3  # default Adam lr
 lr_halflife = 50000  # in iterations

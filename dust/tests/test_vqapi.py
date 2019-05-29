@@ -99,10 +99,18 @@ class VQAPITest(unittest.TestCase):
 
         best_loss = 10.0
         best_accuracy = 0.1
-        for epoch in range(config.num_epochs):
+        epoch = 0
+
+        while epoch < range(config.num_epochs):
 
             _ = vqa_trainer.run_single_epoch()
             r = vqa_validator.run_single_epoch()
+
+            # Check if resumed
+            resume_possible = r['resume_status']
+            if resume_possible:
+                # Continue epochs
+                epoch = r['epoch']
 
             if r['epoch_accuracy'] > best_accuracy and r['epoch_loss'] < best_loss:
 
@@ -137,6 +145,9 @@ class VQAPITest(unittest.TestCase):
             }
 
             torch.save(checkpoint, config.latest_vqa_results_path)
+
+            # Update epochs
+            epoch += 1
 
         train_writer.close()
         val_writer.close()
