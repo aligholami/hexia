@@ -132,45 +132,38 @@ class TrainValidation:
 
             return epoch_results
 
+    def resume_from_checkpoint(self, checkpoint):
+        try:
+            self.epochs_passed = checkpoint['epoch']
+            self.model.load_state_dict(checkpoint['model_state_dict'])
+            self.optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+            self.train_iterations = checkpoint['train_iters']
+            self.val_iterations = checkpoint['val_iters']
+            # Re-define a writer to continue writing the train/validation/other instances status
+            self.writer = SummaryWriter(config.visualization_dir + self.prefix)
+            # Disable file resume for the current instance
+            self.resume_possbile = False
+
+            print("Loaded model status: ")
+            print("=====================")
+            print("Resuming from epoch {}".format(self.epochs_passed))
+            print("Resuming {}".format(self.prefix))
+            print("Training status is {}".format(self.train))
+            print("{} resumed.".format(self.prefix))
+
+        except KeyError as keye:
+            print("Something went wrong in checkpoint file keys: {0}".format(keye.value))
+
     def auto_resume(self):
+        if not self.latest_vqa_results_path:
+            pass
+            # Disable file resume for the current instance
+            self.resume_possbile = False
+        else:
+            print("Looking for resuming file at {}".format(self.latest_vqa_results_path))
+            try:
+                checkpoint = torch.load(self.latest_vqa_results_path)
+                self.resume_from_checkpoint(checkpoint)
 
-            if not self.latest_vqa_results_path:
-                print("No resuming file specified.")
-                # Disable file resume for the current instance
-                self.resume_possbile = False
-            else:
-                print("Looking for resuming file at {}".format(self.latest_vqa_results_path))
-
-                try:
-                    checkpoint = torch.load(self.latest_vqa_results_path)
-
-                    try:
-                        self.epochs_passed = checkpoint['epoch']
-                        self.model.load_state_dict(checkpoint['model_state_dict'])
-                        self.optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
-                        self.train_iterations = checkpoint['train_iters']
-                        self.val_iterations = checkpoint['val_iters']
-                        self.prefix = checkpoint['prefix']
-                        # self.tracker = checkpoint['tracker']
-                        self.train = checkpoint['train']
-                        self.loader = checkpoint['loader']
-
-                        # Re-define a writer to continue writing the train/validation/other instances status
-                        self.writerr = SummaryWriter(config.visualization_dir + self.prefix)
-
-                        # Disable file resume for the current instance
-                        self.resume_possbile = False
-                        print("Loaded model status: ")
-                        print("=====================")
-                        print("Resuming from epoch {}".format(self.epochs_passed))
-                        print("Resuming {}".format(self.prefix))
-                        print("Training status is {}".format(self.train))
-                        print("{} resumed.".format(self.prefix))
-
-                    except KeyError as keye:
-                        print("Something went wrong in checkpoint file keys: {0}".format(keye.value))
-
-                except BaseException as bex:
-                    pass
-                
-
+            except BaseException as bex:
+                pass
