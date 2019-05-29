@@ -111,8 +111,7 @@ val_writer = SummaryWriter(config.visualization_dir + 'val')
 # Separate objects for train and validation (enables auto-resume on valid path settings)
 vqa_trainer = TrainValidation(net, train_loader, optimizer, tracker, train_writer, train=True, prefix='train',
                               latest_vqa_results_path=config.latest_vqa_results_path)
-vqa_validator = TrainValidation(net, val_loader, optimizer, tracker, val_writer, train=False, prefix='val',
-                                latest_vqa_results_path=config.latest_vqa_results_path)
+vqa_validator = TrainValidation(net, val_loader, optimizer, tracker, val_writer, train=False, prefix='val')
 
 best_loss = 10.0
 best_accuracy = 0.1
@@ -123,7 +122,7 @@ for epoch in range(config.num_epochs):
 train_writer.close()
 val_writer.close()
 ```
-The above code will create two separate data loaders for train and validation (with their respective image paths). Then you may use **Tracker** and **TensorboardX.SummaryWriter** classes to track and visualize the training and validation process. To enable **auto_resume** functionality while re-running the code, you can add the following to your higher-level training and validation loop:
+The above code will create two separate data loaders for train and validation (with their respective image paths). Then you may use **Tracker** and **TensorboardX.SummaryWriter** classes to track and visualize the training and validation process. Note that it is important to use the parameter **latest_vqa_results_path** only once among all objects. To enable **auto_resume** functionality while re-running the code, you can add the following to your higher-level training and validation loop:
 ```
 if r['epoch_accuracy'] > best_accuracy and r['epoch_loss'] < best_loss:
 

@@ -155,7 +155,7 @@ class TrainValidation:
                         self.loader = checkpoint['loader']
 
                         # Re-define a writer to continue writing the train/validation/other instances status
-                        self.writer = SummaryWriter(config.visualization_dir, self.prefix)
+                        self.writerr = SummaryWriter(config.visualization_dir + self.prefix)
 
                         print("Loaded model status: ")
                         print("=====================")
