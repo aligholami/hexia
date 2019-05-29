@@ -40,7 +40,6 @@ class TrainValidation:
         if self.resume_possbile:
             self.auto_resume()
 
-
         if self.train:
             self.model.train()
             tracker_class, tracker_params = self.tracker.MovingMeanMonitor, {'momentum': 0.99}
@@ -137,6 +136,8 @@ class TrainValidation:
 
             if not self.latest_vqa_results_path:
                 print("No resuming file specified.")
+                # Disable file resume for the current instance
+                self.resume_possbile = False
             else:
                 print("Looking for resuming file at {}".format(self.latest_vqa_results_path))
 
@@ -157,6 +158,8 @@ class TrainValidation:
                         # Re-define a writer to continue writing the train/validation/other instances status
                         self.writerr = SummaryWriter(config.visualization_dir + self.prefix)
 
+                        # Disable file resume for the current instance
+                        self.resume_possbile = False
                         print("Loaded model status: ")
                         print("=====================")
                         print("Resuming from epoch {}".format(self.epochs_passed))
@@ -168,6 +171,6 @@ class TrainValidation:
                         print("Something went wrong in checkpoint file keys: {0}".format(keye.value))
 
                 except BaseException as bex:
-                    # Disable file resume for the current instance
-                    self.resume_possbile = False
+                    pass
+                
 
