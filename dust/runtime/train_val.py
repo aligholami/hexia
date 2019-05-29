@@ -40,6 +40,7 @@ class TrainValidation:
         if self.resume_possbile:
             self.auto_resume()
 
+
         if self.train:
             self.model.train()
             tracker_class, tracker_params = self.tracker.MovingMeanMonitor, {'momentum': 0.99}
@@ -138,10 +139,10 @@ class TrainValidation:
                 print("No resuming file specified.")
             else:
                 print("Looking for resuming file at {}".format(self.latest_vqa_results_path))
+
                 try:
                     checkpoint = torch.load(self.latest_vqa_results_path)
 
-                    # Load current state of the model
                     try:
                         self.epochs_passed = checkpoint['epoch']
                         self.model.load_state_dict(checkpoint['model_state_dict'])
@@ -149,20 +150,24 @@ class TrainValidation:
                         self.train_iterations = checkpoint['train_iters']
                         self.val_iterations = checkpoint['val_iters']
                         self.prefix = checkpoint['prefix']
-                        self.tracker = checkpoint['tracker']
+                        # self.tracker = checkpoint['tracker']
                         self.train = checkpoint['train']
                         self.loader = checkpoint['loader']
 
                         # Re-define a writer to continue writing the train/validation/other instances status
                         self.writer = SummaryWriter(config.visualization_dir, self.prefix)
-                        
-                        print("Train/Val resumed...")
 
-                    except:
-                        print("Incorrect key used in saving the state dictionary.")
+                        print("Loaded model status: ")
+                        print("=====================")
+                        print("Resuming from epoch {}".format(self.epochs_passed))
+                        print("Resuming {}".format(self.prefix))
+                        print("Training status is {}".format(self.train))
+                        print("{} resumed.".format(self.prefix))
 
-                except:
-                    # Cannot resume the file
+                    except KeyError as keye:
+                        print("Something went wrong in checkpoint file keys: {0}".format(keye.value))
+
+                except BaseException as bex:
+                    # Disable file resume for the current instance
                     self.resume_possbile = False
-
 
