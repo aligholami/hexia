@@ -8,6 +8,7 @@ from dust.backend.utilities import utils
 from dust.backend.dataset.data import DataLoadUtils
 from tensorboardX import SummaryWriter
 import warnings
+import os
 
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore", category=DeprecationWarning)
@@ -125,9 +126,6 @@ class TrainValidation:
                 'val_iters': self.val_iterations,
                 'prefix': self.prefix,
                 'train': self.train,
-                'tracker': self.tracker,
-                'writer': self.writer,
-                'loader': self.loader,
                 'resume_status': self.resume_possible
             }
 
@@ -143,9 +141,6 @@ class TrainValidation:
                 'train': self.train,
                 'resume_status': self.resume_possible
             }
-
-        # Update number of passed epochs
-        self.epochs_passed += 1
 
         return epoch_results
 
@@ -173,15 +168,14 @@ class TrainValidation:
             print("Something went wrong in checkpoint file keys: {0}".format(keye.value))
 
     def auto_resume(self):
-        if not self.latest_vqa_results_path:
-            pass
-            # Disable file resume for the current instance
-            self.resume_possible = False
-        else:
-            print("Looking for resuming file at {}".format(self.latest_vqa_results_path))
+    	if os.path.exists(self.latest_vqa_results_path):
+	    print("Looking for resume file at {}".format(self.latest_vqa_results_path))
             try:
                 checkpoint = torch.load(self.latest_vqa_results_path)
                 self.resume_from_checkpoint(checkpoint)
-
             except BaseException as bex:
                 pass
+        else:
+            # Disable file resume for the current instance
+            self.resume_possible = False
+
