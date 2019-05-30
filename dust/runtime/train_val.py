@@ -33,8 +33,11 @@ class TrainValidation:
         self.latest_vqa_results_path = latest_vqa_results_path
         self.resume_possible = True
 
-    def run_single_epoch(self):
+    def run_single_epoch(self, epoch):
         """ Run the given model settings for one epoch """
+
+        # register number of passed epochs
+        self.epochs_passed = epoch
 
         # check if we are eligible to perform a training resume
         if self.resume_possible:
@@ -128,10 +131,23 @@ class TrainValidation:
                 'resume_status': self.resume_possible
             }
 
-            # Update number of passed epochs
-            self.epochs_passed += 1
+        else:
+            # No need to return answers in training mode, just training information
+            epoch_results = {
+                'epoch': self.epochs_passed,
+                'epoch_accuracy': acc_tracker.mean.value.item(),
+                'epoch_loss': loss_tracker.mean.value,
+                'train_iters': self.train_iterations,
+                'val_iters': self.val_iterations,
+                'prefix': self.prefix,
+                'train': self.train,
+                'resume_status': self.resume_possible
+            }
 
-            return epoch_results
+        # Update number of passed epochs
+        self.epochs_passed += 1
+
+        return epoch_results
 
     def resume_from_checkpoint(self, checkpoint):
         try:
@@ -151,6 +167,7 @@ class TrainValidation:
             print("Resuming {}".format(self.prefix))
             print("Training status is {}".format(self.train))
             print("{} resumed.".format(self.prefix))
+            print("=====================")
 
         except KeyError as keye:
             print("Something went wrong in checkpoint file keys: {0}".format(keye.value))

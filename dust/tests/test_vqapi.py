@@ -103,20 +103,20 @@ class VQAPITest(unittest.TestCase):
 
         while epoch < config.num_epochs:
 
-            _ = vqa_trainer.run_single_epoch()
-            r = vqa_validator.run_single_epoch()
+            train_run = vqa_trainer.run_single_epoch(epoch)
+            val_run = vqa_validator.run_single_epoch(epoch)
 
             # Check if resumed
-            resume_possible = r['resume_status']
+            resume_possible = train_run['resume_status']
             if resume_possible:
                 # Continue epochs
-                epoch = r['epoch']
+                epoch = train_run['epoch']
 
-            if r['epoch_accuracy'] > best_accuracy and r['epoch_loss'] < best_loss:
+            if val_run['epoch_accuracy'] > best_accuracy and val_run['epoch_loss'] < best_loss:
 
                 # Update best accuracy and loss
-                best_accuracy = r['epoch_accuracy']
-                best_loss = r['epoch_loss']
+                best_accuracy = val_run['epoch_accuracy']
+                best_loss = val_run['epoch_loss']
 
                 # Clear path from previus saved models and pre-evaluation files
                 try:
@@ -130,18 +130,19 @@ class VQAPITest(unittest.TestCase):
                 torch.save(weights, config.best_vqa_weights_path)
 
                 # Save answ, idxs and qids for later evaluation
-                utils.save_for_vqa_evaluation(r['answ'], r['ids'], r['qids'])
+                utils.save_for_vqa_evaluation(val_run['answ'], val_run['ids'], val_run['qids'])
 
+            # never checkpoint a validation run :)
             checkpoint = {
-                'epoch': r['epoch'],
+                'epoch': train_run['epoch'],
                 'model_state_dict': net.state_dict(),
                 'optimizer_state_dict': optimizer.state_dict(),
                 'vocab': train_loader.dataset.vocab,
-                'train_iters': r['train_iters'],
-                'val_iters': r['val_iters'],
-                'prefix': r['prefix'],
-                'train': r['train'],
-                'loader': r['loader']
+                'train_iters': train_run['train_iters'],
+                'val_iters': train_run['val_iters'],
+                'prefix': train_run['prefix'],
+                'train': train_run['train'],
+                'loader': train_run['loader']
             }
 
             torch.save(checkpoint, config.latest_vqa_results_path)
