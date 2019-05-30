@@ -101,7 +101,7 @@ class VQAPITest(unittest.TestCase):
         best_accuracy = 0.1
         epoch = 0
 
-        while epoch < range(config.num_epochs):
+        while epoch < config.num_epochs:
 
             _ = vqa_trainer.run_single_epoch()
             r = vqa_validator.run_single_epoch()
