@@ -31,13 +31,13 @@ class TrainValidation:
         self.train_iterations = 0
         self.val_iterations = 0
         self.latest_vqa_results_path = latest_vqa_results_path
-        self.resume_possbile = True
+        self.resume_possible = True
 
     def run_single_epoch(self):
         """ Run the given model settings for one epoch """
 
         # check if we are eligible to perform a training resume
-        if self.resume_possbile:
+        if self.resume_possible:
             self.auto_resume()
 
         if self.train:
@@ -124,7 +124,8 @@ class TrainValidation:
                 'train': self.train,
                 'tracker': self.tracker,
                 'writer': self.writer,
-                'loader': self.loader
+                'loader': self.loader,
+                'resume_status': self.resume_possible
             }
 
             # Update number of passed epochs
@@ -142,7 +143,7 @@ class TrainValidation:
             # Re-define a writer to continue writing the train/validation/other instances status
             self.writer = SummaryWriter(config.visualization_dir + self.prefix)
             # Disable file resume for the current instance
-            self.resume_possbile = False
+            self.resume_possible = False
 
             print("Loaded model status: ")
             print("=====================")
@@ -158,7 +159,7 @@ class TrainValidation:
         if not self.latest_vqa_results_path:
             pass
             # Disable file resume for the current instance
-            self.resume_possbile = False
+            self.resume_possible = False
         else:
             print("Looking for resuming file at {}".format(self.latest_vqa_results_path))
             try:
