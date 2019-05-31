@@ -104,7 +104,7 @@ class VQAPITest(unittest.TestCase):
         while epoch < config.num_epochs:
 
             train_run = vqa_trainer.run_single_epoch(epoch)
-            val_run = vqa_validator.run_single_epoch(epoch)
+            val_run = vqa_validator.run_single_epoch(train_run['epoch'])
 
             # Check if resumed
             resume_possible = train_run['resume_status']
@@ -132,7 +132,7 @@ class VQAPITest(unittest.TestCase):
                 # Save answ, idxs and qids for later evaluation
                 utils.save_for_vqa_evaluation(val_run['answ'], val_run['ids'], val_run['qids'])
 
-            # never checkpoint a validation run :)
+            # never checkpoint a validation run :), checkpoint the train run that has lead to that good val run :))
             checkpoint = {
                 'epoch': train_run['epoch'],
                 'model_state_dict': net.state_dict(),
@@ -142,7 +142,6 @@ class VQAPITest(unittest.TestCase):
                 'val_iters': train_run['val_iters'],
                 'prefix': train_run['prefix'],
                 'train': train_run['train'],
-                'loader': train_run['loader']
             }
 
             torch.save(checkpoint, config.latest_vqa_results_path)

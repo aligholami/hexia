@@ -168,14 +168,19 @@ class TrainValidation:
             print("Something went wrong in checkpoint file keys: {0}".format(keye.value))
 
     def auto_resume(self):
-    	if os.path.exists(self.latest_vqa_results_path):
-	    print("Looking for resume file at {}".format(self.latest_vqa_results_path))
-            try:
-                checkpoint = torch.load(self.latest_vqa_results_path)
-                self.resume_from_checkpoint(checkpoint)
-            except BaseException as bex:
-                pass
-        else:
-            # Disable file resume for the current instance
+
+        if not self.latest_vqa_results_path:
+            # Disable file resume if path is not specified (None)
             self.resume_possible = False
+        else:
+            if os.path.exists(self.latest_vqa_results_path):
+                print("Looking for resume file at {}".format(self.latest_vqa_results_path))
+                try:
+                    checkpoint = torch.load(self.latest_vqa_results_path)
+                    self.resume_from_checkpoint(checkpoint)
+                except BaseException as bex:
+                    print("Invalid checkpoint at {}".format(self.latest_vqa_results_path))
+            else:
+                # Disable file resume for the current instance
+                self.resume_possible = False
 
