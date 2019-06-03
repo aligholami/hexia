@@ -1,19 +1,19 @@
 import unittest
 import os
-from dustorch.runtime.train_val import TrainValidation
-from dustorch.preprocessing.vision import Vision
-from dustorch.preprocessing.language import Language
-from dustorch.backend.monitoring.tracker import Tracker
-# from dustorch.vqa.evaluation.evaluator import VQAEvaluator
+from hexia.runtime.train_val import TrainValidation
+from hexia.preprocessing.vision import Vision
+from hexia.preprocessing.language import Language
+from hexia.backend.monitoring.tracker import Tracker
+# from hexia.vqa.evaluation.evaluator import VQAEvaluator
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from dustorch.tests import config
-from dustorch.backend.utilities import utils
-from dustorch.vqa.models.joint import M_ResNet101_randw2v_NoAtt_LSTM as model
+from hexia.tests import config
+from hexia.backend.utilities import utils
+from hexia.vqa.models.joint import M_ResNet101_randw2v_NoAtt_LSTM as model
 from tensorboardX import SummaryWriter
-from dustorch.backend.cnn.resnet import resnet as caffe_resnet
-from dustorch.vqa.models.joint import M_ResNet101_randw2v_NoAtt_LSTM as model
+from hexia.backend.cnn.resnet import resnet as caffe_resnet
+from hexia.vqa.models.joint import M_ResNet101_randw2v_NoAtt_LSTM as model
 
 class VQAPITest(unittest.TestCase):
 

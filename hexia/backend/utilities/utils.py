@@ -7,8 +7,8 @@ import bcolz
 import pickle
 import json
 from tqdm import tqdm
-from dustorch.tests import config
-from dustorch.backend.dataset.data import DataLoadUtils
+from hexia.tests import config
+from hexia.backend.dataset.data import DataLoadUtils
 
 def reload_dataset_vocab():
     """

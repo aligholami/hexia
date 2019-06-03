@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.init as init
 import torch.nn.functional as F
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence, pad_sequence
-from dustorch.tests import config
+from hexia.tests import config
 
 
 class Net(nn.Module):

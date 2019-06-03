@@ -2,10 +2,10 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.autograd import Variable
-from dustorch.tests import config
+from hexia.tests import config
 from tqdm import tqdm
-from dustorch.backend.utilities import utils
-from dustorch.backend.dataset.data import DataLoadUtils
+from hexia.backend.utilities import utils
+from hexia.backend.dataset.data import DataLoadUtils
 from tensorboardX import SummaryWriter
 import warnings
 import os

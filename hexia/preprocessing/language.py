@@ -4,8 +4,8 @@ import json
 import pickle
 import bcolz
 from collections import Counter
-from dustorch.backend.utilities import utils
-from dustorch.backend.dataset import data
+from hexia.backend.utilities import utils
+from hexia.backend.dataset import data
 
 class Language:
 

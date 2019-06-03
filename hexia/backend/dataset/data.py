@@ -7,7 +7,7 @@ import h5py
 import json
 import re
 from PIL import Image
-from dustorch.tests import config
+from hexia.tests import config
 
 
 class DataLoadUtils:

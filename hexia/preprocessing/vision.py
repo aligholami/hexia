@@ -4,9 +4,9 @@ import torch.backends.cudnn as cudnn
 from torch.autograd import Variable
 import h5py
 from tqdm import tqdm
-from dustorch.tests import config
-from dustorch.backend.dataset import data
-from dustorch.backend.utilities import utils
+from hexia.tests import config
+from hexia.backend.dataset import data
+from hexia.backend.utilities import utils
 
 class Vision:
 

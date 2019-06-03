@@ -1,6 +1,6 @@
 import sys
-from dustorch.vqa.evaluation.PythonEvaluationTools.vqa import VQA
-from dustorch.vqa.evaluation.PythonEvaluationTools.vqaEvaluation.vqaEval import VQAEval
+from hexia.vqa.evaluation.PythonEvaluationTools.vqa import VQA
+from hexia.vqa.evaluation.PythonEvaluationTools.vqaEvaluation.vqaEval import VQAEval
 import matplotlib.pyplot as plt
 import skimage.io as io
 import json
