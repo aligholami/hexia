@@ -1,5 +1,5 @@
-from dust.preprocessing.language import Language
-from dust.tests import config
+from dustorch.preprocessing.language import Language
+from dustorch.tests import config
 
 language_preprocessor = Language(
     max_answers=config.max_answers,

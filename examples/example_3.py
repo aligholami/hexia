@@ -3,11 +3,11 @@ import torch.nn as nn
 import torch.optim as optim
 from tensorboardX import SummaryWriter
 import os
-from dust.backend.utilities import utils
-from dust.tests import config
-from dust.backend.monitoring.tracker import Tracker
-from dust.runtime.train_val import TrainValidation
-from dust.vqa.models.joint import M_Resnet18_randw2v_NoAtt_Concat as model
+from dustorch.backend.utilities import utils
+from dustorch.tests import config
+from dustorch.backend.monitoring.tracker import Tracker
+from dustorch.runtime.train_val import TrainValidation
+from dustorch.vqa.models.joint import M_Resnet18_randw2v_NoAtt_Concat as model
 
 # Prepare dataset
 train_loader, val_loader = utils.prepare_data_loaders(path_to_feature_maps=config.preprocessed_path,

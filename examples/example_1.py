@@ -1,7 +1,7 @@
 import torch.nn as nn
-from dust.backend.cnn.resnet import resnet
-from dust.preprocessing.vision import Vision
-from dust.tests import config
+from dustorch.backend.cnn.resnet import resnet
+from dustorch.preprocessing.vision import Vision
+from dustorch.tests import config
 
 
 # define your own image feature extractor which inherits pytorch nn module
