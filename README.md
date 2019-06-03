@@ -1,18 +1,18 @@
-## Dust
+## Hexia
+
 ### Introduction
-This is **Dust**. A **PyTorch** based framework for building visual question answering models. Dust provides a mid-level API for seamless integration of your VQA models with pre-defined data, image preprocessing and natural language proprocessing pipelines.
+This is **Hexia**. A **PyTorch** based framework for building visual question answering models. Hexia provides a mid-level API for seamless integration of your VQA models with pre-defined data, image preprocessing and natural language proprocessing pipelines.
 
 #### Features
 *   Image preprocessing
 *   Text preprocessing
 *   Data Handling (MS-COCO Only)
 *   Real-time Loss and Accuracy Tracker
-*   VQA Evaluation 
+*   VQA Evaluation
 *   Extendable Built-in Model Warehouse
 
 
 #### Installation
-
 
 #### Quick Examples
 
@@ -20,10 +20,9 @@ This is **Dust**. A **PyTorch** based framework for building visual question ans
 
 ```
 import torch.nn as nn
-from dust.backend.cnn.resnet import resnet
-from dust.preprocessing.vision import Vision
-from dust.tests import config
-
+from hexia.backend.cnn.resnet import resnet
+from hexia.preprocessing.vision import Vision
+from hexia.tests import config
 
 # define your own image feature extractor which inherits pytorch nn module
 class myCNN(nn.Module):
@@ -62,8 +61,8 @@ The above code will load your defined model (either pre-trained or from scratch)
 * Text preprocessing with one of the available models (GloVe or Word2Vec):
 
 ```
-from dust.preprocessing.language import Language
-from dust.tests import config
+from hexia.preprocessing.language import Language
+from hexia.tests import config
 
 language_preprocessor = Language(
     max_answers=config.max_answers,
@@ -91,11 +90,11 @@ import torch.nn as nn
 import torch.optim as optim
 from tensorboardX import SummaryWriter
 import os
-from dust.backend.utilities import utils
-from dust.tests import config
-from dust.backend.monitoring.tracker import Tracker
-from dust.runtime.train_val import TrainValidation
-from dust.vqa.models.joint import M_Resnet18_randw2v_NoAtt_Concat as model
+from hexia.backend.utilities import utils
+from hexia.tests import config
+from hexia.backend.monitoring.tracker import Tracker
+from hexia.runtime.train_val import TrainValidation
+from hexia.vqa.models.joint import M_Resnet18_randw2v_NoAtt_Concat as model
 
 # Prepare dataset
 train_loader, val_loader = utils.prepare_data_loaders(path_to_feature_maps=config.preprocessed_path,
@@ -166,7 +165,7 @@ In this code, variable **r** contains crucial information about the last trainin
 Note: If you would like to use your custom VQA model, you may import it as a replacement of this line:
 ``
 ```
-from dust.vqa.models.joint import M_Resnet18_randw2v_NoAtt_Concat as model
+from hexia.vqa.models.joint import M_Resnet18_randw2v_NoAtt_Concat as model
 ```
 `` your model should inherit the nn.Module and its overrided forward function should look like this:``
 ```
@@ -179,7 +178,7 @@ def forward(self, v, q, q_len):
 
 ```
 # Import the evaluation module
-from dust.vqa.evaluation.evaluator import VQAEvaluator
+from hexia.vqa.evaluation.evaluator import VQAEvaluator
 
 v_evaluator = VQAEvaluator(
     data_directory=config.data_directory,
