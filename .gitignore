@@ -3,7 +3,6 @@ models/
 prep/
 *.pyc
 *.blp
-*.txt
 *.xml
 *.pth
 *.json
