@@ -2,6 +2,7 @@
   <img src="http://uupload.ir/files/xu2_hexia.png">
   <p> © Design by Dennis Pasyuk </p>
   <img alt="Read the Docs" src="https://img.shields.io/readthedocs/hexiadocs.svg?label=Hexia%20Documentation&style=for-the-badge">
+  <img alt="Codacy grade" src="https://img.shields.io/codacy/grade/62aaec49f9294a46a74c65dacf599a37.svg?color=orange&label=code%20quality%20grade&style=for-the-badge">
 </div>
 
 ----
