@@ -1,7 +1,7 @@
-/data
-/models
+data/
+models/
+prep/
 *.pyc
-/prep
 *.blp
 *.txt
 *.xml
@@ -56,3 +56,7 @@ Thumbs.db
 # Editor backup files #
 #######################
 *~
+
+# Build dir
+#######################
+build/
