@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="http://uupload.ir/files/imet_hexia.png">
+  <img src="http://uupload.ir/files/xu2_hexia.png">
 </div>
 
 ### Introduction
