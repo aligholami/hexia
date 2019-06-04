@@ -1,6 +1,6 @@
 <div align="center">
   <img src="http://uupload.ir/files/xu2_hexia.png">
-  <p> Design Copyright by Dennis Pasyuk </p>
+  <p> © Design by Dennis Pasyuk </p>
 </div>
 
 ----
