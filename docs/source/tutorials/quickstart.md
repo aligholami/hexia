@@ -4,9 +4,9 @@
 
 In this section, we'll walk through general examples that help you get hexia up and running with your own vqa models.
 
-# Quick Examples
+## Quick Examples
 
-## Preparing Images
+### Preparing Images
 
 Image preprocessing with a custom CNN architecture:
 
@@ -50,7 +50,7 @@ visual_preprocessor.initiate_visual_preprocessing()
 ```
 The above code will load your defined model (either pre-trained or from scratch) and saves the extracted features to **path_to_save**.
 
-## Preparing Questions and Answers
+### Preparing Questions and Answers
 
 Text preprocessing with one of the available models (GloVe or Word2Vec):
 
@@ -76,7 +76,7 @@ language_preprocessor.extract_glove_embeddings(
 The above code will tokenize the VQA dataset and saves extracted GloVe vectors to **save_vectors_to**.
 If you want to use random Word2Vec embeddings, simply remove the call to **extract_glove_embeddings**; the framework will automatically switch to randomly initialized Word2Vec embeddings.
 
-## Training, Validation and Checkpointing
+### Training, Validation and Checkpointing
 
 Model training, validation and checkpointing:
 
@@ -170,7 +170,7 @@ def forward(self, v, q, q_len):
     return answer
 ```
 
-##### Model Evaluation
+### Model Evaluation
 
 Evaluting the trained model (based on official evaluation class):
 
