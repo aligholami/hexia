@@ -21,7 +21,7 @@ This is **Hexia**. A **PyTorch** based framework for building visual question an
 #### Installation
 
 #### Documentation
-Checkout the full documentation here.
+Checkout the full documentation [here](hexiadocs.readthedocs.io).
 
 ### Contribution
 Please feel free to contribute to the project. You may send a pull-request or drop me an email to talk more. ([hexpheus@gmail.com](hexpheus@gmail.com))
