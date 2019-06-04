@@ -1,6 +1,9 @@
 <div align="center">
   <img src="http://uupload.ir/files/xu2_hexia.png">
+  <p> Design Copyright by Dennis Pasyuk </p>
 </div>
+
+----
 
 ### Introduction
 This is **Hexia**. A **PyTorch** based framework for building visual question answering models. Hexia provides a mid-level API for seamless integration of your VQA models with pre-defined data, image preprocessing and natural language proprocessing pipelines.
