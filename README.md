@@ -1,6 +1,7 @@
 <div align="center">
   <img src="http://uupload.ir/files/xu2_hexia.png">
   <p> © Design by Dennis Pasyuk </p>
+  <img alt="Read the Docs" src="https://img.shields.io/readthedocs/hexiadocs.svg?label=Hexia%20Documentation&style=for-the-badge">
 </div>
 
 ----
