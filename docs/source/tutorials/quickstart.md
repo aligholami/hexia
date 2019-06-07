@@ -4,7 +4,21 @@
 
 In this section, we'll walk through general examples that help you get hexia up and running with your own vqa models.
 
-## Quick Examples
+## Installation
+
+1. Clone the repository and enter it:
+
+```
+git clone https://github.com/aligholami/hexia && cd hexia
+```
+
+2. Run the **setup.py** to install dependencies:
+
+```
+python3 setup.py install --user
+```
+
+## Examples
 
 ### Preparing Images
 
