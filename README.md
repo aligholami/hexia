@@ -1,10 +1,11 @@
 <div align="center">
   <img src="http://uupload.ir/files/xu2_hexia.png">
   <p> © Design by Dennis Pasyuk </p>
+
+  [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
+
   <img alt="Read the Docs" src="https://img.shields.io/readthedocs/hexiadocs.svg?label=Hexia%20Documentation&style=for-the-badge">
   <img alt="Codacy grade" src="https://img.shields.io/codacy/grade/62aaec49f9294a46a74c65dacf599a37.svg?color=2196F3&label=CODE%20QUALITY%20GRADE&style=for-the-badge">
-  
-  [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
 </div>
 
 ----
