@@ -11,10 +11,6 @@ class Net(nn.Module):
     def __init__(self, embedding_tokens):
         super(Net, self).__init__()
 
-        # Get number of visual and embedding features
-        vision_features = config.output_size * config.output_size * config.output_features
-        embedding_features = config.embedding_features
-
         self.classifier = Classifier(
             in_features=config.lstm_hidden_size,
             mid_features=config.mid_features,

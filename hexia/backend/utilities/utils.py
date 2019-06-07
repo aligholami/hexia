@@ -1,12 +1,8 @@
-import torch
-import torch.nn as nn
-from torch.autograd import Variable
 import os
 import torchvision.transforms as transforms
 import bcolz
 import pickle
 import json
-from tqdm import tqdm
 from hexia.tests import config
 from hexia.backend.dataset.data import DataLoadUtils
 
@@ -46,7 +42,7 @@ def batch_accuracy(predicted, true):
     """ Compute the accuracies for a batch of predictions and answers """
     _, predicted_index = predicted.max(dim=1, keepdim=True)
     agreeing = true.gather(dim=1, index=predicted_index)
-    '''
+    """
     Acc needs to be averaged over all 10 choose 9 subsets of human answers.
     While we could just use a loop, surely this can be done more efficiently (and indeed, it can).
     There are two cases for the 1 chosen answer to be discarded:
@@ -70,7 +66,7 @@ def batch_accuracy(predicted, true):
         acc = agreeing * 0.3
     Finally, we can combine all cases together with:
         min(agreeing * 0.3, 1)
-    '''
+    """
     return (agreeing * 0.3).clamp(max=1)
 
 

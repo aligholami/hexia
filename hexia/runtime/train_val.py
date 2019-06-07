@@ -1,11 +1,9 @@
 import torch
 import torch.nn as nn
-import torch.optim as optim
 from torch.autograd import Variable
 from hexia.tests import config
 from tqdm import tqdm
 from hexia.backend.utilities import utils
-from hexia.backend.dataset.data import DataLoadUtils
 from tensorboardX import SummaryWriter
 import warnings
 import os
@@ -178,7 +176,7 @@ class TrainValidation:
                 try:
                     checkpoint = torch.load(self.latest_vqa_results_path)
                     self.resume_from_checkpoint(checkpoint)
-                except BaseException as bex:
+                except BaseException:
                     print("Invalid checkpoint at {}".format(self.latest_vqa_results_path))
             else:
                 # Disable file resume for the current instance

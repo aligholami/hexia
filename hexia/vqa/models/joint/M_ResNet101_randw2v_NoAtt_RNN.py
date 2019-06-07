@@ -12,7 +12,6 @@ class Net(nn.Module):
 
         # Get number of visual and embedding features
         vision_features = config.output_size * config.output_size * config.output_features
-        embedding_features = config.embedding_features
 
         self.classifier = Classifier(
             in_features=vision_features + config.rnn_hidden_size,
@@ -86,7 +85,7 @@ class TextProcessor(nn.Module):
         packed = pack_padded_sequence(padded, q_lens, batch_first=True)
 
         # apply rnn
-        output, hn = self.recurrent_layer(packed)
+        output, _ = self.recurrent_layer(packed)
 
         # re-pad sequence
         padded = pad_packed_sequence(output, batch_first=True)[0]
