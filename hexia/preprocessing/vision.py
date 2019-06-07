@@ -21,7 +21,7 @@ class Vision:
         self.num_threads_to_use = num_threads_to_use
         self.path_to_train_images = path_to_train_images
         self.path_to_val_images = path_to_val_images
-
+        
     def create_data_loader(self, *paths):
         """ Create a united PyTorch COCO data loader for every given path in the arguments"""
         transform = utils.get_transform(self.image_size, self.keep_central_fraction)
