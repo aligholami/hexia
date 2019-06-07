@@ -6,6 +6,9 @@
 
   <img alt="Read the Docs" src="https://img.shields.io/readthedocs/hexiadocs.svg?label=Hexia%20Documentation&style=for-the-badge">
   <img alt="Codacy grade" src="https://img.shields.io/codacy/grade/62aaec49f9294a46a74c65dacf599a37.svg?color=2196F3&label=CODE%20QUALITY%20GRADE&style=for-the-badge">
+  <img alt="GitHub stars" src="https://img.shields.io/github/stars/aligholami/hexia.svg?color=009688&style=for-the-badge">
+  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/aligholami/hexia.svg?style=for-the-badge">
+  <img alt="GitHub issues" src="https://img.shields.io/github/issues-raw/aligholami/hexia.svg?style=for-the-badge">
 </div>
 
 ----
