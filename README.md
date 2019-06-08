@@ -15,10 +15,10 @@
 
 ----
 
-### Introduction
+## Introduction
 This is **Hexia**. A **PyTorch** based framework for building visual question answering models. Hexia provides a mid-level API for seamless integration of your VQA models with pre-defined data, image preprocessing and natural language proprocessing pipelines.
 
-#### Features
+## Features
 *   Image preprocessing
 *   Text preprocessing
 *   Data Handling (MS-COCO Only)
@@ -26,7 +26,7 @@ This is **Hexia**. A **PyTorch** based framework for building visual question an
 *   VQA Evaluation
 *   Extendable Built-in Model Warehouse
 
-#### Installation
+## Installation
 
 1. Clone the repository and enter it:
 
@@ -40,7 +40,7 @@ git clone https://github.com/aligholami/hexia && cd hexia
 python3 setup.py install --user
 ```
 
-#### Todo
+## Todo
 - [x] Prediction Module
 - [ ] Prediction Module Test
 - [x] TensorboardX Auto-Resume Plots
@@ -50,8 +50,16 @@ python3 setup.py install --user
 - [ ] Image Captioning Support
 - [ ] Custom Loss and Optimizers
 
-#### Documentation
+## Documentation
 Checkout the full documentation [here](hexiadocs.readthedocs.io).
 
-### Contribution
+## References
+
+<blockquote>1- Yang, Z., He, X., Gao, J., Deng, L., & Smola, A. (2016). Stacked attention networks for image question answering. In Proceedings of the IEEE conference on computer vision and pattern recognition (pp. 21-29). </blockquote>
+
+<blockquote>2- Singh, A., Natarajan, V., Jiang, Y., Chen, X., Shah, M., Rohrbach, M., ... & Parikh, D. (2019). Pythia-a platform for vision & language research. In SysML Workshop, NeurIPS (Vol. 2018). </blockquote>
+
+` More references to be added soon. `
+
+## Contribution
 Please feel free to contribute to the project. You may send a pull-request or drop me an email to talk more. ([hexpheus@gmail.com](hexpheus@gmail.com))
