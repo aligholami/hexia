@@ -34,7 +34,7 @@ This is **Hexia**. A **PyTorch** based framework for building visual question an
 git clone https://github.com/aligholami/hexia && cd hexia
 ```
 
-2. Run the **setup.py** to install dependencies:
+2. Run the `setup.py` to install dependencies:
 
 ```
 python3 setup.py install --user
