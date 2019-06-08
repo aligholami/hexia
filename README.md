@@ -9,6 +9,8 @@
   <img alt="GitHub stars" src="https://img.shields.io/github/stars/aligholami/hexia.svg?color=009688&style=for-the-badge">
   <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/aligholami/hexia.svg?style=for-the-badge">
   <img alt="GitHub issues" src="https://img.shields.io/github/issues-raw/aligholami/hexia.svg?style=for-the-badge">
+  <img alt="GitHub" src="https://img.shields.io/github/license/aligholami/hexia.svg?color=%23F44336&style=for-the-badge">
+  <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/aligholami/hexia.svg?color=%23673AB7&style=for-the-badge">
 </div>
 
 ----
