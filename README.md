@@ -40,6 +40,16 @@ git clone https://github.com/aligholami/hexia && cd hexia
 python3 setup.py install --user
 ```
 
+#### Todo
+- [x] Prediction Module
+- [ ] Prediction Module Test
+- [x] TensorboardX Auto-Resume Plots
+- [ ] TensorboardX Auto-Resume Step Handler Fix
+- [ ] TextVQA Support
+- [ ] GQA Support
+- [ ] Image Captioning Support
+- [ ] Custom Loss and Optimizers
+
 #### Documentation
 Checkout the full documentation [here](hexiadocs.readthedocs.io).
 
