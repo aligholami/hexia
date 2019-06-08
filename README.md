@@ -41,6 +41,10 @@ python3 setup.py install --user
 ```
 
 ## Todo
+- [x] Official Evaluation Support (VQA-V2)
+- [x] Automatic Train/Val Plotting
+- [x] Automatic Checkpointing
+- [x] Automatic Resuming
 - [x] Prediction Module
 - [ ] Prediction Module Test
 - [x] TensorboardX Auto-Resume Plots
