@@ -18,6 +18,8 @@
 ## Introduction
 This is **Hexia**. A **PyTorch** based framework for building visual question answering models. Hexia provides a mid-level API for seamless integration of your VQA models with pre-defined data, image preprocessing and natural language proprocessing pipelines.
 
+* [`Google Slides Presentation`](https://docs.google.com/presentation/d/1KDJXSKvaUnXSl-MPtChKlgBlON9EtN3T7Oqzr0DUI5Q/edit?usp=sharing)
+
 ## Features
 *   Image preprocessing
 *   Text preprocessing
