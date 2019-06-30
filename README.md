@@ -57,7 +57,7 @@ python3 setup.py install --user
 - [ ] Custom Loss and Optimizers
 
 ## Documentation
-Checkout the full documentation [here](hexiadocs.readthedocs.io).
+Checkout the full documentation [here](https://hexiadocs.readthedocs.io).
 
 ## References
 
@@ -68,4 +68,4 @@ Checkout the full documentation [here](hexiadocs.readthedocs.io).
 ` More references to be added soon. `
 
 ## Contribution
-Please feel free to contribute to the project. You may send a pull-request or drop me an email to talk more. ([hexpheus@gmail.com](hexpheus@gmail.com))
+Please feel free to contribute to the project. You may send a pull-request or drop me an email to talk more. ([hexpheus@gmail.com](mailto:hexpheus@gmail.com))
